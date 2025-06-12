@@ -1,0 +1,11 @@
+# Ignore node_modules and other common files
+node_modules/
+
+# Ignore build artifacts
+.cache/
+
+# Ignore environment files
+*.log
+
+# Ignore configuration files
+.vscode/
