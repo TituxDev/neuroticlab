@@ -1,0 +1,30 @@
+:root {
+  /* Base colors */
+  --main-navigation-color: #00ffff;
+  --highlight-color: #ffd86c;
+  --visited-color: #c080ff;
+  --footer-text-color: #dddddd;
+
+  /* Structural colors */
+  --frame-bg-color: #3b5bdb;
+  --aside-bg-color: #1f2229;
+  --content-bg-color: #2c313a;
+
+  /* Semantic colors */
+  --content-color-h1: rgb(255, 83, 255);
+  --content-color-h2: rgb(62, 208, 67);
+
+  /* Typography */
+  --font-default: 'Fire Code', monospace;
+
+  /* Spacing and dimensions */
+  --aside-width: 301px;
+  --content-max-width: 906px;
+  --content-padding: 20px;
+  --header-height: 50px;
+  --footer-height: 35px;
+
+  /* Misc */
+  --border-format: 1px solid white;
+  --menu-cursor: pointer;
+}

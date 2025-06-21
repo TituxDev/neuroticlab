@@ -3,293 +3,20 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>NeuroticLab</title>
-        <style>
-/* === CSS ORGANIZADO DE neuroticlab === */
-
-/* === VARIABLES === */
-:root {
-    --border-format: 1px solid white;
-    --frame-bgcolor: #3b5bdb;
-    --menu-cursor: pointer;
-}
-
-/* === RESET / BASE === */
-body {
-    overflow: hidden;
-    font-family: 'Fire Code', monospace;
-    margin: 0;
-    padding: 0;
-}
-
-/* === LAYOUT === */
-.site-layout {
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    width: 100vw;
-}
-
-.horizontal-bar {
-    display: flex;
-    width: 100%;
-    height: auto;
-}
-
-.container {
-    display: flex;
-}
-
-/* === UTILIDADES === */
-.vertical-division > * {
-    border-right: var(--divider-format, 1px solid black);
-}
-.vertical-division > *:last-child {
-    border-right: none;
-}
-
-.horizontal-division > * {
-    border-bottom: var(--divider-format, 1px solid black);
-}
-.horizontal-division > *:last-child {
-    border-bottom: none;
-}
-
-.drop-menu {
-    cursor: var(--menu-cursor);
-}
-.menu-content {
-    display: none;
-}
-.drop-menu:hover .menu-content {
-    display: block;
-}
-
-/* === HEADER === */
-.site-header {
-    min-height: 50px;
-    background-color: var(--frame-bgcolor);
-}
-
-.site-header .header-nav {
-    display: flex;
-    width: 100%;
-}
-
-.site-header .header-nav.vertical-division {
-    --divider-format: var(--border-format);
-}
-
-.site-header .header-nav .logo {
-    display: flex;
-    flex-shrink: 0;
-    width: 150px;
-    align-items: center;
-    justify-content: center;
-    text-decoration: none;
-    font-weight: bold;
-    color: #ffb86c;
-}
-
-.site-header .header-nav .main-nav {
-    flex: 1 1 auto;
-    min-width: 150px;
-    display: flex;
-    position: relative;
-    overflow-x: auto;
-    overflow-y: visible;
-    max-height: 100%;
-}
-
-.site-header .header-nav .main-nav > * {
-    display: flex;
-    flex-shrink: 0;
-    width: 150px;
-    align-items: center;
-    justify-content: center;
-    border-right: var(--border-format);
-    text-decoration: none;
-    font-weight: bold;
-    color: #00ffff;
-}
-
-.site-header .header-nav .support {
-    flex-shrink: 0;
-    position: relative;
-    margin-left: auto;
-}
-
-.site-header .header-nav .support > span {
-    display: flex;
-    height: 100%;
-    padding: 0 15px;
-    align-items: center;
-    font-weight: bold;
-    color: #ffd86c;
-}
-
-.site-header .header-nav .support > .menu-content {
-    position: absolute;
-    z-index: 1000;
-    top: 100%;
-    right: 0;
-    min-width: 160px;
-    padding: 10px;
-    background-color: #444;
-    border: 1px solid #666;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-}
-
-.site-header .header-nav .support > .menu-content > * {
-    padding: 5px 0;
-    line-height: 1.6;
-    text-decoration: none;
-    color: white;
-}
-
-/* === MAIN (CONTENIDO PRINCIPAL) === */
-main.content {
-    flex: 1 1 auto;
-    overflow-y: auto;
-    background-color: #2c313a;
-    display: flex;
-    color: #dcdcdc;
-    padding-left: clamp(0px, calc((100vw - 300px - 906px) / 2), 200px);
-}
-
-main.content .inner {
-    display: flex;
-    flex-direction: column;
-    max-width: 906px;
-    margin: auto 0;
-    padding: 20px;
-}
-
-main.content .inner * {
-    margin: 0;
-}
-
-main.content .inner p {
-    width: 100%;
-    margin-top: 0;
-    margin-bottom: 15px;
-    text-align: justify;
-    line-height: 1.3;
-}
-
-main.content .inner h1 {
-    display: flex;
-    justify-content: center;
-    font-size: 1.5em;
-    text-decoration: none;
-    width: 100%;
-    color: rgb(255, 83, 255);
-}
-
-main.content .inner h2,
-main.content .inner h3,
-main.content .inner h4,
-main.content .inner h5,
-main.content .inner h6 {
-    margin-top: 15px;
-    margin-bottom: 8px;
-    color: rgb(62, 208, 67);
-    text-decoration: underline;
-    font-size: 1.2em;
-}
-
-main.content .inner > *:first-child {
-    margin-top: 0;
-}
-
-main.content .inner > *:last-child {
-    margin-bottom: 0;
-}
-
-/* === ASIDE / MODULOS === */
-.site-middle {
-    display: flex;
-    flex: 1 1 auto;
-    overflow: hidden;
-}
-
-.site-middle .modules {
-    display: flex;
-    flex-direction: column;
-    border-right: var(--border-format);
-    width: 301px;
-    min-width: 301px;
-    height: 100%;
-    background-color: #1f2229;
-    color: #00ffff;
-}
-
-.site-middle .modules span {
-    border-bottom: var(--border-format);
-    padding: 15px 40px;
-    font-weight: bold;
-    text-align: left;
-    font-size: 1.1rem;
-    letter-spacing: 2px;
-    background-color: #191b20;
-    color: #ffd86c;
-}
-
-.site-middle .modules ol {
-    flex: 1 1 auto;
-    overflow-y: scroll;
-    width: 100%;
-    list-style-position: inside;
-    margin: 0;
-    padding: 0;
-    scrollbar-width: thin;
-}
-
-.site-middle .modules ol > * {
-    margin: 10px 20px;
-    text-align: left;
-    color: #ffd86c;
-}
-
-.site-middle .modules ol a {
-    text-decoration: none;
-    color: #00ffff;
-}
-
-.site-middle .modules ol a:hover {
-    font-size: 1.1rem;
-}
-
-.site-middle .modules ol a:visited {
-    color: #c080ff;
-}
-
-/* === FOOTER === */
-.site-footer {
-    background-color: var(--frame-bgcolor);
-}
-
-.site-footer * {
-    color: #dddddd;
-    flex-shrink: 0;
-}
-
-footer.site-footer .container {
-    width: 100%;
-    height: 35px;
-    justify-content: space-around;
-}
-
-footer.site-footer .container p {
-    margin: 0;
-    margin-top: 5px;
-}        </style>
-    </head>
+        <title>NeuroticLab - </title>
+        <link rel="stylesheet" href="/assets/css/variables.css" />
+        <link rel="stylesheet" href="/assets/css/set_base.css" />
+        <link rel="stylesheet" href="/assets/css/utilities.css" />
+        <link rel="stylesheet" href="/assets/css/header.css" />
+        <link rel="stylesheet" href="/assets/css/main_content.css" />
+        <link rel="stylesheet" href="/assets/css/left_aside.css" />
+        <link rel="stylesheet" href="/assets/css/footer.css" />
+</head>
 
 <!-- BODY -->
-    <body class="site-layout">
-        <header class="horizontal-bar site-header">
-            <nav class="header-nav vertical-division">
+    <body>
+        <header class="horizontal-bar">
+            <nav class="header-nav horizontal-bar vertical-division">
                 <a href="/" class="logo">NeuroTIClab</a>
                 <nav class="main-nav vertical-division">
                     <a href="#">Presentación</a>
@@ -319,8 +46,8 @@ footer.site-footer .container p {
                     <li><a href="#">Resolviendo XOR</a></li>
                 </ol>
             </aside>
-            <main class="content">
-                <div class="inner">
+            <main>
+                <div class="main-content">
                     
                         <h1>¿La IA te parece magia? Te enseño el truco.</h1>
 <h2>Hola</h2>
@@ -330,7 +57,7 @@ esta tecnología con la que convivimos día a día conocida como Inteligencia Ar
 está tomando el mundo, y percibo como, por desconocimiento las personas son fácilmente influenciadas por sugerencias
 de las cuales no conocen su origen.</p>
 <p>Algunos la usan como fuente de información, amigo, psicólogo, e incluso en casos más extremos como pareja sin
-detenerse a leer las letras pequeñas que hay en ChatGPT: <em>&quot;ChatGPT can make mistakes. Check important info.&quot;</em>.</p>
+detenerse a leer las letras pequeñas que hay en ChatGPT: <em>&quot;ChatGPT can make mistakes. Check important info&quot;</em>.</p>
 <p>No es que me oponga a los cambios tecnológicos, al contrario, me maravilla la capacidad del ser humano
 para desarrollarlos, sin embargo, si no tomamos responsabilidad en informarnos sobre su funcionamiento, siempre
 estaremos a merced de quienes sí tienen el conocimiento.</p>
@@ -351,15 +78,10 @@ capaz de <em>aprender</em> a responder &quot;sí&quot; o &quot;no&quot;.</p>
                 </div>
             </main>
         </div>
-        <footer class="horizontal-bar site-footer">
-            <nav class="container">
-                <p><a href="/licencia/">LICENCIA</a></p>
-                <p>Lo difícil no cambió. Tú sí.</p>
-                <p>Hecho por Titux</p>
-                
-                <!-- Bloque editable para pie de página extendido -->
-                
-            </nav>
+        <footer class="horizontal-bar">
+            <a href="/licencia/">LICENCIA</a>
+            <p>Lo difícil no cambió. Tú sí.</p>
+            <p>Hecho por Titux</p>
         </footer>
     </body>
 </html>

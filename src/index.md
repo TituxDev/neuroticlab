@@ -1,5 +1,5 @@
 ---
-title: NeuroTIClab - Inteligencia Artesanal
+title: Inicio
 layout: layouts/base.njk
 ---
 
@@ -15,7 +15,7 @@ está tomando el mundo, y percibo como, por desconocimiento las personas son fá
 de las cuales no conocen su origen.
 
 Algunos la usan como fuente de información, amigo, psicólogo, e incluso en casos más extremos como pareja sin
-detenerse a leer las letras pequeñas que hay en ChatGPT: *"ChatGPT can make mistakes. Check important info."*.
+detenerse a leer las letras pequeñas que hay en ChatGPT: *"ChatGPT can make mistakes. Check important info"*.
 
 No es que me oponga a los cambios tecnológicos, al contrario, me maravilla la capacidad del ser humano
 para desarrollarlos, sin embargo, si no tomamos responsabilidad en informarnos sobre su funcionamiento, siempre

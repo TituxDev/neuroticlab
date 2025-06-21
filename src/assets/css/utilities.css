@@ -1,0 +1,25 @@
+.horizontal-bar {
+    display: flex;
+    width: 100%;
+    height: auto;
+}
+
+.vertical-division > * {
+    border-right: var(--divider-format, 1px solid black);
+}.vertical-division > *:last-child {
+    border-right: none;
+}
+
+.horizontal-division > * {
+    border-bottom: var(--divider-format, 1px solid black);
+}.horizontal-division > *:last-child {
+    border-bottom: none;
+}
+
+.drop-menu {
+    cursor: var(--menu-cursor);
+}.menu-content {
+    display: none;
+}.drop-menu:hover .menu-content {
+    display: block;
+}
