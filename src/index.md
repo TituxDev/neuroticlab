@@ -1,6 +1,6 @@
 ---
 title: Inicio
-layout: layouts/base.njk
+layout: layouts/views/general.njk
 ---
 
 # ¿La IA te parece magia? Te enseño el truco.

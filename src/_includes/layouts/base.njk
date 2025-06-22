@@ -7,52 +7,29 @@
         <link rel="stylesheet" href="/assets/css/variables.css" />
         <link rel="stylesheet" href="/assets/css/set_base.css" />
         <link rel="stylesheet" href="/assets/css/utilities.css" />
-        <link rel="stylesheet" href="/assets/css/header.css" />
-        <link rel="stylesheet" href="/assets/css/main_content.css" />
-        <link rel="stylesheet" href="/assets/css/left_aside.css" />
-        <link rel="stylesheet" href="/assets/css/footer.css" />
-</head>
-
-<!-- BODY -->
+        {% block styles %}{% endblock %}
+    </head>
     <body>
         <header class="horizontal-bar">
-            <nav class="header-nav horizontal-bar vertical-division">
-                <a href="/" class="logo">NeuroTIClab</a>
-                <nav class="main-nav vertical-division">
-                    <a href="#">Presentación</a>
-                    <a href="#">Requisitos</a>
-                    {% block header %}
-                    <!-- Espacio reservado por si en el futuro agregamos navegación -->
-                    {% endblock %}
-                </nav>
-                <div class="support drop-menu">
-                    <span>¿Te gustó el sitio?</span>
-                    <div class="menu-content">
-                        <a href="#">Agregar a favoritos</a>
-                        <a href="#">Enviar sugerencias</a>
-                        <a href="#">Reportar un error</a>
-                        <a href="#">Compartir NeuroticLab</a>
-                        <a href="#">Donaciones</a>
-                    </div>
-                </div>
-            </nav>
+            <nav><a href="/" class="logo">NeuroTIClab</a></nav>
+            {% block header %}{% endblock %}
         </header>
         <div class="site-middle">
-            <aside class="modules">
-                <span>Módulos</span>
-                <ol start="0">
-                    <li><a href="#">Matematicas</a></li>
-                    <li><a href="#">Perceptron booleano</a></li>
-                    <li><a href="#">Resolviendo XOR</a></li>
-                </ol>
-            </aside>
+            {% if left_aside_class is defined %}
+                <aside class="{{ left_aside_class }}">
+                    {% block left_aside %}{% endblock %}
+                </aside>
+            {% endif %}
             <main>
                 <div class="main-content">
-                    {% block content %}
-                        {{ content | safe }}
-                    {% endblock %}
+                    {% block content %}{% endblock %}
                 </div>
             </main>
+            {% if right_aside_class is defined %}
+                <aside class="{{ right_aside_class }}">
+                    {% block right_aside %}{% endblock %}
+                </aside>
+            {% endif %}
         </div>
         <footer class="horizontal-bar">
             <a href="/licencia/">LICENCIA</a>

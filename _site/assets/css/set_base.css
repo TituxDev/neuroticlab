@@ -8,3 +8,38 @@ body {
     overflow: hidden;
     font-family: var(--font-default);
 }
+
+header {
+    min-height: var(--header-height);
+    background-color: var(--frame-bg-color);
+}
+header .logo {
+    display: flex;
+    flex-shrink: 0;
+    border-right: var(--border-format);
+    width: 150px;
+    height: var(--header-height);
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    font-weight: bold;
+    color: #ffb86c;
+}
+
+.site-middle {
+    display: flex;
+    flex: 1 1 auto;
+    overflow: hidden;
+}
+
+footer {
+    width: 100%;
+    height: var(--footer-height);
+    justify-content: space-around;
+    background-color: var(--frame-bg-color);
+}
+footer > * {
+    flex-shrink: 0;
+    margin-top: 5px;
+    color: var(--footer-text-color);
+} 
