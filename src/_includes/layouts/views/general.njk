@@ -3,9 +3,9 @@
 {% block title %}{{ title }}{% endblock %}
 
 {% block styles %}
-    <link rel="stylesheet" href="/assets/css/content/left_aside.css" />
+    <link rel="stylesheet" href="/assets/css/header/header_nav.css" />
+    <link rel="stylesheet" href="/assets/css/content/modules.css" />
     <link rel="stylesheet" href="/assets/css/content/main_content.css" />
-    <link rel="stylesheet" href="/assets/css/header/header.css" />
 {% endblock %}
 
 {% block header %}
@@ -34,6 +34,7 @@
     </ol>
 {% endblock %}
 
+{% set main_class="left-200" %}
 {% block content %}
     {{ content | safe }}
 {% endblock %}

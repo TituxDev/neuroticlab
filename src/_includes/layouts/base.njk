@@ -5,8 +5,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>NeuroticLab - {% block title %}{% endblock %}</title>
         <link rel="stylesheet" href="/assets/css/variables.css" />
-        <link rel="stylesheet" href="/assets/css/set_base.css" />
         <link rel="stylesheet" href="/assets/css/utilities.css" />
+        <link rel="stylesheet" href="/assets/css/set_base.css" />
+        <link rel="stylesheet" href="/assets/css/main.css" />
         {% block styles %}{% endblock %}
     </head>
     <body>
@@ -20,8 +21,8 @@
                     {% block left_aside %}{% endblock %}
                 </aside>
             {% endif %}
-            <main>
-                <div class="main-content">
+            <main class="{{ main_class }}">
+                <div id="main-content">
                     {% block content %}{% endblock %}
                 </div>
             </main>

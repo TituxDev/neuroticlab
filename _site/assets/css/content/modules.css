@@ -1,4 +1,4 @@
-.site-middle .modules {
+.modules {
     display: flex;
     flex-direction: column;
     width: var(--aside-width);
@@ -8,7 +8,7 @@
     color: var(--navigation-color);
 }
 
-.site-middle .modules span {
+.modules span {
     padding: 15px 40px;
     font-weight: bold;
     font-size: 1.1rem;
@@ -19,7 +19,7 @@
     background-color: #191b20;
 }
 
-.site-middle .modules ol {
+.modules ol {
     flex: 1 1 auto;
     width: 100%;
     overflow-y: scroll;
@@ -30,21 +30,21 @@
     scrollbar-width: thin;
 }
 
-.site-middle .modules ol > * {
+.modules ol > * {
     margin: 10px 20px;
     text-align: left;
     color: #ffd86c;
 }
 
-.site-middle .modules ol a {
+.modules ol a {
     text-decoration: none;
     color: var(--main-navigation-color);
 }
 
-.site-middle .modules ol a:hover {
+.modules ol a:hover {
     font-size: 1.1rem;
 }
 
-.site-middle .modules ol a:visited {
+.modules ol a:visited {
     color: var(--visited-color);
 }

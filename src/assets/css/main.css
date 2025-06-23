@@ -1,0 +1,9 @@
+main {
+    display: flex;
+    flex: 1 1 auto;
+    overflow-y: auto;
+    background-color: var(--content-bg-color);
+    color: #dcdcdc;
+}
+
+main.left-200 { padding-left: min(calc(50% - var(--content-max-width)/2),200px); }
