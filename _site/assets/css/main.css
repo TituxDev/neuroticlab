@@ -7,3 +7,6 @@ main {
 }
 
 main.left-200 { padding-left: min(calc(50% - var(--content-max-width)/2),200px); }
+
+main.left-500 { padding-left: min(calc(50% - var(--content-max-width)/2),500px); }
+main.left-500 #main-content { border: 1px solid var(--frame-bg-color); }
