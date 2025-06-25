@@ -1,0 +1,33 @@
+{% extends "layouts/base.njk" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block styles %}
+    <link rel="stylesheet" href="/assets/css/header/header_title.css" />
+    <link rel="stylesheet" href="/assets/css/content/main_content.css" />
+    <link rel="stylesheet" href="/assets/css/content/forms.css" />
+{% endblock %}
+
+{% block header %}
+    <div class="header-title">
+        <h1>{{ header_title }}</h1>
+    </div>
+{% endblock %}
+
+{% set main_class="left-500" %}
+{% block content %}
+    {{ content | safe }}
+    <div>
+        <form method="POST" action="https://formspree.io/f/{{ formspree }}">
+            <label for="email">
+                Correo electrónico:
+                <input type="email" id="email" name="email" required placeholder="tu@correo.com">
+            </label>
+            <label for="message">
+                Mensaje:
+                <textarea id="message" name="message" rows="6" placeholder="Escribe tu mensaje..." required></textarea>
+            </label>
+            <button type="submit">Enviar</button>
+        </form>
+    </div>
+{% endblock %}
