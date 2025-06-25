@@ -1,0 +1,25 @@
+{% extends "layouts/base.njk" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block styles %}
+    <link rel="stylesheet" href="/assets/css/header/header_title.css" />
+    <link rel="stylesheet" href="/assets/css/content/main_content.css" />
+    <link rel="stylesheet" href="/assets/css/content/forms.css" />
+{% endblock %}
+
+{% block header %}
+    <div class="header-title">
+        <h1>{{ header_title }}</h1>
+    </div>
+{% endblock %}
+
+{% set main_class="left-500" %}
+{% block content %}
+    {{ content | safe }}
+    <div class="share-buttons">
+        <a href="https://www.facebook.com/sharer/sharer.php?u=https://neuroticlab.com" target="_blank" rel="noopener">Compartir en Facebook</a>
+        <a href="https://twitter.com/intent/tweet?text=Descubre%20cómo%20funciona%20la%20IA%20desde%20cero%20en%20https://neuroticlab.com" target="_blank" rel="noopener">Compartir en Twitter</a>
+        <a href="https://wa.me/?text=Descubre%20cómo%20funciona%20la%20IA%20desde%20cero%20en%20https://neuroticlab.com" target="_blank" rel="noopener">Compartir en WhatsApp</a>
+    </div>
+{% endblock %}
