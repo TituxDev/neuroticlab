@@ -6,7 +6,7 @@
     padding: var(--content-padding);
 }
 
-#main-content * {
+#main-content > * {
     margin: 0;
 }
 
@@ -36,6 +36,15 @@
     font-size: 1.2em;
     text-decoration: underline;
     color: var(--content-color-h2);
+}
+
+#main-content > ul,
+#main-content > ol {
+    margin-bottom: 15px;
+}
+
+#main-content li {
+    margin-bottom: 5px;
 }
 
 #main-content > *:first-child {
