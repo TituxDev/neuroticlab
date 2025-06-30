@@ -26,16 +26,22 @@
     color: var(--content-color-h1);
 }
 
-#main-content > h2,
-#main-content > h3,
-#main-content > h4,
-#main-content > h5,
-#main-content > h6 {
+#main-content > h2 {
     margin-top: 15px;
     margin-bottom: 8px;
     font-size: 1.2em;
     text-decoration: underline;
     color: var(--content-color-h2);
+}
+
+#main-content > h3,
+#main-content > h4,
+#main-content > h5,
+#main-content > h6 {
+    margin-top: 10px;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: green;
 }
 
 #main-content > ul,
