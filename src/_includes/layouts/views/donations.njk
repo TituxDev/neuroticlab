@@ -1,0 +1,37 @@
+{% extends "layouts/base.njk" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block styles %}
+    <link rel="stylesheet" href="/assets/css/header/header_title.css" />
+    <link rel="stylesheet" href="/assets/css/content/main_content.css" />
+    <link rel="stylesheet" href="/assets/css/content/share.css" />
+{% endblock %}
+
+{% block header %}
+    <div class="header-title">
+        <h1>{{ header_title }}</h1>
+    </div>
+{% endblock %}
+
+{% set main_class="left-500" %}
+{% block content %}
+    {{ content | safe }}
+    <div class="share-buttons">
+        <a href="https://www.paypal.com/donate/?hosted_button_id=9RPYG6G6F8YCJ" target="_blank" rel="noopener">
+            <svg>
+                <use xlink:href="/assets/img/payments/paypal.svg" width="30" height="30"></use>
+            </svg>
+        </a>
+        <a href="#" target="_blank" rel="noopener">
+            <svg>
+                <use xlink:href="/assets/img/payments/mercadopago.svg" width="60" height="60"></use>
+            </svg>
+        </a>
+        <a href="#" target="_blank" rel="noopener">
+            <svg>
+                <use xlink:href="/assets/img/payments/currency-bitcoin.svg" width="30" height="30"></use>
+            </svg>
+        </a>
+    </div>
+{% endblock %}

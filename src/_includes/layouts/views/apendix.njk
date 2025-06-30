@@ -1,0 +1,28 @@
+{% extends "layouts/base.njk" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block styles %}
+    <link rel="stylesheet" href="/assets/css/header/header_title.css" />
+    <link rel="stylesheet" href="/assets/css/content/main_content.css" />
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/monokai.min.css">
+{% endblock %}
+
+{% block header %}
+    <div class="header-title">
+        <h1>{{ header_title }}</h1>
+    </div>
+{% endblock %}
+
+{% set main_class="left-500" %}
+{% block content %}
+    {{ content | safe }}
+{% endblock %}
+
+{% block scripts %}
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/r.min.js"></script>
+    <script>
+        hljs.highlightAll();
+    </script>
+{% endblock %}
