@@ -1,0 +1,36 @@
+{% extends "layouts/base.njk" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block styles %}
+    <link rel="stylesheet" href="/assets/css/header/header_title.css" />
+    <link rel="stylesheet" href="/assets/css/content/main_content.css" />
+    <link rel="stylesheet" href="/assets/css/content/cryptos.css" />
+{% endblock %}
+
+{% block header %}
+    <div class="header-title">
+        <h1>{{ header_title }}</h1>
+    </div>
+{% endblock %}
+
+{% set main_class="left-500" %}
+{% block content %}
+    <section class="crypto-donation">
+        <p>Puedes apoyar este proyecto enviando {{ header_title }} a la siguiente dirección:</p>
+        
+        <div class="crypto-address">
+            <code>{{ crypto_address }}</code>
+        </div>
+
+        {% if qr_image %}
+        <div class="crypto-qr">
+            <img src="{{ qr_image }}" alt="QR de la dirección de {{ header_title }}">
+        </div>
+        {% endif %}
+
+        <p class="crypto-note">
+            ⚠ Verifica la dirección antes de enviar fondos. Las transacciones con criptomonedas no pueden revertirse.
+        </p>
+    </section>
+{% endblock %}

@@ -1,0 +1,24 @@
+.crypto-donation {
+    text-align: center;
+    margin: 2rem auto;
+}
+
+.crypto-address code {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    background: var(--background-alt, #222);
+    border-radius: 4px;
+    word-break: break-all;
+}
+
+.crypto-qr img {
+    margin-top: 1rem;
+    max-width: 200px;
+}
+
+.crypto-note {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    color: #aaa;
+}
