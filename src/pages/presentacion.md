@@ -1,7 +1,7 @@
 ---
 layout: layouts/views/apendix.njk
-title: Presentacion
-header_title: Presentacion
+title: Presentación
+header_title: Presentación
 ---
 
 ## El oráculo moderno
