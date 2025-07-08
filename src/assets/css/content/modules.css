@@ -24,7 +24,7 @@
     width: 100%;
     overflow-y: scroll;
     list-style-position: inside;
-    background-color: var(--aside-bg-color);
+    background-color: var(--menu-bg-color);
     margin: 0;
     padding: 0;
     scrollbar-width: thin;
@@ -47,4 +47,37 @@
 
 .modules ol a:visited {
     color: var(--visited-color);
+}
+
+@media (max-width: 768px) {
+    .modules {
+        position: absolute;
+        top: var(--header-height); /* si tienes definida altura del header */
+        left: 0;
+        z-index: 1000;
+        width: var(--aside-l-width);
+        min-width: fit-content;
+        height: calc( 100% - var(--header-height) - var(--footer-height));
+    }
+    .modules span {
+        writing-mode: vertical-rl;
+        padding: 10px;
+        cursor: pointer;
+        width: var(--aside-l-width);
+        height: 100%;
+    }
+    .modules ol {
+        display: none;
+        position: absolute;
+        top: 0;
+        left: 100%;
+        width: 200px;
+        height: 100%;
+        border: 1px solid #333;
+        padding: 0;
+        margin: 0;
+    }
+    .modules:hover ol {
+        display: block;
+    }
 }

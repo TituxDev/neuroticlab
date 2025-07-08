@@ -1,30 +1,87 @@
 :root {
-  /* Base colors */
-  --main-navigation-color: #00ffff;
-  --highlight-color: #ffd86c;
-  --visited-color: #c080ff;
-  --footer-text-color: #dddddd;
+  /* ──────────────── COLOR SCHEME ──────────────── */
 
-  /* Structural colors */
-  --frame-bg-color: #3b5bdb;
-  --aside-bg-color: #1f2229;
-  --content-bg-color: #2c313a;
 
-  /* Semantic colors */
-  --content-color-h1: rgb(255, 83, 255);
-  --content-color-h2: rgb(62, 208, 67);
+/* Base colors */
+--main-navigation-color: #00ffff;
+--highlight-color: #ffd86c;
+--visited-color: #c080ff;
+--footer-text-color: #dddddd;
+--content-default-color: #dcdcdc;
 
-  /* Typography */
+/* Logo */
+--logo-color: #ffb86c;
+
+/* Structural colors */
+--frame-bg-color: #3b5bdb;
+--aside-bg-color: #1f2229;
+--content-bg-color: #2c313a;
+--menu-bg-color: #444;
+--menu-shadow-color: rgba(0, 0, 0, 0.3);
+
+/* Semantic colors */
+--content-color-h1: rgb(255, 83, 255);
+--content-color-h2: rgb(62, 208, 67);
+
+  /* ──────────────── TYPOGRAPHY ──────────────── */
+
   --font-default: 'Fire Code', monospace;
 
-  /* Spacing and dimensions */
-  --aside-width: 301px;
-  --content-max-width: 906px;
-  --content-padding: 20px;
-  --header-height: 50px;
-  --footer-height: 35px;
+  /* ──────────────── SIZING & SPACING ──────────────── */
 
-  /* Misc */
-  --border-format: 1px solid white;
-  --menu-cursor: pointer;
+/* Logo */
+--logo-width: 150px;
+
+/* Header */
+--header-height: 50px;
+--header-nav-min-width: 150px;
+--header-nav-elements-width: var(--header-nav-min-width);
+
+/* Support menu */
+--support-span-padding: 0 15px;
+--support-conntent-padding: 10px;
+--support-content-width: 160px;
+
+/* Layout */
+--aside-width: 301px;
+--content-max-width: 906px;
+--content-padding: 20px;
+--footer-height: 35px;
+
+  /* ──────────────── MISC ──────────────── */
+
+/* Border */
+--border-default-width: 1px;
+--border-default-color: white;
+--border-format: var(--border-default-width) solid var(--border-default-color);
+--menu-border-format: var(--border-default-width) solid #666;
+
+/* Cursor */
+--menu-cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  :root {
+    /* Logo */
+    --logo-width: fit-content;
+    --logo-padding: 0 10px;
+    --logo-font-size: small;
+
+    /* Header-title */
+    --header-title-text-size: 1.5rem;
+
+    /* Header-nav */
+    --header-nav-min-width: none;
+    --header-nav-elements-width: fit-content;
+    --header-nav-elements-padding: 0 10px;
+    --header-nav-elements-font-size: small;
+
+    /* Support menu */
+    --support-span-padding: 0 2px;
+    --support-span-font-size: x-small;
+    --support-content-width: 140px;
+
+    /* Aside left */
+    --aside-l-width: 30px;
+  }
 }

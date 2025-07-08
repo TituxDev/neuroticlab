@@ -3,10 +3,19 @@ main {
     flex: 1 1 auto;
     overflow-y: auto;
     background-color: var(--content-bg-color);
-    color: #dcdcdc;
+    color: var(--content-default-color);
 }
 
 main.left-200 { padding-left: min(calc(50% - var(--content-max-width)/2),200px); }
 
 main.left-500 { padding-left: min(calc(50% - var(--content-max-width)/2),500px); }
 main.left-500 #main-content { border: 1px solid var(--frame-bg-color); }
+
+@media ( max-width: 768px){
+    main.left-500{
+        border: none;
+    }
+    main.left-200{
+        margin-left: var(--aside-l-width);
+    }
+}

@@ -1,7 +1,7 @@
 .header-nav {
     display: flex;
     flex: 1 1 auto;
-    min-width: 150px;
+    min-width: var(--header-nav-min-width);
     max-height: 100%;
     overflow-x: auto;
     border-right: var(--border-format);
@@ -10,7 +10,8 @@
 .header-nav > * {
     display: flex;
     flex-shrink: 0;
-    width: 150px;
+    width: var(--header-nav-elements-width);
+    min-width: var(--header-nav-elements-width);
     border-right: var(--border-format);
     align-items: center;
     justify-content: center;
@@ -27,7 +28,7 @@
 
 .support > span {
     display: flex;
-    padding: 0 15px;
+    padding: var(--support-span-padding);
     height: 100%;
     align-items: center;
     font-weight: bold;
@@ -37,12 +38,12 @@
 .support > .menu-content {
     position: absolute;
     z-index: 1000;
-    min-width: 160px;
+    min-width: var(--support-content-width);
     top: 100%;
-    padding: 10px;
-    background-color: #444;
-    border: 1px solid #666;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    padding: var(--support-content-padding);
+    background-color: var(--menu-bg-color);
+    border: var(--menu-border-format);
+    box-shadow: 0 2px 5px var(--menu-shadow-color);
 }
 
 .support > .menu-content > * {
@@ -50,4 +51,41 @@
     line-height: 1.6;
     text-decoration: none;
     color: white;
+}
+
+@media (max-width: 768px) {
+    .header-nav {
+        position: relative;
+    }
+    .header-nav > * {
+        padding: var(--header-nav-elements-padding);
+        font-size: var(--header-nav-elements-font-size);
+    }
+    .header-nav::after {
+        content: "»";                 /* La flecha, puedes cambiar por "→" u otro */
+        position: sticky;
+        right: 0;                     /* Pegada al borde derecho */
+        top: 0;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        padding: 0 5px;
+        background: linear-gradient(to right, transparent, rgba(0,0,0,0.4)); 
+        color: var(--border-default-color);                  /* Color de la flecha */
+        font-size: 1.2em;
+        pointer-events: none;         /* No interfiere con clics */
+    }
+
+    .support > span {
+        padding: var(--support-span-padding);   /* Reducir espacio lateral */
+        font-size: var(--support-span-font-size);  /* Letra más pequeña */
+    }
+    .support > .menu-content {
+        left: auto;        /* Ignora left:100% */
+        right: 0;          /* Alinea con borde derecho del contenedor */
+        max-width: 80vw;   /* Nunca sobrepasa el viewport */
+    }
+    .support > .menu-content  * {
+        font-size: small;  /* Letra más pequeña */
+    }
 }
