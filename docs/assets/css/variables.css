@@ -18,10 +18,12 @@
 --content-bg-color: #2c313a;
 --menu-bg-color: #444;
 --menu-shadow-color: rgba(0, 0, 0, 0.3);
+--modules-span-bg-color: #191b20;
 
 /* Semantic colors */
 --content-color-h1: rgb(255, 83, 255);
 --content-color-h2: rgb(62, 208, 67);
+
 
   /* ──────────────── TYPOGRAPHY ──────────────── */
 
@@ -42,6 +44,11 @@
 --support-conntent-padding: 10px;
 --support-content-width: 160px;
 
+/* Modules menu */
+--modules-span-padding: 15px 40px;
+--modules-span-font-size: 1.1rem;
+--modules-height: 100%;
+
 /* Layout */
 --aside-width: 301px;
 --content-max-width: 906px;
@@ -58,6 +65,51 @@
 
 /* Cursor */
 --menu-cursor: pointer;
+
+/* ──────────────── SHARE ICONS ──────────────── */
+--share-icon-size: 50px;
+--share-margin-top: 20px;
+--share-hover-scale: 1.2;
+
+/* ──────────────── FORMS ──────────────── */
+--form-max-width: 500px;
+--form-field-spacing: 15px;
+--form-input-padding: 10px;
+--form-border-radius: 4px;
+--form-input-border-color: #ccc;
+
+--form-button-bg: #28a745;
+--form-button-hover-bg: #218838;
+--form-button-text-color: white;
+
+/* ──────────────── CRYPTO DONATIONS ──────────────── */
+--crypto-margin: 2rem auto;
+--crypto-address-padding: 0.5rem 1rem;
+--crypto-address-font-size: 1rem;
+--crypto-qr-size: 200px;
+
+--crypto-note-margin-top: 1rem;
+--crypto-note-font-size: 0.9rem;
+--crypto-note-color: #aaa;
+
+/* Background alternativo */
+--background-alt: #222;
+
+/* ──────────────── MAIN CONTENT ──────────────── */
+--content-line-height: 1.3;
+--content-text-margin-bottom: 15px;
+--content-text-color: var(--content-default-color);
+
+--h1-font-size: 1.5em;
+--h2-font-size: 1.2em;
+--h3-color: green;
+
+--list-margin-bottom: 15px;
+--list-item-margin-bottom: 5px;
+
+--table-gap: 20px;
+--table-padding: 5px 10px;
+--table-margin-bottom: 15px;
 }
 
 @media (max-width: 768px) {
@@ -76,6 +128,11 @@
     --header-nav-elements-padding: 0 10px;
     --header-nav-elements-font-size: small;
 
+    /* Modules menu */
+    --modules-span-padding: 10px;
+    --modules-list-width: 200px;
+    --modules-height: calc( 100% - var(--header-height) - var(--footer-height));
+
     /* Support menu */
     --support-span-padding: 0 2px;
     --support-span-font-size: x-small;
@@ -83,5 +140,8 @@
 
     /* Aside left */
     --aside-l-width: 30px;
+
+    --share-icon-size: 40px;
+    --share-margin-top: 15px;
   }
 }

@@ -1,9 +1,10 @@
 form {
     display: flex;
     flex-direction: column;
-    max-width: 500px;
+    max-width: var(--form-max-width);
     margin: 0 auto;
 }
+
 form * {
     box-sizing: border-box;
     justify-content: center;
@@ -12,22 +13,25 @@ form * {
 label {
     display: flex;
     flex-direction: column;
-    margin-bottom: 15px;
+    margin-bottom: var(--form-field-spacing);
 }
+
 input[type="email"],
 textarea {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+    padding: var(--form-input-padding);
+    border: 1px solid var(--form-input-border-color);
+    border-radius: var(--form-border-radius);
 }
+
 button {
-    padding: 10px;
-    background-color: #28a745;
-    color: white;
+    padding: var(--form-input-padding);
+    background-color: var(--form-button-bg);
+    color: var(--form-button-text-color);
     border: none;
-    border-radius: 4px;
+    border-radius: var(--form-border-radius);
     cursor: pointer;
 }
+
 button:hover {
-    background-color: #218838;
+    background-color: var(--form-button-hover-bg);
 }

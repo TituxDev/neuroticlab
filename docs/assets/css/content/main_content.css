@@ -4,65 +4,68 @@
     max-width: var(--content-max-width);
     margin: auto 0;
     padding: var(--content-padding);
-}#main-content > * {
+}
+#main-content > * {
     margin: 0;
 }
 
 #main-content > p {
     width: 100%;
-    margin-bottom: 15px;
+    margin-bottom: var(--content-text-margin-bottom);
     text-align: justify;
-    line-height: 1.3;
-}#main-content > p > a {
-    color: #dcdcdc;
+    line-height: var(--content-line-height);
+}
+#main-content > p > a {
+    color: var(--content-text-color);
 }
 
 #main-content > h1 {
     display: flex;
     width: 100%;
     justify-content: center;
-    font-size: 1.5em;
+    font-size: var(--h1-font-size);
     text-decoration: none;
     color: var(--content-color-h1);
 }
 
 #main-content > h2 {
-    margin-top: 15px;
+    margin-top: var(--list-margin-bottom);
     margin-bottom: 8px;
-    font-size: 1.2em;
+    font-size: var(--h2-font-size);
     text-decoration: underline;
     color: var(--content-color-h2);
 }
 
-#main-content > h3{
+#main-content > h3 {
     margin-top: 10px;
     margin-bottom: 5px;
     font-weight: bold;
-    color: green;    
+    color: var(--h3-color);
 }
 
-#main-content  h4,
+#main-content h4,
 #main-content > h5,
 #main-content > h6 {
     width: 100%;
     min-width: fit-content;
     margin: 0px;
     text-align: center;
-    padding: 5px 10px;
+    padding: var(--table-padding);
     border: var(--border-format);
     box-sizing: border-box;
 }
 
 #main-content > ul,
 #main-content > ol {
-    margin-bottom: 15px;
-}#main-content li {
-    margin-bottom: 5px;
+    margin-bottom: var(--list-margin-bottom);
+}
+#main-content li {
+    margin-bottom: var(--list-item-margin-bottom);
 }
 
-#flex-content{
+#flex-content {
     display: flex;
-    gap: 20px;
+    gap: var(--table-gap);
 }
 
 #table {
@@ -74,22 +77,26 @@
     padding: 0px;
     border: var(--border-format);
     margin: 0;
-    margin-bottom: 15px;
+    margin-bottom: var(--table-margin-bottom);
 }
-#main-content  table {
+
+#main-content table {
     border-collapse: collapse;
     width: 100%;
     text-align: center;
-}#main-content  table > thead th{
+}
+#main-content table > thead th {
     font-weight: bold;
-}#main-content  table > tbody td ,
-#main-content  table > thead th {
-    padding: 5px 10px;
+}
+#main-content table > tbody td,
+#main-content table > thead th {
+    padding: var(--table-padding);
     border: var(--border-format);
 }
 
 #main-content > *:first-child {
     margin-top: 0;
-} #main-content > *:last-child {
+}
+#main-content > *:last-child {
     margin-bottom: 0;
 }

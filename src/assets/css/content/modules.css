@@ -5,18 +5,18 @@
     min-width: var(--aside-width);
     height: 100%;
     border-right: var(--border-format);
-    color: var(--navigation-color);
+    color: var(--main-navigation-color);
 }
 
 .modules span {
-    padding: 15px 40px;
+    padding: var(--modules-span-padding);
     font-weight: bold;
-    font-size: 1.1rem;
+    font-size: var(--modules-span-font-size);
     text-align: left;
     color: var(--highlight-color);
     border-bottom: var(--border-format);
     letter-spacing: 2px;
-    background-color: #191b20;
+    background-color: var(--modules-span-bg-color);
 }
 
 .modules ol {
@@ -33,7 +33,7 @@
 .modules ol > * {
     margin: 10px 20px;
     text-align: left;
-    color: #ffd86c;
+    color: var(--highlight-color);
 }
 
 .modules ol a {
@@ -57,11 +57,10 @@
         z-index: 1000;
         width: var(--aside-l-width);
         min-width: fit-content;
-        height: calc( 100% - var(--header-height) - var(--footer-height));
+        height: var(--modules-height);
     }
     .modules span {
         writing-mode: vertical-rl;
-        padding: 10px;
         cursor: pointer;
         width: var(--aside-l-width);
         height: 100%;
@@ -71,11 +70,9 @@
         position: absolute;
         top: 0;
         left: 100%;
-        width: 200px;
+        width: var(--modules-list-width);
         height: 100%;
-        border: 1px solid #333;
-        padding: 0;
-        margin: 0;
+        border: var(--menu-border-format);
     }
     .modules:hover ol {
         display: block;
