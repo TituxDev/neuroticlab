@@ -2,6 +2,7 @@ main {
     display: flex;
     flex: 1 1 auto;
     overflow-y: auto;
+    max-height: 100%;
     background-color: var(--content-bg-color);
     color: var(--content-default-color);
 }
