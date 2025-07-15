@@ -5,18 +5,18 @@ header_title: Reportar error
 formspree: xgvypvkj
 ---
 
-# ¿Te gustó el proyecto?
+# ¿Encontraste un error en el sitio?
 
-## Puedes apoyarlo con una donación.
+## Tu mirada ayuda a mantener el sitio afilado
 
-Este espacio fue creado desde cero con mucho cuidado para ofrecer  
-una experiencia clara, directa y **libre de distracciones comerciales**.
+Sabemos que ningún sistema es perfecto. Aunque presto atención a cada rincón del sitio, los errores son parte del proceso.  
+Tu ojo atento es clave para detectar fallos técnicos, enlaces rotos, errores de visualización u otros comportamientos extraños que puedan surgir.
 
-Tu apoyo permite que **NeuroTIClab** siga creciendo, y me motiva  
-a seguir creando contenido accesible, sin depender de patrocinadores  
-ni llenar el sitio de anuncios molestos.
+Este espacio está pensado precisamente para eso. Por favor, intenta ser lo más claro posible al describir lo que sucedió y, si puedes, incluye algunos datos como:
 
-No importa el monto: **toda contribución es bienvenida**.
+- Qué estabas haciendo cuando ocurrió el error.
+- En qué página o sección lo encontraste.
+- Qué navegador o dispositivo estás utilizando.
 
-Gracias por valorar y respaldar el trabajo detrás de este laboratorio.  
-**Tu apoyo también forma parte de lo que lo hace posible.**
+Con tu ayuda, este sitio puede seguir afinando su funcionamiento.  
+Gracias por mantener en forma este laboratorio.
