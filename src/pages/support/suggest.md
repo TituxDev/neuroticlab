@@ -7,7 +7,7 @@ formspree: xovwkpgy
 
 # ¿Tienes una idea para mejorar el sitio?
 
-## ¡Este laboratorio también es tuyo!
+## Hazlo crecer con tu aporte
 
 Aquí puedes compartir ideas, propuestas o mejoras que creas
 que puedan hacer de **NeuroTIClab** un espacio más claro,
@@ -24,5 +24,5 @@ Algunas ideas que podrías aportar:
 - Cambios en la estructura o navegación del sitio.
 - Comentarios sobre el enfoque didáctico o visual.
 
-Este proyecto crece con cada sugerencia.
-Gracias por ayudar a darle forma con tu mirada.
+Este proyecto crece con cada sugerencia.  
+Gracias por enriquecer este espacio con tu mirada.

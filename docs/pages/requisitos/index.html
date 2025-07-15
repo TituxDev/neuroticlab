@@ -28,50 +28,57 @@
             <main class="left-500">
                 <div id="main-content">
                     
-    <p>Antes de comenzar el taller, vas a necesitar una dosis de curiosidad (esto es lo más importante), y cualquier computadora que tengas a la mano. No hace falta que sea una nave espacial: si te sirve de consuelo, yo escribí todo este código en una Acer Aspire 3 con un procesador más viejo que muchos memes, y aquí estamos.</p>
-<p>Además de eso, solo necesitas un par de requisitos más: un lenguaje de programación y un compilador, que te explico más abajo.</p>
+    <h2>Puntos clave</h2>
+<p>Antes de comenzar el taller necesitas tres cosas:</p>
+<ol>
+<li>Una buena dosis de curiosidad —esto es lo más importante para disfrutar el proceso de aprendizaje—.</li>
+<li>Cualquier computadora funcional (no hace falta una supercomputadora; todo este código lo escribí en una <strong>Acer Aspire 3 del 2017 con un procesador Celeron N3350 y 4 GB de RAM</strong>. Y sí, corre sin drama).</li>
+<li>Un entorno donde puedas escribir, compilar y ejecutar código en lenguaje C. Más abajo te explico cómo configurarlo.</li>
+</ol>
+<hr>
 <h2>El lenguaje de programación</h2>
-<p>De la misma forma que los idiomas que hablamos tienen sus reglas sobre dónde va el verbo y el adverbio, y cada idioma tiene sus particularidades, los lenguajes de programación son igual: un conjunto de reglas que debemos seguir para que la computadora entienda nuestros deseos.</p>
+<p>De la misma forma que los idiomas que hablamos tienen sus reglas sobre dónde va el verbo y el adverbio, y cada idioma tiene sus particularidades, los lenguajes de programación son igual: un conjunto de reglas que debemos seguir para que la computadora entienda nuestras peticiones.</p>
 <p>Para este taller he decidido usar el lenguaje C. Ya que es perfecto para enseñar porque no necesitas andar instalando mil paquetes raros ni levantar intérpretes mágicos. Solo compilas y listo.</p>
 <p>Otra ventaja es que C tiene pocas reglas que memorizar. A diferencia de otros lenguajes modernos llenos de clases, métodos, atributos y palabritas que te obligan a estudiarte un diccionario entero, aquí puedes centrarte en lo importante sin perderte en la burocracia.</p>
-<p>Y sobre todo, me gusta porque en C todo está a la vista: lo que escribes es exactamente lo que la máquina ejecuta. Nada de trucos ocultos.</p>
+<p>Y sobre todo, en C todo está a la vista: lo que escribes es exactamente lo que la máquina ejecuta. Nada de trucos ocultos.</p>
 <h2>El compilador</h2>
-<p>Un compilador es un programa que toma el texto que hemos escrito con instrucciones (el codigo fuente) y lo convierte en una serie de 1's y 0's que la computadora puede leer (el archivo ejecutable).</p>
+<p>Un compilador es un programa que toma el texto que escribes con instrucciones (el <strong>código fuente</strong>) y lo convierte en una serie de 1's y 0's que la computadora puede leer (el <strong>archivo ejecutable</strong>).</p>
 <p>En nuestro caso, como vamos a programar en lenguaje C necesitaremos un compilador para lenguaje C (por supuesto).</p>
-<p>Si ya tienes experiencia programando usa nano y gcc o las herramientas con las que te sientas mas cómodo, pero si eres nuevo en este mundillo te recomiendo usar Code::Blocks, este es un programa que ya contiene tanto el editor de código como un compilador y así te ahorrarás algunos dolores de cabeza, a continuacion te explico como instalarlo segun tu sistema operativo.</p>
+<p>Si ya tienes experiencia programando usa nano y gcc o las herramientas con las que te sientas mas cómodo, pero si eres nuevo en este mundillo te recomiendo usar Code::Blocks, este es un programa que ya contiene tanto el editor de código como un compilador y así te ahorrarás algunos dolores de cabeza, a continuación te explico como instalarlo segun tu sistema operativo.</p>
+<hr>
 <h2>Instalando Code::Blocks</h2>
 <h3>Windows</h3>
-<p>Descargar</p>
-<p>Entra al sitio oficial:
-<a href="https://www.codeblocks.org/downloads/binaries/" target="_blank">Code::Blocks</a></p>
-<p>Busca la sección Windows XP / Vista / 7 / 8 / 10.</p>
-<p>Descarga el instalador que dice:
-codeblocks-XX.Xmingw-setup.exe
-(el número de versión puede cambiar; asegúrate de elegir el que incluye mingw porque ya trae el compilador).</p>
-<p>Instalar</p>
-<p>Ejecuta el archivo descargado.</p>
-<p>Sigue el asistente de instalación. En los componentes, deja todo como está (incluye MinGW Compiler).</p>
-<p>Finaliza la instalación.</p>
-<p>Verificar</p>
-<p>Abre Code::Blocks.</p>
-<p>Al iniciar, te pedirá seleccionar el compilador por defecto. Elige GNU GCC Compiler.</p>
-<p>Crea un proyecto nuevo de prueba y compílalo para confirmar que todo funciona.</p>
+<p><strong>Descargar:</strong></p>
+<ol>
+<li>Entra al sitio oficial: <a href="https://www.codeblocks.org/downloads/binaries/" target="_blank">Code::Blocks</a></li>
+<li>Busca la sección Windows XP / Vista / 7 / 8 / 10.</li>
+<li>Descarga el instalador que dice: <strong>codeblocks-XX.Xmingw-setup.exe</strong><br>
+(el número de versión puede cambiar; asegúrate de elegir el que incluye mingw porque ya trae el compilador).</li>
+</ol>
+<p><strong>Instalar:</strong></p>
+<ol>
+<li>Ejecuta el archivo descargado.</li>
+<li>Sigue el asistente de instalación. En los componentes, deja todo como está (incluye MinGW Compiler).</li>
+<li>Finaliza la instalación.</li>
+</ol>
 <h3>macOS</h3>
-<p>En macOS, no hay un paquete oficial de Code::Blocks que incluya el compilador. Por eso, lo más sencillo es usar Xcode Command Line Tools como compilador y luego instalar Code::Blocks por separado:</p>
-<p>Instalar Xcode Command Line Tools</p>
-<p>Abre Terminal.</p>
-<p>Escribe:</p>
+<p>En macOS, no hay un paquete oficial de Code::Blocks que incluya el compilador. Por eso, lo más sencillo es usar <strong>Xcode Command Line Tools</strong> como compilador y luego instalar Code::Blocks por separado:</p>
+<p><strong>Instalar Xcode Command Line Tools:</strong></p>
+<ol>
+<li>Abre Terminal.</li>
+<li>Escribe:</li>
+</ol>
 <pre><code class="language-lua">xcode-select --install
 </code></pre>
-<p>Acepta los términos y espera a que se complete la instalación.</p>
-<p>Descargar Code::Blocks</p>
-<p>Desde el sitio oficial:
-<a href="https://www.codeblocks.org/downloads/binaries/" target="_blank">Code::Blocks</a></p>
-<p>Busca la sección de Mac OS X y descarga el instalador disponible.</p>
-<p>Instalar</p>
-<p>Abre el archivo .dmg descargado y arrastra Code::Blocks a tu carpeta de Aplicaciones.</p>
-<p>Verificar</p>
-<p>Abre Code::Blocks y crea un proyecto de prueba.</p>
+<ol start="3">
+<li>Acepta los términos y espera a que se complete la instalación.</li>
+</ol>
+<p><strong>Descargar Code::Blocks:</strong></p>
+<ol>
+<li>Desde el sitio oficial: <a href="https://www.codeblocks.org/downloads/binaries/" target="_blank">Code::Blocks</a></li>
+<li>Busca la sección de <strong>Mac OS X</strong> y descarga el instalador disponible.</li>
+</ol>
+<p>Para <strong>instalar</strong> abre el archivo <strong>.dmg</strong> descargado y arrastra <strong>Code::Blocks</strong> a tu carpeta de <strong>Aplicaciones</strong>.</p>
 <h3>Linux</h3>
 <p>En la mayoría de distribuciones Linux puedes instalar Code::Blocks y el compilador desde los repositorios oficiales. Aquí te dejo ejemplos:</p>
 <p>Debian, Ubuntu y derivados:</p>
@@ -84,7 +91,45 @@ sudo apt install codeblocks build-essential
 <p>Arch Linux / Manjaro:</p>
 <pre><code class="language-bash">sudo pacman -S codeblocks gcc
 </code></pre>
-<p>Una vez instalado, abre Code::Blocks desde el menú de aplicaciones.</p>
+<hr>
+<h2>Primeros pasos con Code::Blocks</h2>
+<p>Una vez instalado Code::Blocks, hagamos una prueba para que puedas seguir los ejemplos del taller paso a paso.</p>
+<h3>Al abrir Code::Blocks por primera vez</h3>
+<p>Al iniciar, aparecerá una ventana preguntando qué compilador usar por defecto.
+Selecciona <strong>GNU GCC Compiler</strong>, haz clic en <strong>Set as default</strong> y luego en <strong>OK</strong>.</p>
+<p>Si no ves ningún compilador disponible o aparece un error como <em>&quot;Can't find compiler executable&quot;</em>, revisa que hayas instalado correctamente el compilador correspondiente a tu sistema:</p>
+<ul>
+<li>En Windows, asegúrate de haber descargado el instalador con mingw.</li>
+<li>En Linux, asegúrate de haber instalado build-essential o gcc junto con codeblocks.</li>
+<li>En macOS, asegúrate de haber ejecutado el comando xcode-select --install.</li>
+</ul>
+<h3>Crear un proyecto vacío</h3>
+<ul>
+<li>En el menú superior de Code::Blocks, selecciona: <strong>File &gt; New &gt; Project</strong></li>
+<li>En la ventana que se abre, elige <strong>Empty Project</strong> y haz clic en <strong>Go</strong>.</li>
+<li>Asigna un nombre al proyecto (recomendado: <strong>NeuroTIC</strong>) y elige una carpeta donde guardarlo.</li>
+<li>En las opciones del asistente, deja seleccionado el compilador por defecto (<strong>GNU GCC Compiler</strong>).</li>
+<li>Finaliza la creación del proyecto.</li>
+</ul>
+<p>Esto generará una carpeta con el nombre que hayas elegido y un archivo .cbp (Code::Blocks Project) dentro de ella.</p>
+<h3>Agregar tu archivo .c</h3>
+<ul>
+<li>En la barra de herramientas, selecciona: <strong>File &gt; New &gt; Empty File</strong></li>
+<li>Si es el primer archivo que se crea, aparecerá un mensaje preguntando si deseas integrarlo al proyecto. Acepta y se abrirá una ventana de guardado.</li>
+<li>Guarda el archivo en la carpeta del proyecto con un nombre significativo, por ejemplo: NeuroTIC.c. Es importante que el archivo termine con la <strong>extensión .c</strong>, ya que esta es obligatoria para que el compilador lo reconozca como código fuente en lenguaje C.</li>
+</ul>
+<p>💡 Importante: para evitar errores de compilación al avanzar en el curso, no agregues múltiples archivos .c al proyecto, ya que cada uno tendrá su propia función main() y esto generará conflictos. Más adelante te enseñaré cómo organizar tus archivos de forma modular sin interferencias.</p>
+<h3>Compilar y ejecutar</h3>
+<ul>
+<li>Haz clic en la <strong>rueda dentada verde</strong> o presiona <strong>F9</strong>.</li>
+<li>Se abrirá una consola con la salida del programa.</li>
+<li>Si ves errores, revisa que todo esté bien copiado. ¡No olvides los ;!</li>
+</ul>
+<hr>
+<h2>Preparado para aprender</h2>
+<p>Ya tienes todo lo necesario para comenzar: un entorno listo y las ganas de experimentar.<br>
+No importa si nunca programaste: <strong>iremos paso a paso</strong>.<br>
+Si llegaste hasta aquí, lo más desafiante ya lo hiciste: <strong>decidiste empezar</strong>.</p>
 
 
                 </div>

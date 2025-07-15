@@ -15,7 +15,7 @@
     text-align: justify;
     line-height: var(--content-line-height);
 }
-#main-content > p > a {
+#main-content a {
     color: var(--content-text-color);
 }
 
@@ -92,6 +92,10 @@
 #main-content table > thead th {
     padding: var(--table-padding);
     border: var(--border-format);
+}
+
+#main-content code{
+    margin-bottom: var(--content-text-margin-bottom);
 }
 
 #main-content > *:first-child {

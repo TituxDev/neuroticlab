@@ -25,12 +25,13 @@
 
         {% if qr_image %}
         <div class="crypto-qr">
-            <img src="{{ qr_image }}" alt="QR de la dirección de {{ header_title }}">
+            <img src="{{ qr_image }}" alt="Código QR para enviar {{ header_title }}">
         </div>
         {% endif %}
 
         <p class="crypto-note">
-            ⚠ Verifica la dirección antes de enviar fondos. Las transacciones con criptomonedas no pueden revertirse.
+            ⚠ Asegúrate de verificar la dirección antes de enviar fondos.<br>
+            Las transacciones con criptomonedas no se pueden deshacer.
         </p>
     </section>
 {% endblock %}

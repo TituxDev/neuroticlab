@@ -7,35 +7,23 @@ title: Inicio
 
 ## Hola
 
-Te doy la bienvenida a **NeuroTIClab**, un espacio pensado para personas con curiosidad por comprender qué hay detrás
-de esta tecnología con la que convivimos día a día, que conocemos como Inteligencia Artificial.
+Te doy la bienvenida a **NeuroTIClab**, un espacio para quienes tienen curiosidad por entender qué hay detrás de esa tecnología con la que convivimos todos los días: la inteligencia artificial.
 
-Veo la importancia de compartir lo que sucede tras bambalinas de esta herramienta porque influye en la dirección que
-está tomando el mundo, y percibo cómo por desconocimiento las personas son fácilmente influenciadas por sugerencias
-de las cuales no conocen su origen.
+Decidí compartir lo que sucede tras bambalinas porque esta herramienta ya influye —y mucho— en la dirección que está tomando el mundo. Y lo preocupante es que, por desconocimiento, muchas personas siguen decisiones o sugerencias sin saber ni de dónde vienen ni por qué aparecen.
 
-Algunos la usan como fuente de información, amigo, psicólogo... e incluso en casos más extremos como pareja, sin
-detenerse a leer las letras pequeñas que hay en ChatGPT: *"ChatGPT can make mistakes. Check important info"*.
+Algunos usan la IA como fuente de información, como amigo, psicólogo... o incluso —llevándolo al límite— como pareja, sin detenerse a leer las letras pequeñas de ChatGPT:  
+*"ChatGPT can make mistakes. Check important info."*
 
-No es que me oponga los avances tecnológicos; al contrario, me maravilla la capacidad del ser humano
-para desarrollarlos, sin embargo, si no tomamos responsabilidad en informarnos sobre su funcionamiento, siempre
-estaremos a merced de quienes sí tienen el conocimiento.
+No tengo nada en contra del avance tecnológico —al contrario, me asombra lo que somos capaces de construir—, pero si no nos damos el tiempo de entender cómo funciona, vamos a seguir siendo terreno fértil para que decidan por nosotros los que sí saben cómo aprovecharla.
 
 ## Sobre mí
 
-Soy **Titux**, un hobbista autodidacta de la programación en lenguaje C, motivado siempre por la curiosidad y la idea
-de que todo se puede construir.
+Soy **Titux**, un autodidacta que programa en lenguaje C por gusto, por curiosidad, y por esa idea terca de que todo puede construirse si se entiende bien.
 
 ## ¿Qué ofrece este sitio?
 
-Aquí encontrarás un taller basado en un código que escribí llamado **NeuroTIC**: el resultado de mi propia ruta de
-exploración para entender cómo funciona la inteligencia artificial.
+Esto no es un curso de programación ni una introducción académica a la IA. Es un taller basado en un código que escribí llamado **NeuroTIC**, resultado de mi propia ruta de exploración para entender cómo funciona una inteligencia artificial.
 
-Este taller no pretende volverte un experto en programación ni en inteligencia artificial, sino compartir de forma
-práctica el entendimiento sobre esta.
+A lo largo de los módulos vas a ir viendo cómo ese código evolucionó desde sus primeras líneas. A partir el primer módulo vas a poder crear tu propia *neurona artificial*, capaz de *aprender* a responder "sí" o "no", sin necesidad de que sepas programar.
 
-En cada módulo verás la evolución del código desde sus primeras líneas. A partir del primer módulo tendrás la
-oportunidad de crear, sin necesidad de conocimientos previos de programación, tu propia *neurona artificial* sencilla,
-capaz de *aprender* a responder "sí" o "no".
-
-**Verás que no es magia, son solo sumas y restas**.
+**No hay magia. Solo sumas y restas bien acomodadas.**
