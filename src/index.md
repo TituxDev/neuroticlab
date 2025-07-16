@@ -24,6 +24,6 @@ Soy **Titux**, un autodidacta que programa en lenguaje C por gusto, por curiosid
 
 Esto no es un curso de programación ni una introducción académica a la IA. Es un taller basado en un código que escribí llamado **NeuroTIC**, resultado de mi propia ruta de exploración para entender cómo funciona una inteligencia artificial.
 
-A lo largo de los módulos vas a ir viendo cómo ese código evolucionó desde sus primeras líneas. A partir el primer módulo vas a poder crear tu propia *neurona artificial*, capaz de *aprender* a responder "sí" o "no", sin necesidad de que sepas programar.
+A lo largo de los módulos vas a ir viendo cómo ese código evolucionó desde sus primeras líneas. A partir del primer módulo vas a poder crear tu propia *neurona artificial*, capaz de *aprender* a responder "sí" o "no", sin necesidad de que sepas programar.
 
 **No hay magia. Solo sumas y restas bien acomodadas.**

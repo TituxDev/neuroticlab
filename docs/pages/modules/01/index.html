@@ -42,7 +42,7 @@
     <ol start="0">
         <li><a href="/pages/modules/00">Hablando el mismo<br>&emsp;&emsp;&emsp;idioma</a></li>
         <li><a href="/pages/modules/01">Perceptron booleano</a></li>
-        <li><a href="#">Resolviendo XOR</a></li>
+        <li><a href="/pages/modules/02">Resolviendo XOR</a></li>
     </ol>
 
                 </aside>
@@ -54,32 +54,56 @@
 <h2>Introducción</h2>
 <p>¿Listo para desarmar una neurona artificial y ver de qué está hecha?</p>
 <p>Verás que no tiene tantos secretos. Solo unas cuantas piezas básicas que, colocadas en orden, pueden aprender a tomar decisiones.</p>
-<p>Si vamos a entrenar una operación lógica, es obvio que necesitamos algo que se comporte de manera similar. Por eso, nuestra neurona tendrá dos entradas y una salida.</p>
+<p>Si vamos a entrenar una operación lógica, es obvio que necesitamos algo que se comporte de manera similar. Por eso, nuestra neurona tendrá <strong>dos entradas y una salida</strong>.</p>
 <p>Además de esos elementos externos, vamos a definir su funcionamiento interno. Estos son:</p>
 <ul>
-<li>Una lista de pesos según la cantidad de entradas. Estos, junto con el sesgo (un valor extra que aprenderás enseguida), serán los responsables de definir el comportamiento de la neurona. Todo depende de los valores que tengan.</li>
-<li>Una función de ponderación. Se encarga de multiplicar cada entrada por su peso y luego sumar esos resultados con el sesgo.</li>
-<li>La función de activación. Esta generará el número que irá en la única salida según el resultado de la ponderación.</li>
+<li>Una <strong>lista de pesos según la cantidad de entradas</strong>. Estos, junto con el <strong>sesgo</strong> (un valor extra que aprenderás enseguida), serán los responsables de definir el comportamiento de la neurona. <strong>Todo depende de los valores que tengan</strong>.</li>
+<li>Una <strong>función de ponderación</strong>. Se encarga de multiplicar cada entrada por su peso y luego sumar esos resultados con el sesgo.</li>
+<li>La <strong>función de activación</strong>. Esta generará el número que irá en la única salida según el resultado de la ponderación.</li>
 </ul>
 <p>Nada más. Así de simple.</p>
 <hr>
-<p>Ahora sí, abre tu editor de código y vamos a programar:</p>
-<p>Una neurona puede tener cualquier cantidad de entradas. Para nuestro perceptrón booleano vamos a usar dos, así que vamos a crearlas en el editor escribiendo:</p>
-<pre><code class="language-C">int Entrada_1;
-int Entrada_2;
+<h2>Preparando el entorno de trabajo</h2>
+<p>Antes de ponernos a codificar en serio, asegúrate de que ya tienes listo tu espacio de trabajo.</p>
+<p>Si todavía no descargaste Code::Blocks, o no sabes cómo crear un proyecto o un archivo nuevo, te recomiendo que revises primero la sección de <a href="/pages/requisitos" target="_blank">requisitos</a>. Ahí está todo explicado paso a paso.</p>
+<p>Ahora bien, si ya habías dejado todo listo pero cerraste Code::Blocks y no estás seguro de cómo retomar el proyecto que creaste, no te preocupes. Puede que estés en alguna de estas situaciones:</p>
+<ul>
+<li>Si ya creaste el proyecto y lo guardaste, abre Code::Blocks y usa el menú <strong>File &gt; Open &gt; Project</strong> (o simplemente haz doble clic sobre el <strong>archivo .cbp</strong> desde tu explorador de archivos).</li>
+<li>Si no recuerdas si lo guardaste o no sabes dónde quedó, abre Code::Blocks y revisa <strong>File &gt; Recent Projects</strong>. A veces con eso es suficiente.</li>
+<li>Y si nada de eso funciona, puedes crear un nuevo proyecto siguiendo otra vez las instrucciones de la sección de <strong>requisitos</strong>. No pasa nada. Lo importante es tener un lugar donde escribir y ejecutar tu código.</li>
+</ul>
+<p>Una vez que tengas tu editor abierto, sin miedo, escribe lo siguiente:</p>
+<pre><code class="language-C">/*=========VARIABLES=========*/
+/*=========PRINCIPAL=========*/
 </code></pre>
-<p>La instrucción int nos permite crear una variable que contendrá un número entero. Esta variable tendrá el nombre que le asignemos a la derecha de int, en nuestro caso: las variables Entrada_1 y Entrada_2.</p>
-<p>Al final de cada línea se usa el carácter ;, que indica que la instrucción ha terminado. No tardarás mucho en darte cuenta de su importancia: si olvidas un punto y coma, el compilador te avisará con un error.</p>
-<p>Siguiendo el proceso anterior, vamos a crear la variable de salida:</p>
-<pre><code class="language-C">int Entrada_1;
+<p>Lo que acabas de escribir se conoce como <strong>comentarios</strong>. Estas líneas no <strong>afectan en nada la ejecución del programa</strong>, pero sirven como <strong>referencia visual</strong> para quien está leyendo el código.</p>
+<p>Todo comentario comienza con <strong>/*</strong> y termina con <strong>*/</strong>. Todo lo que esté entre esos símbolos es ignorado por el compilador, así que puedes usarlos para dejar anotaciones, separar secciones o incluso desactivar líneas de código sin borrarlas.</p>
+<p>En este caso, se usan como etiquetas para marcar dos secciones principales de nuestro programa: una donde van las variables, y otra donde va el bloque principal del código. Ya verás en breve para qué sirve cada una.</p>
+<hr>
+<h2>Construyendo el perceptron</h2>
+<h3>Variables</h3>
+<p>Ahora sí, vamos a programar en serio</p>
+<p>Una neurona puede tener cualquier cantidad de entradas. Para nuestro perceptrón booleano vamos a usar dos, así que vamos a crearlas en el editor escribiendo:</p>
+<pre><code class="language-C">/*=========VARIABLES=========*/
+int Entrada_1;
+int Entrada_2;
+/*=========PRINCIPAL=========*/
+</code></pre>
+<p>La instrucción <strong>int</strong> permite crear una variable que contendrá un <strong>número entero</strong>. Esta variable tendrá el nombre que le asignemos a la derecha de int, en nuestro caso: las variables <strong>Entrada_1</strong> y <strong>Entrada_2</strong>.</p>
+<p>Al final de cada línea se usa el carácter <strong>;</strong>, que indica que la instrucción ha terminado. No tardarás mucho en darte cuenta de su importancia: <strong>si olvidas un punto y coma, el compilador te avisará con un error</strong>.</p>
+<p>Siguiendo el proceso anterior, vamos a crear la <strong>variable de salida</strong>:</p>
+<pre><code class="language-C">/*=========VARIABLES=========*/
+int Entrada_1;
 int Entrada_2;
 
 int Salida;
+/*=========PRINCIPAL=========*/
 </code></pre>
-<p>La salida será el resultado final de la neurona, es decir, la respuesta que obtendremos después de hacer los cálculos.</p>
+<p>La <strong>salida será el resultado final de la neurona</strong>, es decir, la respuesta que obtendremos después de hacer los cálculos.</p>
 <p>¿Ves qué sencillo es crear los elementos que componen la neurona?</p>
-<p>Ahora, según la lista de ingredientes del inicio, necesitamos una lista de pesos, uno por cada entrada, además de un sesgo:</p>
-<pre><code class="language-C">int Entrada_1;
+<p>Ahora, según la lista de ingredientes del inicio, necesitamos una lista de <strong>pesos, uno por cada entrada</strong>, además de <strong>un sesgo</strong>:</p>
+<pre><code class="language-C">/*=========VARIABLES=========*/
+int Entrada_1;
 int Entrada_2;
 
 int Salida;
@@ -88,164 +112,119 @@ float Peso_1;
 float Peso_2;
 
 float Sesgo;
+/*=========PRINCIPAL=========*/
 </code></pre>
-<p>¿Qué ha pasado aquí?
-Ya no usamos int, ahora hemos usado la instrucción float. No te asustes: funciona de manera parecida a int, pero float se usa cuando la variable puede tener valores con punto decimal.
+<p>¿Qué ha pasado aquí?<br>
+<strong>Ya no usamos int</strong>, ahora hemos usado la instrucción <strong>float</strong>. No te asustes: funciona de manera parecida a int, pero float se usa cuando la variable puede tener <strong>valores con punto decimal</strong>.
 Por ejemplo, podrías usarlo para guardar números como 0.5 o 1.25.</p>
 <p>Los pesos y el sesgo suelen necesitar valores decimales para poder ajustar con más precisión el comportamiento de la neurona.</p>
 <p>Ya tienes los elementos. Ahora hay que definir cómo se relacionan entre sí. En otras palabras, el comportamiento de la neurona.</p>
-<p>Para hacer esto, vamos a conocer un elemento más del lenguaje C: la función main. Este será el espacio donde irán las instrucciones que le pediremos a la computadora que ejecute.</p>
+<h3>Funcion main</h3>
+<p>Para hacer esto, vamos a conocer un elemento más del lenguaje C: la <strong>función main</strong>. Este será el <strong>espacio donde irán las instrucciones</strong> que le pediremos a la computadora que ejecute.</p>
 <p>Para crear la función main, solo es necesario declararla:</p>
-<pre><code class="language-C">int Entrada_1;
-int Entrada_2;
-
-int Salida;
-
-float Peso_1;
-float Peso_2;
-
-float Sesgo;
-
+<p>❗<em>He omitido las variables que ya se han creado para faicilitar la legibilidad de los ejercicios, esto no implica que debas borrarlas.</em></p>
+<pre><code class="language-C">/*=========VARIABLES=========*/
+/*=========PRINCIPAL=========*/
 int main(){}
 </code></pre>
-<p>Antes de continuar, hagamos una pequeña pausa para aclarar un par de cosas importantes.</p>
-<p>Primero: ¿por qué la función main es tan especial?
-En cualquier programa escrito en C, siempre debe existir una función llamada main. Puedes pensar en ella como el punto de inicio: cuando ejecutas tu programa, el sistema operativo entra por esa puerta y empieza a recorrer las instrucciones que encuentre dentro, de arriba hacia abajo.
-Cuando se llega al final de las instrucciones dentro de main, el programa termina. No importa cuántas otras funciones o variables declares: sin main, nada sucede.</p>
-<p>Ya tienes tu código con las variables y la función main. Es momento de compilarlo. Si nunca habías escuchado esa palabra, no te preocupes: compilar significa traducir tu código (que escribiste en un lenguaje que tú puedes leer) y crear un nuevo archivo de instrucciones representadas por secuencias de 1 y 0 que la computadora pueda entender.</p>
-<p>Si estás usando Code::Blocks, compilar y ejecutar es tan sencillo como hacer clic en el botón de “Build and Run” (o presionar F9). El programa se encargará automáticamente de convertir tu código en un ejecutable y de lanzarlo.</p>
-<p>Sea cual sea el método, el resultado será el mismo: se generará un programa que, al ejecutarse, creará en memoria las variables que declaraste y entrará en la función main.
-Pero como todavía no escribiste ninguna instrucción dentro, el programa no hará absolutamente nada: simplemente creará esos elementos, los guardará un instante y terminará la ejecución destruyéndolos al salir de main.</p>
+<p>¿Por qué la función main es tan especial?<br>
+En cualquier programa escrito en C, siempre debe existir una función llamada main. Puedes pensar en ella como el <strong>punto de inicio</strong>: cuando ejecutas tu programa, el sistema operativo entra por esa puerta y empieza a <strong>recorrer las instrucciones que encuentre dentro, de arriba hacia abajo</strong>. Cuando <strong>llega al final de las instrucciones dentro de main, el programa termina</strong>. No importa cuántas otras funciones o variables declares: sin main, nada sucede.</p>
+<p>Ya tienes tu código con las variables y la función main. Es momento de <a href="/pages/requisitos" target="_blank">compilar y ejecutar</a>.</p>
+<p>Cuando ejecutes tu programa se generará un programa que creará en memoria las variables que declaraste y entrará en la función main. Pero como todavía no escribiste ninguna instrucción dentro, el programa no hará absolutamente nada: simplemente creará esos elementos, los guardará un instante y terminará la ejecución destruyéndolos al salir de main.</p>
 <p>Ahora que tienes un mejor entendimiento sobre qué hace main, vamos a describir el comportamiento de la neurona.</p>
-<p>Primero haremos el proceso de ponderación, que va a asociar cada entrada con su respectivo peso mediante una multiplicación, y combinará los productos de estas operaciones mediante una sencilla suma. A este resultado se le suma el valor del sesgo. La operación se vería algo así: (E1 x P1) + (E2 x P2) + ... + Sesgo.</p>
-<pre><code class="language-C">int Entrada_1;
-int Entrada_2;
-
-int Salida;
-
-float Peso_1;
-float Peso_2;
-
-float Sesgo;
-
+<h3>Ponderación y activación</h3>
+<p>Primero haremos el proceso de <strong>ponderación</strong>, que va a asociar <strong>cada entrada con su respectivo peso</strong> mediante una multiplicación, y combinará los productos de estas operaciones mediante una sencilla suma. A este resultado <strong>se le suma el valor del sesgo</strong>. La operación se vería algo así: <strong>Sesgo + (E1 x P1) + (E2 x P2) + ...</strong>.</p>
+<pre><code class="language-C">/*=========VARIABLES=========*/
+/*=========PRINCIPAL=========*/
 int main(){
-    float ponderacion= (Entrada_1 * Peso_1) + (Entrada_2 * Peso_2) + Sesgo;
+/* CALCULAR */
+    float ponderacion= Sesgo + (Entrada_1 * Peso_1) + (Entrada_2 * Peso_2);
 }
 </code></pre>
 <p>Algunas cosas que debes notar aquí:</p>
 <ul>
-<li>El operador * se usa para indicar una multiplicación. No se utiliza una “x” porque podría confundirse con una letra.</li>
-<li>El resultado de la operación se guarda en una variable de tipo float llamada ponderacion, usando el operador =, que asigna ese valor a la variable.</li>
+<li>El operador <strong>*</strong> se usa para indicar una <strong>multiplicación</strong>. No se utiliza una “x” porque podría confundirse con una letra.</li>
+<li>El resultado de la operación <strong>se guarda en una variable de tipo float llamada ponderacion</strong>, usando el <strong>operador =, que asigna ese valor</strong> a la variable.</li>
 <li>Recuerda el uso del carácter ; al final de la instrucción. No lo olvides.</li>
 </ul>
-<p>Ahora agreguemos la última pieza: la función de activación. Esta recibe el resultado de la ponderación, aplica una operación matemática y devuelve un nuevo valor.</p>
+<p>Ahora agreguemos la última pieza: la <strong>función de activación</strong>. Esta recibe el resultado de la ponderación, aplica una operación matemática y devuelve un nuevo valor.</p>
 <p>Existen muchas funciones de activación, pero para nuestro perceptrón booleano usaremos la más sencilla: una función que regresa un 1 si el resultado de la ponderación es mayor o igual que 0, y devuelve un 0 si el resultado es menor que 0.</p>
-<pre><code class="language-C">int Entrada_1;
-int Entrada_2;
-
-int Salida;
-
-float Peso_1;
-float Peso_2;
-
-float Sesgo;
-
+<pre><code class="language-C">/*=========VARIABLES=========*/
+/*=========PRINCIPAL=========*/
 int main(){
-    float ponderacion= (Entrada_1 * Peso_1) + (Entrada_2 * Peso_2) + Sesgo;
+/* CALCULAR */
+    float ponderacion= Sesgo + (Entrada_1 * Peso_1) + (Entrada_2 * Peso_2);
     Salida= ponderacion &gt;= 0;
 }
 </code></pre>
-<p>Hemos terminado nuestra neurona. Podemos compilar y ejecutar el programa...</p>
-<p>¿Qué ha sucedido? ¿Nada? No exactamente. En realidad, se han ejecutado todas las instrucciones: primero se calcula la ponderación, luego se evalúa el resultado comparándolo contra 0 usando el operador &gt;=, y finalmente se guarda esa respuesta en la variable Salida.</p>
-<p>En este caso, ya no es necesario volver a escribir el tipo de dato de Salida porque lo declaraste arriba como int.</p>
-<p>Todo esto ocurrió dentro del programa, pero aún no vimos nada porque todavía no le hemos dado ninguna instrucción para que nos muestre información en pantalla.
-Aquí es donde vamos a conocer algunas características más del lenguaje C. Vamos a agregar un par de líneas a nuestro código:</p>
-<pre><code class="language-C">#include &lt;stdio.h&gt;
-
-int Entrada_1;
-int Entrada_2;
-
-int Salida;
-
-float Peso_1;
-float Peso_2;
-
-float Sesgo;
-
+<p>Has terminado tu neurona. Puedes compilar y ejecutar el programa...</p>
+<p>¿Qué ha sucedido? ¿Nada?<br>
+No exactamente. En realidad, se han ejecutado todas las instrucciones: primero <strong>se calcula la ponderación</strong>, luego se evalúa el <strong>resultado comparándolo contra 0 usando el operador &gt;=</strong>, y finalmente se <strong>guarda esa respuesta en la variable Salida</strong>.</p>
+<p>En este caso, ya <strong>no es necesario volver a escribir el tipo de dato</strong> de Salida porque <strong>lo declaraste arriba</strong> como int.</p>
+<p>Todo esto ocurrió dentro del programa, pero aún no vimos nada porque todavía no le hemos dado ninguna instrucción para que nos muestre información en pantalla.</p>
+<hr>
+<h2>Obteniendo información</h2>
+<h3>Hola mundo</h3>
+<p>Aquí es donde vamos a conocer algunas características más del lenguaje C. Vamos a agregar un par de líneas a nuestro código:</p>
+<pre><code class="language-C">/*========BIBLIOTECAS========*/
+#include &lt;stdio.h&gt;
+/*=========VARIABLES=========*/
+/*=========PRINCIPAL=========*/
 int main(){
-    float ponderacion= (Entrada_1 * Peso_1) + (Entrada_2 * Peso_2) + Sesgo;
-    Salida= ponderacion &gt;= 0;
-
+/* CALCULAR */
+/* IMPRIMIR */
     printf( &quot;Hola mundo&quot; );
 }
 </code></pre>
-<p>Vuelve a compilar y ejecutar. Ahora verás el mensaje Hola mundo en la pantalla.</p>
-<p>Seguramente ya has deducido qué hace printf, pero hagamos la explicación más clara:</p>
+<p>Vuelve a compilar y ejecutar. Ahora verás el mensaje <em>Hola mundo</em> en la pantalla.</p>
+<p>Seguramente ya has deducido qué hace <strong>printf</strong>, pero permíteme dar una explicación más clara:</p>
 <p>El mensaje “Hola mundo” es una tradición que se usa como primera prueba en casi cualquier lenguaje de programación.</p>
-<p>printf es una función, igual que main. Su trabajo es mostrar en pantalla el contenido que escribas entre comillas dentro de sus paréntesis.
-Pero esta función no forma parte del lenguaje C de manera nativa. Su comportamiento está definido dentro de una biblioteca llamada stdio.h.</p>
-<p>Para poder usarla, primero debes indicarle al compilador que incluya esa biblioteca en tu programa. Eso se hace con esta instrucción:</p>
-<p>#include &lt;stdio.h&gt;</p>
-<p>Una biblioteca no es más que una colección de funciones listas para resolver necesidades específicas. En este caso, stdio.h contiene varias funciones que tienen que ver con la entrada y salida de información, y una de ellas es printf, que permite mostrar mensajes en pantalla.</p>
+<p><strong>printf es una función, igual que main</strong>. Su trabajo es mostrar en pantalla el texto que escribas entre comillas dentro de sus paréntesis.
+Pero <strong>esta función no forma parte del lenguaje C de manera nativa</strong>. Su comportamiento <strong>está definido dentro de una biblioteca llamada stdio.h</strong>.</p>
+<p>Para poder usarla, <strong>primero debes indicarle al compilador que incluya esa biblioteca en tu programa</strong>. Eso se hace con esta instrucción: <strong>#include &lt;stdio.h&gt;</strong></p>
+<p><strong>Una biblioteca no es más que una colección de funciones</strong> listas para resolver necesidades específicas. En este caso, stdio.h contiene varias funciones que tienen que ver con la entrada y salida de información, y una de ellas es printf, que permite mostrar mensajes en pantalla.</p>
 <p>Ahora que tu programa tiene la posibilidad de mostrarte información, vamos a aprovecharlo para leer el valor de las variables.
 Te mostraré algunos trucos que puedes hacer con la función printf.</p>
+<h3>Mostrando variables</h3>
 <p>Empecemos con algo simple: leer el valor de la salida de la neurona.
 Vamos a modificar printf de esta forma:</p>
-<pre><code class="language-C">#include &lt;stdio.h&gt;
-
-int Entrada_1;
-int Entrada_2;
-
-int Salida;
-
-float Peso_1;
-float Peso_2;
-
-float Sesgo;
-
+<pre><code class="language-C">/*========BIBLIOTECAS========*/
+/*=========VARIABLES=========*/
+/*=========PRINCIPAL=========*/
 int main(){
-    float ponderacion= (Entrada_1 * Peso_1) + (Entrada_2 * Peso_2) + Sesgo;
-    Salida= ponderacion &gt;= 0;
-
+/* CALCULAR */
+/* IMPRIMIR */
     printf( &quot;%i&quot; , Salida );
 }
 </code></pre>
 <p>Compila y ejecuta el programa otra vez...</p>
 <p>Verás que ahora aparece un número: 0 o 1. Este número es el que está guardado en la variable Salida, y es el resultado de las operaciones que le anteceden.</p>
-<p>Esto ocurre porque el símbolo de formato % le indica a printf que lo que sigue es una instrucción especial y no un texto literal.
-En este caso, %i significa: “imprime aquí un número entero”.</p>
-<p>Después de las comillas, se coloca una coma y se indica qué variable debe imprimirse en ese espacio que definimos.</p>
+<p>Esto ocurre porque el <strong>símbolo de formato %</strong> le indica a printf que lo que sigue es una <strong>instrucción especial</strong> y no un texto literal.
+En este caso, <strong>%i</strong> significa: <strong>“imprime aquí un número entero”</strong>.</p>
+<p><strong>Después de las comillas, se coloca una coma y se indica qué variable debe imprimirse en ese espacio que definimos</strong>.</p>
 <p>Ahora vamos a agregar un poco más de información al mensaje de salida:</p>
-<pre><code class="language-C">#include &lt;stdio.h&gt;
-
-int Entrada_1;
-int Entrada_2;
-
-int Salida;
-
-float Peso_1;
-float Peso_2;
-
-float Sesgo;
-
+<pre><code class="language-C">/*========BIBLIOTECAS========*/
+/*=========VARIABLES=========*/
+/*=========PRINCIPAL=========*/
 int main(){
-    float ponderacion= (Entrada_1 * Peso_1) + (Entrada_2 * Peso_2) + Sesgo;
-    Salida= ponderacion &gt;= 0;
-
+/* CALCULAR */
+/* IMPRIMIR */
     printf( &quot;Entrada 1: %i , Entrada 2: %i = Salida: %i\n&quot; , Entrada_1 ,  Entrada_2 , Salida );
 }
 </code></pre>
 <p>Si comparas este último ejemplo con el anterior, verás que ahora no estamos imprimiendo una sola variable, sino varias.
 Para hacerlo, simplemente añadimos más caracteres de formato %i dentro del texto entre comillas, separados por texto normal si lo deseas (por ejemplo, para poner etiquetas como “Entrada 1” o “Salida”).</p>
-<p>Después de las comillas, se colocan las variables correspondientes en el mismo orden en que aparecerán en el texto resultante, separadas por comas.
+<p>Después de las comillas, <strong>se colocan las variables correspondientes en el mismo orden en que aparecerán en el texto resultante</strong>, separadas por comas.
 Es decir, la primera variable ocupará la primera instrucción de formato %i, la segunda la segunda, y así sucesivamente.</p>
-<p>Además, al final del texto agregamos \n. Este es un carácter especial que significa “salto de línea”.
-Cada vez que printf llega a \n, baja el cursor a la línea siguiente, sería como presionar la tecla Enter.
+<p>Además, al final del texto agregamos <strong>\n</strong>. Este es un <strong>carácter especial</strong> que significa <strong>“salto de línea”</strong>.
+Cada vez que printf llega a \n, baja el cursor a la línea siguiente, sería como presionar la <strong>tecla Enter</strong>.
 Así, si el programa imprime varios resultados, cada uno aparecerá ordenado en su propia línea.</p>
 <p>Existen otros caracteres especiales (como \t para tabulaciones, por ejemplo), pero de momento solo vamos a usar \n.</p>
-<p>Empecemos a definir el comportamiento de la neurona. Para esto, vamos a manipular los valores de los pesos y el sesgo para simular el funcionamiento de una operación OR, y también vamos a ingresar los valores en las entradas que la neurona usará para hacer el cálculo:</p>
-<pre><code class="language-C">#include &lt;stdio.h&gt;
-
+<hr>
+<h2>Controlando la neurona</h2>
+<p>Empecemos a definir el comportamiento de la neurona. Para esto, vamos a <strong>manipular los valores de los pesos y el sesgo</strong> para simular el funcionamiento de una <a href="/pages/modules/00" target="_blank"><strong>operación OR</strong></a>, y también vamos a ingresar los <strong>valores en las entradas</strong> que la neurona usará para hacer el cálculo:</p>
+<pre><code class="language-C">/*========BIBLIOTECAS========*/
+/*=========VARIABLES=========*/
 int Entrada_1= 0;
 int Entrada_2= 0;
 
@@ -255,25 +234,19 @@ float Peso_1= 1;
 float Peso_2= 1;
 
 float Sesgo= -1;
-
-int main(){
-    float ponderacion= (Entrada_1 * Peso_1) + (Entrada_2 * Peso_2) + Sesgo;
-    Salida= ponderacion &gt;= 0;
-
-    printf( &quot;Entrada 1: %i , Entrada 2: %i = Salida: %i\n&quot; , Entrada_1 ,  Entrada_2 , Salida );
-}
+/*=========PRINCIPAL=========*/
 </code></pre>
 <p>Compila y ejecuta…</p>
-<p>Ahora ya tienes tu primera neurona que se comporta exactamente como una función OR.
+<p>Ahora ya tienes tu primera neurona que <strong>se comporta exactamente como una función OR</strong>.
 Si vas cambiando los valores de las entradas para cada combinación de la tabla de verdad ([0,0], [0,1], [1,0], [1,1]), verás cómo responde.</p>
 <p>Para probar los distintos valores, tendrás que volver a compilar cada vez que modifiques las entradas en el código.</p>
 <p>Cuando hayas probado las cuatro combinaciones, verás una impresión similar a la tabla de verdad del OR: las entradas muestran todas las combinaciones posibles, y la salida vale 1 siempre que alguna de las dos entradas sea 1.</p>
 <p>Esto ocurre por la combinación de los valores de los pesos (que valen 1) y el sesgo (que vale -1).
 No es que tengan que ser necesariamente estos números, sino que cumplen una condición: el sesgo debe tener un valor negativo. De esta manera, cuando ambas entradas valen 0, las multiplicaciones por sus pesos también son 0, haciendo que la ponderación sea igual al sesgo. Al evaluarse en la función de activación, como es menor que 0, devuelve 0.</p>
 <p>Pero si alguna de las entradas es 1 o mayor, a la ponderación se le suma el valor correspondiente, haciendo que el resultado sea igual o mayor que 0. En ese caso, la función de activación devuelve 1.</p>
-<p>Para que quede más claro cómo funciona, ahora vamos a configurar los valores de los pesos y el sesgo para lograr el comportamiento de la operación NOR:</p>
-<pre><code class="language-C">#include &lt;stdio.h&gt;
-
+<p>Para que quede más claro cómo funciona, ahora vamos a configurar los valores de los pesos y el sesgo para lograr el comportamiento de la operación <strong>NOR</strong>:</p>
+<pre><code class="language-C">/*========BIBLIOTECAS========*/
+/*=========VARIABLES=========*/
 int Entrada_1= 0;
 int Entrada_2= 0;
 
@@ -283,24 +256,19 @@ float Peso_1= -1;
 float Peso_2= -1;
 
 float Sesgo= 0;
-
-int main(){
-    float ponderacion= (Entrada_1 * Peso_1) + (Entrada_2 * Peso_2) + Sesgo;
-    Salida= ponderacion &gt;= 0;
-
-    printf( &quot;Entrada 1: %i , Entrada 2: %i = Salida: %i\n&quot; , Entrada_1 ,  Entrada_2 , Salida );
-}
+/*=========PRINCIPAL=========*/
 </code></pre>
 <p>Ahora la ponderación puede tomar los valores 0, -1 y -2, según qué entradas estén activadas.
 Esto quiere decir que, al evaluar el resultado en la función de activación, la salida será 1 solamente cuando ninguna de las dos entradas esté activada.</p>
 <p>Ya has aprendido cómo funciona una neurona artificial: para que se comporte como una operación lógica determinada, solo necesitas establecer los valores de los pesos y el sesgo según ciertas condiciones específicas.
-Por ejemplo, si quisieras simular la función AND, deberías asignar un número negativo al sesgo y asegurarte de que cada peso, por sí solo, no logre que la ponderación alcance un valor de 0 o mayor, pero que sí lo consiga con la suma de ambos pesos.
-Así, la neurona solo regresará un 1 cuando ambas entradas estén activas y los dos pesos se sumen para vencer al sesgo.</p>
+Por ejemplo, si quisieras simular la función AND, deberías asignar un número negativo al sesgo y asegurarte de que cada peso, por sí solo, no logre que la ponderación alcance un valor de 0 o mayor, pero que sí lo consiga con la suma de ambos pesos. Así, la neurona solo regresará un 1 cuando ambas entradas estén activas y los dos pesos se sumen para vencer al sesgo.</p>
+<hr>
+<h2>Control por teclado</h2>
 <p>Ya te habrás dado cuenta de que compilar el programa cada vez que cambias los valores de las entradas no es muy práctico.
-Ahora vamos a conocer otra función disponible en stdio.h: scanf. Esta función te permite ingresar valores desde el teclado mientras el programa está en ejecución.</p>
+Ahora vamos a conocer otra función disponible en stdio.h: <strong>scanf</strong>. Esta función te permite ingresar valores desde el teclado mientras el programa está en ejecución.</p>
 <p>Ajusta los valores de los pesos y el sesgo para una operación AND y veamos cómo funciona:</p>
-<pre><code class="language-C">#include &lt;stdio.h&gt;
-
+<pre><code class="language-C">/*========BIBLIOTECAS========*/
+/*=========VARIABLES=========*/
 int Entrada_1= 0;
 int Entrada_2= 0;
 
@@ -310,62 +278,47 @@ float Peso_1= 1;
 float Peso_2= 1;
 
 float Sesgo= -2;
-
+/*=========PRINCIPAL=========*/
 int main(){
-
+/* ENTRADAS */
     printf( &quot;Entrada 1: &quot; );
     scanf( &quot;%i&quot; , &amp;Entrada_1 );
     printf( &quot;Entrada 2: &quot; );
     scanf( &quot;%i&quot; , &amp;Entrada_2 );
-
-    float ponderacion= (Entrada_1 * Peso_1) + (Entrada_2 * Peso_2) + Sesgo;
-    Salida= ponderacion &gt;= 0;
-
-    printf( &quot;Salida: %i\n&quot; , Salida );
+/* CALCULAR */
+/* IMPRIMIR */
 }
 </code></pre>
 <p>Compila y ejecuta...</p>
 <p>Ahora la computadora te pedirá primero los valores de las entradas, una por una, guardará esos valores en sus respectivas variables, realizará el cálculo usando los pesos y el sesgo que definiste, y finalmente mostrará la salida correspondiente.</p>
 <p>De esta manera, podrás ejecutar el programa varias veces sin necesidad de recompilar cada vez que quieras probar una combinación distinta de entradas. Solo será necesario compilar si deseas ajustar los pesos o el sesgo para que la neurona se comporte de manera diferente.</p>
 <p>No te preocupes por ahora en qué hace el carácter &amp; dentro de la instrucción scanf. Por el momento, solo recuerda que es necesario colocarlo. Más adelante en el curso verás con detalle qué significa y por qué se utiliza.</p>
+<hr>
+<h2>Normalizando datos</h2>
 <p>Ahora te invito a probar qué ocurre si en las entradas colocas valores distintos de 0 o 1. Notarás que la salida puede presentar comportamientos extraños, dependiendo de los valores que hayas definido en los pesos y el sesgo.</p>
 <p>Para asegurarnos de que nuestra neurona siempre trabaje con entradas que sean 0 o 1, vamos a añadir un pequeño ajuste al código:</p>
-<pre><code class="language-C">#include &lt;stdio.h&gt;
-
-int Entrada_1= 0;
-int Entrada_2= 0;
-
-int Salida;
-
-float Peso_1= 1;
-float Peso_2= 1;
-
-float Sesgo= -2;
-
+<pre><code class="language-C">/*========BIBLIOTECAS========*/
+/*=========VARIABLES=========*/
+/*=========PRINCIPAL=========*/
 int main(){
-
-    printf( &quot;Entrada 1: &quot; );
-    scanf( &quot;%i&quot; , &amp;Entrada_1 );
-    printf( &quot;Entrada 2: &quot; );
-    scanf( &quot;%i&quot; , &amp;Entrada_2 );
-
+/* ENTRADAS */
+/* NORMALIZAR */
     Entrada_1= !!Entrada_1;
     Entrada_2= !!Entrada_2;
-
-    float ponderacion= (Entrada_1 * Peso_1) + (Entrada_2 * Peso_2) + Sesgo;
-    Salida= ponderacion &gt;= 0;
-
-    printf( &quot;Salida: %i\n&quot; , Salida );
+/* CALCULAR */
+/* IMPRIMIR */
 }
 </code></pre>
-<p>Aquí estás conociendo el operador NOT en lenguaje C, que se representa con el signo de exclamación (!).
-Lo que hemos añadido son un par de líneas que aplican una doble negación a cada entrada.</p>
+<p>Aquí estás conociendo el operador <strong>NOT en lenguaje C</strong>, que se representa con el signo de exclamación <strong>(!)</strong>.
+Lo que hemos añadido son un par de líneas que aplican una <strong>doble negación</strong> a cada entrada.</p>
 <p>La primera negación convierte cualquier valor distinto de cero en 0 (falso) y cualquier cero en 1 (verdadero). La segunda negación invierte ese resultado nuevamente: de esta forma, cualquier número distinto de cero termina transformándose en 1, y el cero permanece como 0.</p>
-<p>En resumen, cuando aplicas !! sobre una variable, conviertes cualquier número distinto de cero en 1, y dejas el 0 como 0. Así garantizas que todas las entradas sean estrictamente binarias, logrando un comportamiento más predecible dentro de la neurona.</p>
+<p>En resumen, cuando aplicas !! sobre una variable garantizas que todas las entradas sean estrictamente binarias, logrando un <strong>comportamiento más predecible</strong> dentro de la neurona.</p>
+<hr>
+<h2>Agrupando variables</h2>
 <p>Es momento de tomar un poco más de control sobre el código. El perceptrón de este ejercicio solo maneja dos entradas, pero ¿te imaginas si tuviera que manejar 10, 20, 100 o hasta miles, con un peso para cada una? Sería demasiado trabajo crear y controlar todas esas variables por separado.</p>
-<p>Para resolver esto, vamos a introducir una herramienta más del lenguaje C: los arreglos.</p>
-<pre><code class="language-C">#include &lt;stdio.h&gt;
-
+<p>Para resolver esto, vamos a introducir una herramienta más del lenguaje C: <strong>los arreglos</strong>.</p>
+<pre><code class="language-C">/*========BIBLIOTECAS========*/
+/*=========VARIABLES=========*/
 int Entrada[2];
 
 int Salida;
@@ -373,176 +326,159 @@ int Salida;
 float Peso[]={1 , 1};
 
 float Sesgo= -2;
-
+/*=========PRINCIPAL=========*/
 int main(){
-
+/* ENTRADAS */
     printf( &quot;Entrada 1: &quot; );
     scanf( &quot;%i&quot; , &amp;Entrada[0] );
     printf( &quot;Entrada 2: &quot; );
     scanf( &quot;%i&quot; , &amp;Entrada[1] );
-
+/* NORMALIZAR */
     Entrada[0]= !!Entrada[0];
     Entrada[1]= !!Entrada[1];
-
-    float ponderacion= (Entrada[0] * Peso[0]) + (Entrada[1] * Peso[1]) + Sesgo;
+/* CALCULAR */
+    float ponderacion= Sesgo + (Entrada[0] * Peso[0]) + (Entrada[1] * Peso[1]);
     Salida= ponderacion &gt;= 0;
-
-    printf( &quot;Salida: %i\n&quot; , Salida );
+/* IMPRIMIR */
+    printf( &quot;Entrada 1: %i , Entrada 2: %i = Salida: %i\n&quot; , Entrada[0] ,  Entrada[1] , Salida );
 }
 </code></pre>
 <p>Como ves, ahora ha cambiado la forma en que declaramos y usamos las entradas y los pesos.
-Al incluir los corchetes [] después del nombre, indicamos que no se trata de una sola variable, sino de un arreglo. Un arreglo es una colección de variables del mismo tipo y nombre, a las que podemos acceder usando un índice. En C, el primer elemento siempre tiene el índice 0.</p>
+Al incluir los corchetes [] después del nombre, indicamos que no se trata de una sola variable, sino de un arreglo. <strong>Un arreglo es una colección de variables del mismo tipo y nombre</strong>, a las que <strong>podemos acceder usando un índice</strong>. En C, <strong>el primer elemento siempre tiene el índice 0</strong>.</p>
 <p>En este código se declararon los arreglos de dos maneras distintas:</p>
 <ul>
-<li>Entradas:<br>
-int Entrada[2];<br>
+<li>Entradas: int Entrada[2];<br>
 Aquí indicamos explícitamente que el arreglo tendrá dos posiciones.</li>
-<li>Pesos:<br>
-float Peso[] = {1, 1};<br>
+<li>Pesos: float Peso[] = {1, 1};<br>
 En este caso, como le estamos asignando los valores en el momento de la declaración, C calcula automáticamente cuántos elementos tiene el arreglo (en este ejemplo, dos).</li>
 </ul>
 <p>Cada número entre llaves {} se va asignando en orden a las posiciones del arreglo: el primero ocupa el índice 0, el segundo el índice 1, y así sucesivamente.</p>
-<p>Bien, ahora que ya conoces los arreglos, te voy a mostrar una de sus principales fortalezas: la capacidad de seleccionar un elemento mediante un simple número.
-Gracias a esto, podemos utilizar un bucle, que es un bloque de instrucciones que se repiten una cantidad determinada de veces, para simplificar aún más nuestro código:</p>
-<pre><code class="language-C">#include &lt;stdio.h&gt;
-
-int Entrada[2];
-
-int Salida;
-
-float Peso[]={1 , 1};
-
-float Sesgo= -2;
-
+<hr>
+<h2>Automatizar tareas repetitivas</h2>
+<p>En muchos programas hay tareas que deben repetirse varias veces: hacer cálculos, mostrar resultados, leer datos o recorrer una lista de elementos. Escribir esas instrucciones una por una no solo lleva tiempo, sino que además complica mucho el código.</p>
+<p>Por suerte, no hace falta hacerlo manualmente. En lugar de repetir las instrucciones tú mismo, puedes usar un bucle para que el programa las repita por su cuenta, tantas veces como sea necesario.</p>
+<p>Aquí te presento el bucle for, uno de los tres que existen en el lenguaje C.</p>
+<pre><code class="language-C">/*========BIBLIOTECAS========*/
+/*=========VARIABLES=========*/
+/*=========PRINCIPAL=========*/
 int main(){
-
+/* ENTRADAS Y NORMALIZACION */
     for( int i= 0 ; i &lt; 2 ; i= i + 1){
-        printf( &quot;Entrada %i: &quot; , i );
+        printf( &quot;Entrada %i: &quot; , i + 1 );
         scanf( &quot;%i&quot; , &amp;Entrada[i] );
         Entrada[i]= !!Entrada[i];
     }
-
+/* CALCULAR */
     float ponderacion= Sesgo;
-    for( int i= 0 ; i &lt; 2 ; i++)
+    for( int i= 0 ; i &lt; 2 ; i+= 1)
         ponderacion+= Entrada[i] * Peso[i];
     Salida= ponderacion &gt;= 0;
-
-    printf( &quot;Salida: %i\n&quot; , Salida );
+/* IMPRIMIR */
+    for( int i= 0 ; i &lt; 2 ; i++ )
+        printf( &quot;Entrada %i: %i &quot;, i + 1 , Entrada[i] );
+    printf( &quot;= Salida: %i\n&quot; , Salida );
 }
 </code></pre>
-<p>¿Qué se ha hecho aquí?</p>
-<p>Se ha aprovechado la propiedad de los arreglos de acceder a sus variables mediante un índice para usar un bucle for. Este bucle, en su encabezado, hace lo siguiente:</p>
+<p>Lo que estás viendo en el código es el uso más común del bucle &quot;for&quot;. Tiene <strong>tres componentes separados por punto y coma</strong> que definen su comportamiento: <strong>inicio</strong>, <strong>condición</strong> y <strong>control</strong>.</p>
+<p>Su funcionamiento general es este:</p>
+<ol>
+<li>Se inicia una variable que servirá como contador. Puede tener cualquier nombre, aunque <strong>por convención se suele usar i</strong>.</li>
+<li>Se evalúa la condición. <strong>Mientras el resultado sea distinto de 0</strong> (es decir, mientras sea verdadero), <strong>el bucle seguirá ejecutando su contenido</strong>. En este caso, la condición es <strong>i &lt; 2</strong>.</li>
+<li>El <strong>bloque de instrucciones se encierra entre llaves {}</strong>. <strong>Si solo hay una instrucción dentro</strong> del bucle, <strong>las llaves pueden omitirse</strong>.</li>
+<li><strong>Al finalizar el bloque, se ejecuta la operación de control</strong>: generalmente es un incremento o decremento de la variable i.</li>
+<li>Se vuelve a evaluar la condición, y si sigue siendo verdadera, se repite todo el ciclo con el nuevo valor de la variable de control.</li>
+</ol>
+<p>Ahora observa con atención cómo se expresa esa operación de control en cada bucle del ejemplo:</p>
 <ul>
-<li>Declara una variable entera i que empieza en 0.</li>
-<li>Comprueba si la condición i &lt; 2 se cumple (es decir, mientras i sea menor que 2).</li>
-<li>Si la condición es verdadera (distinta de 0), ejecuta las instrucciones dentro del bucle. Aquí la condición es que i sea menor que 2; una vez que i sea igual o mayor que 2, el bucle terminará.</li>
-<li>Al terminar cada ciclo, ejecuta la última instrucción del encabezado: i = i + 1. Aquí se indica que al valor de i se le va a asignar su valor anterior más uno, logrando incrementos de uno en uno. Podrían ser de dos en dos o incrementos variables; todo depende del número que le sumes. Si observas el encabezado del segundo bucle, verás que ya no se usa i = i + 1, sino i++. Esto solo es una forma más corta y legible de indicar que la variable debe incrementarse en 1.</li>
+<li>En el primer bucle se usa la forma más explícita: <strong>i = i + 1</strong>. Es fácil de leer: simplemente indica que el nuevo valor de i será su valor actual más 1.</li>
+<li>En el segundo bucle aparece una forma abreviada: <strong>i += 1</strong>. Esto significa exactamente lo mismo que la anterior, solo que más compacto. <strong>También se usa</strong> ese mismo operador <strong>+= para ir sumando al valor de ponderacion</strong>, que empieza con el valor del sesgo y se va incrementando con el producto de cada entrada y su peso correspondiente.</li>
+<li>En el tercer bucle se utiliza un operador más corto aún: <strong>i++</strong>. El operador <strong>++ se usa únicamente cuando quieres sumar 1 a una variable</strong>. Es equivalente a i += 1 y a i = i + 1.</li>
 </ul>
-<p>Gracias a esto, podemos recorrer de manera secuencial todas las posiciones del arreglo usando i como índice.
-Así, en cada repetición se accede a la siguiente variable de Entrada o Peso sin tener que escribir cada línea por separado.</p>
-<p>Una vez declarado el bucle for, se agrupan las instrucciones que se van a repetir mediante llaves, igual que agrupamos las instrucciones dentro de la función main. Cuando el bloque contiene una única instrucción, las llaves se pueden omitir.</p>
-<p>Ahora presta atención a lo que está sucediendo en el segundo bucle.
-Iniciamos el valor de ponderacion con el valor de Sesgo, ya que este siempre se va a agregar a la suma independientemente de las entradas que reciba. Luego, mediante el bucle recorremos los pesos y las entradas para hacer cada multiplicación individual. Después puedes observar un operador nuevo: +=. Este operador es un incremento, similar a lo que vimos con el índice i, con la diferencia de que cuando el incremento es distinto de uno (como ocurre aquí), se utiliza += y se especifica el valor del incremento.
-En nuestro caso, este incremento es el resultado de la multiplicación de la entrada por su peso, y estos valores se van sumando a ponderacion en cada ciclo.</p>
-<p>Así, con pocas líneas, se define un comportamiento que sería mucho más largo si tuvieras que escribir cada operación de manera individual.</p>
-<p>Ya has automatizado el comportamiento de ejecución de una neurona, pero aún nos falta la parte más interesante de todo esto: lograr que aprenda.
-En lugar de establecer los valores de los pesos y el sesgo de manera manual para obtener distintos comportamientos, es momento de hacer el código con el cual podrá ajustar estos valores en función de la tabla de verdad que le demos como muestra, y así la neurona logrará imitarla.</p>
-<p>Ahora vas a preparar el terreno para que la neurona pueda aprender.
-En lugar de ingresar manualmente las entradas cada vez, vamos a crear un banco de pruebas que contenga todas las combinaciones posibles de entradas.
-Para eso, conocerás una herramienta más del lenguaje C: las matrices, que no son más que arreglos que contienen otros arreglos. También vamos a usar un bucle para recorrer toda la lista.</p>
-<p>En este ejemplo, crearemos una matriz con 4 filas y 3 columnas.
-Cada fila representa, en sus dos primeras columnas, las entradas de la tabla de verdad, y la última es el resultado de una operación lógica específica.
-Prepararemos nuestra tabla para definir una operación AND, la cual regresa verdadero cuando ambas entradas lo son.
-A su vez, vamos a establecer los valores de los pesos y el sesgo en 0, ya que partiremos de una neurona limpia para poder entrenarla.</p>
+<p>Además de controlar el ciclo, la variable i también se está utilizando dentro de las instrucciones. Por ejemplo, nos sirve para acceder a las posiciones de los arreglos (Entrada[i], Peso[i]) y también se usa dentro de printf para mostrar el número de entrada que se está leyendo o imprimiendo. Como i empieza en 0, le sumamos 1 al mostrarlo en pantalla. Esto no cambia el valor real de la variable, solo ajusta el número que se imprime para que sea más natural para el lector.</p>
+<p>Lo que acabas de ver es la forma más convencional de usar un for: empezar en cero, incrementar de uno en uno y detenerse en un valor determinado. Funciona como un contador. Pero si te pones creativo, podrías hacer cuentas regresivas, usar saltos de dos en dos, o incluso modificar la condición para lograr comportamientos más complejos. Eso ya lo dejo en tus manos si decides profundizar en lógica de programación.</p>
+<hr>
+<h2>Entrenamiento de la neurona</h2>
+<h3>Automatizar entradas</h3>
+<p>Ya automatizaste la ejecución de una neurona, pero todavía falta la parte más interesante: lograr que aprenda.</p>
+<p>Hasta ahora venías configurando los pesos y el sesgo a mano, buscando distintos comportamientos. Pero lo que queremos realmente es que el programa <strong>sea capaz de ajustar esos valores por su cuenta</strong>, en función de una tabla de verdad que le demos como ejemplo. Es decir: que <strong>pueda aprender a imitar un patrón lógico sin que se lo digamos explícitamente</strong>.</p>
+<p>Para eso, primero hay que preparar el terreno.</p>
+<p>En lugar de ingresar las entradas manualmente cada vez que corremos el programa, vamos a construir un banco de pruebas que <strong>contenga todas las combinaciones posibles de entradas</strong>. Así, el perceptrón podrá ver los distintos casos y ajustar sus parámetros con base en ellos.</p>
+<p>Para organizar ese banco de pruebas vamos a usar una herramienta nueva del lenguaje C: <strong>las matrices</strong>, que no son otra cosa que <strong>arreglos que contienen otros arreglos</strong>. En este caso, cada arreglo interno representa una combinación distinta de entradas, como si fueran las filas y columnas de una tabla.</p>
+<p>También aprovecharemos lo que aprendiste sobre bucles para recorrer esa tabla automáticamente y cargar los valores en las variables correspondientes. Y ya que estamos, mejoramos un poco el formato de salida para que todo se vea más ordenado.</p>
 <p>Veamos cómo se implementa:</p>
-<pre><code class="language-C">#include &lt;stdio.h&gt;
-
-int Entrada[2];
-
-int Salida;
-
-float Peso[]={0 , 0};
-
-float Sesgo= 0;
-
+<pre><code class="language-C">/*========BIBLIOTECAS========*/
+/*=========VARIABLES=========*/
+/*=========PRINCIPAL=========*/
 int main(){
-
-    int tabla[4][3]={
-        {0 , 0 , 0},
-        {0 , 1 , 0},
-        {1 , 0 , 0},
-        {1 , 1 , 1}
+/* ENTRADAS */
+    int tabla[4][2]={
+        {0 , 0},
+        {0 , 1},
+        {1 , 0},
+        {1 , 1}
     };
-
+/* ENTRENAMIENTO */
     for( int i= 0 ; i &lt; 4 ; i++){
         for( int j= 0 ; j &lt; 2 ; j++)
             Entrada[j]= tabla[i][j];
     }
-
-    for( int i= 0 ; i &lt; 2 ; i++){
-        printf( &quot;Entrada %i: &quot; , i );
-        scanf( &quot;%i&quot; , &amp;Entrada[i] );
-        Entrada[i]= !!Entrada[i];
+/* CALCULAR E IMPRIMIR */
+    printf( &quot;\n| A | B | S | &quot; );
+    for( int i= 0 ; i &lt; 4 ; i++ ){
+        float ponderacion= Sesgo;
+        for( int j= 0 ; j &lt; 2 ; j++){
+            Entrada[j]= tabla[i][j];
+            ponderacion+= Entrada[j] * Peso[j];
+        }
+        Salida= ponderacion &gt;= 0;
+        printf( &quot;\n| %i | %i | %i |&quot; , Entrada[0] , Entrada[1] , Salida );
     }
-
-    float ponderacion= Sesgo;
-    for( int i= 0 ; i &lt; 2 ; i++)
-        ponderacion+= Entrada[i] * Peso[i];
-    Salida= ponderacion &gt;= 0;
-
-    printf( &quot;Salida: %i\n&quot; , Salida );
 }
 </code></pre>
-<p>Primero, se declaró una matriz llamada tabla, donde cada fila contiene una de las combinaciones posibles de entradas binarias y su resultado esperado. Esta estructura es equivalente a una tabla de verdad completa.</p>
-<p>Dentro del bucle que recorre toda la lista, se ha anidado otro bucle que cumple una función similar al que se usó antes para cargar los valores en las entradas desde scanf, pero en este caso los valores se cargarán desde la matriz que creamos como tabla de verdad.
-Observa que el bucle interno utiliza un índice llamado j: esto permite recorrer tabla tanto en la cantidad de pruebas listadas como en los elementos individuales de cada prueba, usando los incrementos de los dos índices.</p>
-<p>Con esto, ya tienes un banco de pruebas automatizado que puede tomar una lista de entradas predefinidas.</p>
-<p>Antes de continuar, dado que tendremos que repetir el código que hace las operaciones internas de la neurona, vamos a agrupar estas instrucciones dentro de una función personalizada:</p>
-<pre><code class="language-C">#include &lt;stdio.h&gt;
-
-int Entrada[2];
-
-int Salida;
-
-float Peso[]={0 , 0};
-
-float Sesgo= 0;
-
-int activar_neurona(){
+<p>Se ha creado una <strong>matriz llamada tabla</strong> que contiene todas las combinaciones posibles de entradas para una operación lógica con dos variables. Es decir, los cuatro pares binarios que ya conoces: (0,0), (0,1), (1,0) y (1,1). Esta será nuestra base de pruebas.</p>
+<p>Justo después aparece una nueva sección en el código marcada como <strong>ENTRENAMIENTO</strong>, aunque por ahora no se está entrenando nada. Lo único que se ha hecho es preparar el espacio y comenzar por automatizar la carga de las entradas.</p>
+<p>Esa automatización se logra usando <strong>dos bucles anidados</strong>: <strong>el bucle externo recorre las filas de la matriz</strong> (es decir, cada combinación), y <strong>el interno recorre las columnas</strong> (los valores individuales de entrada).
+Para esto se ha usado una <strong>nueva variable llamada j</strong>, que funciona igual que i, pero <strong>sirve para recorrer los elementos dentro de cada fila</strong>. Usar distintos nombres para las variables de control ayuda a que los bucles no interfieran entre sí y mantiene el código ordenado.</p>
+<p>Un patrón muy similar se repite más adelante para calcular e imprimir los resultados. Se añadió una línea que imprime el encabezado | A | B | S |, que le da formato de tabla a la salida. Luego, por cada combinación de entradas, el programa toma los valores de la matriz, los carga en las entradas, realiza el cálculo y muestra los tres valores como una fila más en la tabla.</p>
+<p>Todo el proceso está listo para ejecutarse varias veces sin que tengas que intervenir. Ya tienes una estructura completa que prueba la neurona de forma automatizada y presenta los resultados de manera ordenada.</p>
+<p>Compila y ejecuta para que puedas ver el resultado.</p>
+<h3>Agrupando instrucciones</h3>
+<p>Ya lograste automatizar la evaluación de múltiples combinaciones de entradas y mostrar los resultados en forma ordenada. Ahora es momento de <strong>integrar el cálculo de ponderación y activación</strong> también <strong>en la sección de entrenamiento</strong>, para que cada vez que se cargue una combinación de prueba, la neurona realice su evaluación correspondiente.</p>
+<p>Pero aquí surge un detalle: ese mismo cálculo también se necesita en la parte donde se imprimen los resultados. Es decir, <strong>el mismo bloque de instrucciones se repite en dos lugares distintos</strong>. Y cuando eso ocurre, lo más conveniente no es copiarlo dos veces, sino <strong>agruparlo en una función personalizada que se pueda reutilizar</strong>.</p>
+<p>Hasta ahora venías usando funciones sin entrar en detalles. main es una función especial que marca el inicio del programa, y printf o scanf son funciones que vienen incluidas en las bibliotecas estándar. Lo que tal vez no sabías es que también puedes crear tus propias funciones, con el nombre que elijas y el contenido que necesites agrupar.</p>
+<p>En este caso vas a crear una función para realizar el cálculo de la neurona, y así no tendrás que escribir esa lógica cada vez que quieras usarla: bastará con llamar a la función tanto en el entrenamiento como en la impresión.</p>
+<p>Además de evitar repeticiones, las funciones hacen que el código sea más limpio, más fácil de leer y mucho más sencillo de mantener si más adelante necesitas hacer cambios.</p>
+<pre><code class="language-C">/*========BIBLIOTECAS========*/
+/*=========VARIABLES=========*/
+/*=========FUNCIONES=========*/
+int evaluar_neurona(){
     float ponderacion= Sesgo;
     for( int i= 0 ; i &lt; 2 ; i++)
         ponderacion+= Entrada[i] * Peso[i];
     return ponderacion &gt;= 0;
 }
+/*=========PRINCIPAL=========*/
 int main(){
-
-    int tabla[4][3]={
-        {0 , 0 , 0},
-        {0 , 1 , 0},
-        {1 , 0 , 0},
-        {1 , 1 , 1}
-    };
-
+/* ENTRADAS */
+/* ENTRENAMIENTO */
     for( int i= 0 ; i &lt; 4 ; i++){
         for( int j= 0 ; j &lt; 2 ; j++)
             Entrada[j]= tabla[i][j];
-        Salida= activar_neurona();
+        Salida= evaluar_neurona();
     }
-
-    for( int i= 0 ; i &lt; 2 ; i++){
-        printf( &quot;Entrada %i: &quot; , i );
-        scanf( &quot;%i&quot; , &amp;Entrada[i] );
-        Entrada[i]= !!Entrada[i];
+/* CALCULAR E IMPRIMIR */
+    printf( &quot;\n| A | B | S | &quot; );
+    for( int i= 0 ; i &lt; 4 ; i++ ){
+        for( int j= 0 ; j &lt; 2 ; j++)
+            Entrada[j]= tabla[i][j];
+        Salida= evaluar_neurona();
+        printf( &quot;\n| %i | %i | %i |&quot; , Entrada[0] , Entrada[1] , Salida );
     }
-
-    Salida= activar_neurona();
-
-    printf( &quot;Salida: %i\n&quot; , Salida );
-
+/* TERMINAR PROGRAMA */
     return 0;
 }
 </code></pre>
-<p>Has creado tu primera función personalizada: activar_neurona().
+<p>Has creado tu primera función personalizada: evaluar_neurona().
 Esta función se encarga de realizar la ponderación y la activación de la neurona en función de los valores de las entradas.</p>
 <p>Veamos cuál es su estructura:</p>
 <p>La función se ha declarado como tipo int. A diferencia de las variables (donde el tipo de dato indica qué puedes guardar en ellas), en una función indica qué tipo de dato devuelve una vez que ha terminado su ejecución.
@@ -552,180 +488,90 @@ main también es de tipo int, lo que implica que puede devolver un valor. Por co
 Un valor 0 indica que el programa terminó sin problemas. Otros valores distintos de cero se pueden usar para señalar errores específicos que pudieron surgir mientras el programa estaba activo.</p>
 <p>Si recuerdas, al principio de este módulo te comenté que pueden existir distintas funciones de activación.
 Así que, si ya estamos separando nuestro código en funciones que realizan tareas específicas, no sería mala idea separar la función de activación de la función activar_neurona().
-En los próximos módulos, cuando utilicemos otras funciones de activación, te mostraré cómo reemplazarlas de manera automática dentro de activar_neurona().</p>
+En los próximos módulos, cuando utilicemos otras funciones de activación, te mostraré cómo reemplazarlas de manera automática dentro de evaluar_neurona().</p>
 <p>Veamos cómo queda el código:</p>
-<pre><code class="language-C">#include &lt;stdio.h&gt;
-
-int Entrada[2];
-
-int Salida;
-
-float Peso[]={0 , 0};
-
-float Sesgo= 0;
-
+<pre><code class="language-C">/*========BIBLIOTECAS========*/
+/*=========VARIABLES=========*/
+/*=========FUNCIONES=========*/
 int activacion_booleana( float x ){
     return x &gt;= 0;
 }
 
-int activar_neurona(){
+int evaluar_neurona(){
     float ponderacion= Sesgo;
     for( int i= 0 ; i &lt; 2 ; i++)
         ponderacion+= Entrada[i] * Peso[i];
    return activacion_booleana( ponderacion );
 }
-
-int main(){
-
-    int tabla[4][3]={
-        {0 , 0 , 0},
-        {0 , 1 , 0},
-        {1 , 0 , 0},
-        {1 , 1 , 1}
-    };
-
-    for( int i= 0 ; i &lt; 4 ; i++){
-        for( int j= 0 ; j &lt; 2 ; j++)
-            Entrada[j]= tabla[i][j];
-        Salida= activar_neurona();
-    }
-
-    for( int i= 0 ; i &lt; 2 ; i++){
-        printf( &quot;Entrada %i: &quot; , i );
-        scanf( &quot;%i&quot; , &amp;Entrada[i] );
-        Entrada[i]= !!Entrada[i];
-    }
-
-    Salida= activar_neurona();
-
-    printf( &quot;Salida: %i\n&quot; , Salida );
-
-    return 0;
-}
+/*=========PRINCIPAL=========*/
 </code></pre>
 <p>Permíteme explicarte el uso de los paréntesis en una función:</p>
 <p>Podrás ver que en activacion_booleana() se hace la declaración de una variable de tipo float llamada x.
 Esto indica que esta función debe recibir un valor de tipo float cuando se quiera utilizar. Después, emplea ese valor dentro de la función y devuelve un valor nuevo (en este caso, un int), que corresponde al resultado de la comparación x &gt;= 0.</p>
-<p>Con esta estructura que diseñamos en activacion_booleana(), podemos usarla dentro de activar_neurona(). Esta última calcula la ponderación de las entradas y el sesgo, guarda el resultado en su variable correspondiente, y ese valor se pasa como argumento al llamar a activacion_booleana(). Esta hace su cálculo y devuelve un resultado que se pasa directamente a la instrucción return de activar_neurona().</p>
+<p>Con esta estructura que diseñamos en activacion_booleana(), podemos usarla dentro de evaluar_neurona(). Esta última calcula la ponderación de las entradas y el sesgo, guarda el resultado en su variable correspondiente, y ese valor se pasa como argumento al llamar a activacion_booleana(). Esta hace su cálculo y devuelve un resultado que se pasa directamente a la instrucción return de activar_neurona().</p>
 <p>Como ves, el funcionamiento no cambió, solo la forma en que lo describes y organizas.</p>
 <p>Un detalle importante a destacar es que en C no puedes utilizar una función que no haya sido declarada previamente al punto donde pretendes emplearla.
-En otras palabras, si activacion_booleana() se va a usar dentro de activar_neurona(), debe aparecer más arriba en el código.</p>
-<p>El siguiente paso del entrenamiento es revisar cuánto se ha equivocado el resultado de la neurona, comparándolo con el valor esperado en la tabla de ejemplo (ubicado en su tercera columna, que corresponde al índice 2).</p>
+En otras palabras, si activacion_booleana() se va a usar dentro de evaluar_neurona(), debe aparecer más arriba en el código.</p>
+<h3>Calculando el error</h3>
+<p>El siguiente paso del entrenamiento es revisar cuánto se ha equivocado el resultado de la neurona, comparándolo con el valor esperado en la tabla de ejemplo, para esto vamos a crear un arreglo que guarde la combinacion de salidas correspondiente a la tabla de verdad deseada.</p>
 <p>Mira cómo se implementa:</p>
-<pre><code class="language-C">#include &lt;stdio.h&gt;
-
-int Entrada[2];
-
-int Salida;
-
-float Peso[]={0 , 0};
-
-float Sesgo= 0;
-
-int activacion_booleana( float x ){
-    return x &gt;= 0;
-}
-
-int activar_neurona(){
-    float ponderacion= Sesgo;
-    for( int i= 0 ; i &lt; 2 ; i++)
-        ponderacion+= Entrada[i] * Peso[i];
-   return activacion_booleana( ponderacion );
-}
-
+<pre><code class="language-C">/*========BIBLIOTECAS========*/
+/*=========VARIABLES=========*/
+/*=========FUNCIONES=========*/
+/*=========PRINCIPAL=========*/
 int main(){
-
-    int tabla[4][3]={
-        {0 , 0 , 0},
-        {0 , 1 , 0},
-        {1 , 0 , 0},
-        {1 , 1 , 1}
-    };
-
+/* ENTRADAS */
+/* ENTRENAMIENTO */
+    int muestra[]={ 0 , 0 , 0 , 0 };
     for( int i= 0 ; i &lt; 4 ; i++){
         for( int j= 0 ; j &lt; 2 ; j++)
             Entrada[j]= tabla[i][j];
         Salida= activar_neurona();
-        int error= tabla[i][2] - Salida;
+        int error= muestra[i] - Salida;
     }
-
-    for( int i= 0 ; i &lt; 2 ; i++){
-        printf( &quot;Entrada %i: &quot; , i );
-        scanf( &quot;%i&quot; , &amp;Entrada[i] );
-        Entrada[i]= !!Entrada[i];
-    }
-
-    Salida= activar_neurona();
-
-    printf( &quot;Salida: %i\n&quot; , Salida );
-
-    return 0;
+/* CALCULAR E IMPRIMIR */
+/* TERMINAR PROGRAMA */
 }
 </code></pre>
 <p>Como ves, el cálculo del error solo consiste en una resta:
-el valor esperado en la tabla de ejemplo menos el resultado de la neurona.</p>
-<p>Si la neurona devuelve un resultado más pequeño que el valor esperado, el error será positivo.
+El valor esperado en la muesta según su índice, menos el resultado de la neurona. Aqui se ha usado una muestra para una neurona que siempre regresa 0 independientemente de sus entrada, para ajustar el comportamiento de una operacion especifica es necesaro cambiar los valores, por ejemplo:</p>
+<ul>
+<li><strong>OR:</strong> { 0 , 1 , 1 , 1 }</li>
+<li><strong>NOR:</strong> { 1 , 0 , 0 , 0}</li>
+<li><strong>AND:</strong> { 0 , 0 , 0 , 1}</li>
+<li><strong>...</strong></li>
+</ul>
+<p>Si la neurona devuelve un resultado menor que el valor esperado, el error será positivo.
 Si es mayor, el error será negativo.
 Si son iguales, el error será cero.</p>
 <p>El signo del error es importante, porque indica si los valores de los pesos y el sesgo deben incrementarse o disminuirse para acercar la salida de la neurona al resultado esperado en la tabla de muestra.</p>
+<h3>Ajustando valores: donde la magia sucede</h3>
 <p>Ahora que ya podemos saber qué tan equivocada está nuestra neurona, hace falta usar ese error para ajustar, de manera individual, cada peso y el sesgo.</p>
 <p>Para esto, vas a necesitar una nueva variable: la tasa de aprendizaje.
 Si el signo del error indica si el ajuste se debe hacer hacia arriba o hacia abajo, la tasa de aprendizaje define qué tan grandes serán los pasos de cada ajuste.</p>
 <p>Si usas un valor muy grande, es posible que la neurona nunca logre estabilizarse, porque se pasa del valor correcto y sigue oscilando.
 Si es muy pequeño, tardará más en llegar al ajuste adecuado, pero los cambios serán más finos y precisos.</p>
 <p>Aquí tienes el ejemplo:</p>
-<pre><code class="language-C">#include &lt;stdio.h&gt;
-
-int Entrada[2];
-
-int Salida;
-
-float Peso[]={0 , 0};
-
-float Sesgo= 0;
-
-int activacion_booleana( float x ){
-    return x &gt;= 0;
-}
-
-int activar_neurona(){
-    float ponderacion= Sesgo;
-    for( int i= 0 ; i &lt; 2 ; i++)
-        ponderacion+= Entrada[i] * Peso[i];
-   return activacion_booleana( ponderacion );
-}
-
+<pre><code class="language-C">/*========BIBLIOTECAS========*/
+/*=========VARIABLES=========*/
+/*=========FUNCIONES=========*/
+/*=========PRINCIPAL=========*/
 int main(){
-
-    int tabla[4][3]={
-        {0 , 0 , 0},
-        {0 , 1 , 0},
-        {1 , 0 , 0},
-        {1 , 1 , 1}
-    };
-
+/* ENTRADAS */
+/* ENTRENAMIENTO */
+    int muestra[]={ 0 , 0 , 0 , 0 };
     float tasa_aprendizaje= 0.1;
     for( int i= 0 ; i &lt; 4 ; i++){
         for( int j= 0 ; j &lt; 2 ; j++)
             Entrada[j]= tabla[i][j];
         Salida= activar_neurona();
-        int error= tabla[i][2] - Salida;
+        int error= muestra[i] - Salida;
         Sesgo+= error * tasa_aprendizaje;
         for( int j= 0 ; j &lt; 2 ; j++)
             Peso[j]+= error * tasa_aprendizaje * Entrada[j];
     }
-
-    for( int i= 0 ; i &lt; 2 ; i++){
-        printf( &quot;Entrada %i: &quot; , i );
-        scanf( &quot;%i&quot; , &amp;Entrada[i] );
-        Entrada[i]= !!Entrada[i];
-    }
-
-    Salida= activar_neurona();
-
-    printf( &quot;Salida: %i\n&quot; , Salida );
-
-    return 0;
+/* CALCULAR E IMPRIMIR */
+/* TERMINAR PROGRAMA */
 }
 </code></pre>
 <p>Y así, has terminado el código que entrena a la neurona.</p>
@@ -735,6 +581,7 @@ El resultado se asigna al sesgo usando el operador +=.</p>
 Esto último es importante: si la entrada valía 0, ese peso no se modifica (porque todo número multiplicado por 0 es 0).
 En cambio, si la entrada valía 1, el peso sí se ajusta, aumentando o disminuyendo según el signo del error.</p>
 <p>Con esto, ya tienes en tus manos el primer ejemplo funcional de aprendizaje automático que, aunque sencillo, ilustra claramente la lógica detrás de una neurona artificial.</p>
+<h3>Repitiendo intentos</h3>
 <p>Ahora solo nos falta agregar un bucle más. Con un solo paso por los ejemplos, la neurona se acercará al resultado esperado, pero no habrá ajustado completamente sus pesos. Para que esto ocurra, el proceso debe repetirse varias veces, de la misma forma que cuando estás aprendiendo una habilidad nueva, como la mecanografía.</p>
 <p>Aquí aprenderás un bucle distinto al for: el do while, que se traduce como “haz mientras”. Aunque se comporta de manera similar al for, tiene ciertas sutilezas que los diferencian. No entraré en detalle aquí, para eso existen cursos especializados en programación.</p>
 <p>Para controlar este bucle tendrás que crear un par de variables más:</p>
@@ -742,164 +589,62 @@ En cambio, si la entrada valía 1, el peso sí se ajusta, aumentando o disminuye
 <li>Un acumulador de errores, que contará los errores en cada intento. Esto servirá para detectar cuándo la neurona ha “aprendido” la operación y debe terminar el entrenamiento.</li>
 <li>Un contador de intentos, que permitirá establecer un número máximo de intentos. Así evitamos que el programa se quede atrapado infinitamente intentando entrenar una operación que no logra resolver, por más ajustes que haga.</li>
 </ul>
-<pre><code class="language-C">#include &lt;stdio.h&gt;
-
-int Entrada[2];
-
-int Salida;
-
-float Peso[]={0 , 0};
-
-float Sesgo= 0;
-
-int activacion_booleana( float x ){
-    return x &gt;= 0;
-}
-
-int activar_neurona(){
-    float ponderacion= Sesgo;
-    for( int i= 0 ; i &lt; 2 ; i++)
-        ponderacion+= Entrada[i] * Peso[i];
-   return activacion_booleana( ponderacion );
-}
-
+<pre><code class="language-C">/*========BIBLIOTECAS========*/
+/*=========VARIABLES=========*/
+/*=========FUNCIONES=========*/
+/*=========PRINCIPAL=========*/
 int main(){
-
-    int tabla[4][3]={
-        {0 , 0 , 0},
-        {0 , 1 , 0},
-        {1 , 0 , 0},
-        {1 , 1 , 1}
-    };
-
+/* ENTRADAS */
+/* ENTRENAMIENTO */
+    int muestra[]={ 0 , 0 , 0 , 0 };
+    float tasa_aprendizaje= 0.1;
     int epoca= 0;
+    int error_total;
     do{
-        epoca++;
-        int error_total= 0;
-        float tasa_aprendizaje= 0.1;
+        error_total= 0;
         for( int i= 0 ; i &lt; 4 ; i++){
             for( int j= 0 ; j &lt; 2 ; j++)
                 Entrada[j]= tabla[i][j];
             Salida= activar_neurona();
-            int error= tabla[i][2] - Salida;
+            int error= muestra[i] - Salida;
             Sesgo+= error * tasa_aprendizaje;
             for( int j= 0 ; j &lt; 2 ; j++)
                 Peso[j]+= error * tasa_aprendizaje * Entrada[j];
             error_total+= !!error;
         }
-    } while( epoca &lt; 1000 &amp;&amp; error_total );
-
-    for( int i= 0 ; i &lt; 2 ; i++){
-        printf( &quot;Entrada %i: &quot; , i );
-        scanf( &quot;%i&quot; , &amp;Entrada[i] );
-        Entrada[i]= !!Entrada[i];
-    }
-
-    Salida= activar_neurona();
-
-    printf( &quot;Salida: %i\n&quot; , Salida );
-
-    return 0;
+    } while( ++epoca &lt; 1000 &amp;&amp; error_total );
+    printf( &quot;\nIntentos: %i\n&quot; , epoca );
+    for( int i= 0 ; i &lt; 2 ; i++ )
+        printf( &quot;Peso %i: %.2f\t&quot; , i + 1 , Peso[i] );
+    printf( &quot;Sesgo: %.2f&quot; , Sesgo );
+/* CALCULAR E IMPRIMIR */
+/* TERMINAR PROGRAMA */
 }
 </code></pre>
 <p>Algunos detalles sobre el control del bucle de intentos:</p>
 <ul>
 <li>Como mencioné, se usa el bucle do while. Este bucle ejecuta sus instrucciones al menos una vez. Luego, evalúa la condición que aparece entre los paréntesis tras el while. Si el resultado es distinto de cero, vuelve a ejecutarse; si es cero, termina.</li>
-<li>La condición del ejemplo dice: “mientras el número de intentos sea menor que 1000 y haya al menos un error en el conjunto de ejemplos”. Al usar &amp;&amp;, ambos valores deben ser distintos de cero para que el bucle continúe.</li>
-<li>La variable epoca se inicia en 0 y se incrementa con epoca++ al comienzo de cada ciclo.</li>
+<li>La condición del ejemplo integra el operador AND (&amp;&amp;) y dice: “ incrementa el valor de epoca, si epoca es menor que 1000 Y haya al menos un error en el conjunto de ejemplos, repite el entrenamiento”. Esto implica que si llegas al límite de intentos, o la neurona ya no ha cometido errores, el entrenamiento termina.</li>
+<li>La variable epoca se inicia en 0 y se incrementa con ++epoca antes de hacer la evaluacion en el bucle do while.</li>
 <li>El acumulador error_total se reinicia en 0 en cada ciclo. Luego, para cada prueba individual, sumamos !!error. La doble negación convierte el error en 1 si es distinto de cero, o en 0 si no hay error. Esto es importante, porque el error puede ser negativo o positivo, y sumar directamente el valor del error podría falsear el conteo.</li>
 </ul>
-<p>Ya tienes un código funcional con el que puedes empezar a experimentar. Puedes cambiar los valores de la tercera columna de la matriz de pruebas tabla para entrenar la neurona con otras operaciones. Te recomiendo apoyarte en las tablas del Módulo 0 del taller para tus pruebas.</p>
+<p>Ya tienes un código funcional con el que puedes empezar a experimentar. Intenta usando distintos valores iniciales para los pesos y el sesgo, y modificando los valores en el arreglo muestra para que pruebes distintos resultados. Puedes apoyarte en la seccion de operadores lógicos con las tablas de verdad del <a href="/pages/modules/00" target="_blank">Módulo 0</a></p>
 <p>Ahora que el código ya hace lo que debería, podemos mostrar información más clara y organizada:</p>
-<p>El siguiente ejemplo agrega varias instrucciones de impresión que permiten:</p>
 <ul>
 <li>Mostrar la cantidad de intentos (épocas) que le tomó entrenar a la neurona.</li>
-<li>Imprimir el valor final de cada peso después del entrenamiento, con dos decimales de precisión.</li>
-<li>Mostrar una tabla de verdad que resume la operación que aprendió.</li>
+<li>Imprimir el valor final de cada peso y el sesgo después del entrenamiento, con dos decimales de precisión.</li>
 </ul>
 <p>En el bloque donde se imprimen los pesos, se usa el formato %f, que a diferencia de %i, sirve para imprimir números con punto decimal. Además, se utiliza el carácter \t para crear una separación con tabulaciones entre cada columna, facilitando la lectura.</p>
-<p>Por último, se imprime una tabla con el encabezado fijo | A | B | S | y, debajo, el resultado de cada combinación de entradas, aprovechando la carga automática de los datos como se hizo durante el entrenamiento.</p>
-<pre><code class="language-C">#include &lt;stdio.h&gt;
-
-int Entrada[2];
-
-int Salida;
-
-float Peso[]={0 , 0};
-
-float Sesgo= 0;
-
-int activacion_booleana( float x ){
-    return x &gt;= 0;
-}
-
-int activar_neurona(){
-    float ponderacion= Sesgo;
-    for( int i= 0 ; i &lt; 2 ; i++)
-        ponderacion+= Entrada[i] * Peso[i];
-   return activacion_booleana( ponderacion );
-}
-
-int main(){
-
-    int tabla[4][3]={
-        {0 , 0 , 0},
-        {0 , 1 , 0},
-        {1 , 0 , 0},
-        {1 , 1 , 1}
-    };
-
-    int epoca= 0;
-    do{
-        epoca++;
-        int error_total= 0;
-        float tasa_aprendizaje= 0.1;
-        for( int i= 0 ; i &lt; 4 ; i++){
-            for( int j= 0 ; j &lt; 2 ; j++)
-                Entrada[j]= tabla[i][j];
-            Salida= activar_neurona();
-            int error= tabla[i][2] - Salida;
-            Sesgo+= error * tasa_aprendizaje;
-            for( int j= 0 ; j &lt; 2 ; j++)
-                Peso[j]+= error * tasa_aprendizaje * Entrada[j];
-            error_total+= !!error;
-        }
-    } while( epoca &lt; 1000 &amp;&amp; error_total );
-    printf( &quot;\nIntentos: %i\n&quot; , epoca );
-    for( int i= 0 ; i &lt; 2 ; i++ )
-        printf( &quot;Peso %i: %.2f\t&quot; , i + 1 , Peso[i] );
-
-    printf( &quot;\n| A | B | S |\n&quot; );
-    for( int i= 0 ; i &lt; 4 ; i++){
-        for( int j= 0 ;  j &lt; 2 ; j++)
-            Entrada[j]= tabla[i][j];
-        Salida= activar_neurona();
-        printf( &quot;| %i | %i | %i |\n&quot; , Entrada[0] , Entrada[1] , Salida );
-    }
-    printf( &quot;\n&quot; );
-    
-    return 0;
-}
-</code></pre>
-<p>Notas finales:</p>
 <ul>
 <li>El formato %.2f muestra los números con dos decimales.</li>
 <li>Recuerda que en C debes poner siempre ; al final de cada instrucción.</li>
 <li>Este programa ahora imprime un resumen ordenado y es más fácil de interpretar.</li>
-<li>Recuerda compilar cada vez que hagas modificaciones en el codigo para que estos tengan efecto.</li>
+<li>Recuerda compilar cada vez que hagas modificaciones en el código para que estos tengan efecto.</li>
 </ul>
-<p>Este módulo ha terminado. Si has tenido la paciencia y la dedicación de llegar hasta aquí, permíteme ovacionarte.
-Sé que no fue un camino sencillo, pero para que tomes conciencia de lo que has conseguido, te daré un recuento de todo lo que has aprendido.</p>
-<p>Sobre inteligencia artificial has aprendido:</p>
-<ul>
-<li>Qué elementos componen una neurona artificial.</li>
-<li>Cómo esta modifica su comportamiento ajustando los valores de los pesos y el sesgo, y no cambiando el código.</li>
-<li>Crear un banco de ejemplos que el proceso de entrenamiento utiliza para entrenar a la neurona</li>
-<li>Cómo logra “aprender” de manera automática calculando su error en función de los datos que le damos como muestra, y cómo utiliza este error para ajustar sus valores.</li>
-</ul>
-<p>Una inteligencia artificial no es más que muchas de estas neuronas conectadas entre sí, donde las salidas de unas pasan como entradas de las que siguen.
-Así que, con esto, ya tienes toda la comprensión básica de cómo funciona la IA.</p>
-<p>Sobre programación en lenguaje C has aprendido:</p>
+<hr>
+<h2>Notas finales</h2>
+<p>Este módulo ha terminado. Si has tenido la paciencia y la dedicación de llegar hasta aquí, permíteme ovacionarte. Sé que no fue un camino sencillo, pero para que tomes conciencia de lo que has conseguido, te daré un recuento de todo lo que has aprendido.</p>
+<h3>Sobre programación en lenguaje C has aprendido</h3>
 <ul>
 <li>Crear variables que utilizas para almacenar valores.</li>
 <li>Agrupar estas variables mediante arreglos, para evitar hacer listas interminables de ellas.</li>
@@ -909,11 +654,16 @@ Así que, con esto, ya tienes toda la comprensión básica de cómo funciona la 
 <li>Leer datos desde el teclado usando scanf.</li>
 <li>Incluir bibliotecas, como hicimos con stdio.h.</li>
 </ul>
-<p>Antes de continuar con el siguiente módulo, te invito a intentar por ti mismo entrenar tu neurona para que resuelva XOR.
-Te darás cuenta de que, por más intentos que hagas, nunca llega a entrenarse correctamente.
-Prueba deducir por ti mismo, con las herramientas que ya tienes, por qué sucede esto y trata de proponer una solución que te permita lograrlo.</p>
-<p>Ahora puedes imprimir tu código y enmarcarlo, pegarlo en el refrigerador, o tomarle una captura de pantalla y usarlo de fondo de escritorio.
-Siéntete orgulloso de lo que has logrado, porque no es poca cosa.</p>
+<h3>Sobre inteligencia artificial has aprendido</h3>
+<ul>
+<li>Qué elementos componen una neurona artificial.</li>
+<li>Cómo esta modifica su comportamiento ajustando los valores de los pesos y el sesgo, y no cambiando el código.</li>
+<li>Crear un banco de ejemplos que el proceso de entrenamiento utiliza para entrenar a la neurona</li>
+<li>Cómo logra “aprender” de manera automática calculando su error en función de los datos que le damos como muestra, y cómo utiliza este error para ajustar sus valores.</li>
+</ul>
+<p>Una inteligencia artificial no es más que muchas de estas neuronas conectadas entre sí, donde las salidas de unas pasan como entradas de las que siguen. Así que, con esto, ya tienes toda la comprensión básica de cómo funciona la IA.</p>
+<p>Antes de continuar con el siguiente módulo, te invito a intentar por ti mismo entrenar tu neurona para que resuelva XOR (muestra[]={ 0 , 1 , 1 , 0}). Te darás cuenta de que, por más intentos que hagas, nunca llega a entrenarse correctamente. Prueba deducir por ti mismo, con las herramientas que ya tienes, por qué sucede esto y trata de proponer una solución que te permita lograrlo.</p>
+<p>Ahora puedes imprimir tu código y enmarcarlo, pegarlo en el refrigerador, o tomarle una captura de pantalla y usarlo de fondo. Siéntete orgulloso de lo que has logrado, porque no es poca cosa.</p>
 <p>Te espero en el siguiente módulo, donde seguiremos extendiendo este mismo código para resolver finalmente XOR.</p>
 
 

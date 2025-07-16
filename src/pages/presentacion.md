@@ -40,4 +40,4 @@ Depende.
 Si prefieres vivir como un espectador pasivo que repite lo que le enseñan, entonces ninguna.  
 Pero si te interesa ser libre y decidir con criterio, la responsabilidad es parte del trato.
 
-Puedes quedarte ahí, sentado frente al oráculo digital, creyendo que sus respuestas flotan en algún Olimpo de silicio. O puedes asomarte detrás del telón y descubrir que todo es un puñado de calculos disfrazadas de sabiduría. No necesitas un título de ingeniero ni memorizar mil manuales: basta con la incomodidad de no tragarte entero todo lo que te sirven. Si te pica la curiosidad, bienvenido: somos esa minoría impertinente que prefiere entender el truco antes de aplaudir el show.
+Puedes quedarte ahí, sentado frente al oráculo digital, creyendo que sus respuestas flotan en algún Olimpo de silicio. O puedes asomarte detrás del telón y descubrir que todo es un puñado de calculos disfrazados de sabiduría. No necesitas un título de ingeniero ni memorizar mil manuales: basta con la incomodidad de no tragarte entero todo lo que te sirven. Si te pica la curiosidad, bienvenido: somos esa minoría impertinente que prefiere entender el truco antes de aplaudir el show.
