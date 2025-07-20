@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>NeuroticLab - Creando neuronas</title>
+        <link rel="stylesheet" href="/assets/css/variables.css" />
+        <link rel="stylesheet" href="/assets/css/utilities.css" />
+        <link rel="stylesheet" href="/assets/css/set_base.css" />
+        <link rel="stylesheet" href="/assets/css/main.css" />
+        
+    <link rel="stylesheet" href="/assets/css/header/header_nav.css" />
+    <link rel="stylesheet" href="/assets/css/content/modules.css" />
+    <link rel="stylesheet" href="/assets/css/content/main_content.css" />
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/monokai.min.css">
+
+    </head>
+    <body>
+        <header class="horizontal-bar">
+            <nav><a href="/" class="logo">NeuroTIClab</a></nav>
+            
+    <nav class="header-nav">
+        <a href="/pages/presentacion">Presentación</a>
+        <a href="/pages/requisitos">Requisitos</a>
+    </nav>
+    <div class="support drop-menu">
+        <span>¿Te gustó el sitio?</span>
+        <div class="menu-content">
+            <a href="/pages/support/suggest" target="_blank">Enviar sugerencias</a>
+            <a href="/pages/support/error" target="_blank">Reportar un error</a>
+            <a href="/pages/support/share" target="_blank">Compartir NeuroticLab</a>
+            <a href="/pages/support/donations" target="_blank">Donaciones</a>
+        </div>
+    </div>
+
+        </header>
+        <div class="site-middle">
+            
+                <aside class="modules">
+                    
+    <span>Módulos</span>
+    <ol start="0">
+        <li><a href="/pages/modules/00">Hablando el mismo idioma</a></li>
+        <li><a href="/pages/modules/01">Perceptrón booleano</a></li>
+        <li><a href="/pages/modules/02">Resolviendo XOR</a></li>
+        <li><a href="/pages/modules/03">Empaquetando neuronas</a></li>
+    </ol>
+
+                </aside>
+            
+            <main class="left-200">
+                <div id="main-content">
+                    
+    <h1>Empaquetando neuronas</h1>
+<h2>Introducción</h2>
+<p>Si llegaste hasta aquí, ya construiste y entrenaste tu primera red neuronal funcional. Nada mal para alguien que hace unos módulos apenas conocía los operadores lógicos.</p>
+<h4>NeuroTIC.h</h4>
+<pre><code class="language-C">/*=========CALCULAR==========*/
+int activacion_booleana( float x ){
+    return x &gt;= 0;
+}
+
+int evaluar_neurona( int Entrada[2] , float Peso[2], float Sesgo ){
+    float ponderacion= Sesgo;
+    for( int i= 0 ; i &lt; 2 ; i++)
+        ponderacion+= Entrada[i] * Peso[i];
+   return activacion_booleana( ponderacion );
+}
+/*=========ENTRENAR==========*/
+int entrenar( int entradas[4][2], int resultados[4], float *Peso, float *Sesgo ){
+    int error;
+    int error_total;
+    float tasa_aprendizaje= 0.1;
+    int epoca= 0;
+    do{
+        error_total= 0;
+        for( int i= 0 ; i &lt; 4 ; i++){
+            error= resultados[i] - evaluar_neurona( entradas[i], Peso, *Sesgo );
+            *Sesgo+= error * tasa_aprendizaje;
+            for( int j= 0 ; j &lt; 2 ; j++)
+                Peso[j]+= error * tasa_aprendizaje * entradas[i][j];
+            error_total+= !!error;
+        }
+    } while( ++epoca &lt; 1000 &amp;&amp; error_total );
+    return epoca;
+}
+</code></pre>
+<h4>NeuroTIC.c</h4>
+<pre><code class="language-C">/*========BIBLIOTECAS========*/
+#include &lt;stdio.h&gt;
+#include &quot;NeuroTIC.h&quot;
+/*=========VARIABLES=========*/
+int Entrada[2];
+int Salida;
+
+int Entrada_A[2];
+float Peso_A[]= {0 , 0};
+float Sesgo_A= 0;
+int Salida_A;
+
+int Entrada_B[2];
+float Peso_B[]= {0 , 0};
+float Sesgo_B= 0;
+int Salida_B;
+
+int Entrada_C[2];
+float Peso_C[]= {0 , 0};
+float Sesgo_C= 0;
+int Salida_C;
+/*=========PRINCIPAL=========*/
+int main(){
+/* ENTRADAS */
+    int tabla[4][2]={
+        {0 , 0},
+        {0 , 1},
+        {1 , 0},
+        {1 , 1}
+    };
+/* ENTRENAMIENTO */
+    int A[]={ 1, 1, 1, 0};
+    printf( &quot;\nEntrenamiento A Intentos: %i\n&quot; , entrenar( tabla , A , Peso_A , &amp;Sesgo_A ) );
+    for( int i= 0 ; i &lt; 2 ; i++ )
+        printf( &quot;Peso %i: %.2f\t&quot; , i + 1 , Peso_A[i] );
+    printf( &quot;Sesgo: %.2f&quot; , Sesgo_A );
+
+    int B[]={ 0, 1, 1, 1};
+    printf( &quot;\nEntrenamiento B Intentos: %i\n&quot; , entrenar( tabla , B , Peso_B , &amp;Sesgo_B ) );
+    for( int i= 0 ; i &lt; 2 ; i++ )
+        printf( &quot;Peso %i: %.2f\t&quot; , i + 1 , Peso_B[i] );
+    printf( &quot;Sesgo: %.2f&quot; , Sesgo_B );
+
+    int C[]={ 0, 0, 0, 1};
+    printf( &quot;\nEntrenamiento C Intentos: %i\n&quot; , entrenar( tabla , C , Peso_C , &amp;Sesgo_C ) );
+    for( int i= 0 ; i &lt; 2 ; i++ )
+        printf( &quot;Peso %i: %.2f\t&quot; , i + 1 , Peso_C[i] );
+    printf( &quot;Sesgo: %.2f&quot; , Sesgo_C );
+/* CALCULAR E IMPRIMIR */
+    printf( &quot;\n\n| A | B | S |\n&quot; );
+    for( int i= 0 ; i &lt; 4 ; i++){
+        for( int j= 0 ;  j &lt; 2 ; j++)
+            Entrada_A[j]= Entrada_B[j]= Entrada[j]= tabla[i][j];
+        Entrada_C[0]= Salida_A= evaluar_neurona(Entrada_A, Peso_A, Sesgo_A);
+        Entrada_C[1]= Salida_B= evaluar_neurona(Entrada_B, Peso_B, Sesgo_B);
+        Salida= Salida_C= evaluar_neurona(Entrada_C, Peso_C, Sesgo_C);
+        printf( &quot;| %i | %i | %i |\n&quot; , Entrada[0] , Entrada[1] , Salida );
+    }
+    printf( &quot;\n&quot; );
+/* TERMINAR PROGRAMA */
+    return 0;
+}
+</code></pre>
+<p>Repasemos dónde estás ahora: Tienes tres neuronas individuales —A, B y C— entrenadas por separado, conectadas entre sí y bien organizadas. Incluso te diste el lujo de crear una biblioteca con funciones reutilizables. Tu código ya resuelve XOR… y si te animaste, también XNOR.</p>
+<p>Pero ahora es momento de hacerte una pregunta incómoda:</p>
+<p>¿Qué pasaría si tuvieras que construir una red con 10 neuronas? ¿O 100?</p>
+<p>La estructura actual se vuelve poco práctica muy rápido: Cada neurona requiere declarar sus propias variables, entrenarse de forma individual y conectarse a mano.</p>
+<p>No es que no funcione. El código que hiciste es válido y sólido. Pero llegó el momento de dar el siguiente paso: tratar a las neuronas como una unidad.</p>
+<p>En este módulo vas a:</p>
+<ul>
+<li>Crear una estructura tipo neurona para guardar sus elementos clave.</li>
+<li>remplazar la declaración de variables individuales por estructuras organizadas.</li>
+<li>Prepararte para organizar neuronas en arreglos, y más adelante, recorrerlas con bucles.</li>
+</ul>
+<hr>
+<h2>Creando la estructura: neuronas como entes individuales</h2>
+<p>Ahora vas a conocer una nueva herramienta del lenguaje C: las estructuras.</p>
+<p>Su concepto es bastante sencillo. Así como puedes agrupar varias variables del mismo tipo dentro de un arreglo, también puedes agrupar variables de distinto tipo bajo un único nombre que las identifica. A ese conjunto se le llama estructura.</p>
+<p>Vamos a declararla dentro de tu biblioteca NeuroTIC.h:</p>
+<h4>NeuroTIC.h</h4>
+<pre><code class="language-C">/*=======DEFINICIONES========*/
+struct neurona{
+    int Entrada[2];
+    int Salida;
+    float Peso[2];
+    float Sesgo;
+};
+/*=========CALCULAR==========*/
+/*=========ENTRENAR==========*/
+</code></pre>
+<p>Para definirla, solo necesitas la palabra struct, seguida del nombre que quieras darle (en este caso neurona) y luego incluir dentro de las llaves las variables que quieres agrupar. Listo. Ya tienes una plantilla para tus futuras neuronas.</p>
+<hr>
+<h2>Usando estructuras en tu código</h2>
+<p>Hasta ahora, cada neurona requería declarar sus propias variables por separado. Vamos a simplificar eso usando la estructura recién creada.</p>
+<h4>NeuroTIC.c</h4>
+<pre><code class="language-C">/*========BIBLIOTECAS========*/
+/*=========VARIABLES=========*/
+int Entrada[2];
+int Salida;
+
+struct neurona a;
+struct neurona b;
+struct neurona c;
+/*=========PRINCIPAL=========*/
+</code></pre>
+<p>Con eso has declarado tres neuronas: a, b y c. Cada una tiene sus propias entradas, salidas, pesos y sesgo, pero todo empaquetado dentro de una sola variable.</p>
+<p>Ahora toca remplazar las variables anteriores con sus nuevas equivalentes dentro de las estructuras. Busca en tu código principal todas las apariciones de Entrada_X, Salida_X, Peso_X y Sesgo_X y cámbialas por el formato: estructura.atributo</p>
+<p>Aquí tienes cómo debería verse el resultado:</p>
+<h4>NeuroTIC.c</h4>
+<pre><code class="language-C">/*========BIBLIOTECAS========*/
+/*=========VARIABLES=========*/
+/*=========PRINCIPAL=========*/
+int main(){
+/* ENTRADAS */
+/* ENTRENAMIENTO */
+    int A[]={ 1, 1, 1, 0};
+    printf( &quot;\nEntrenamiento A Intentos: %i\n&quot; , entrenar( tabla , A , a.Peso , &amp;a.Sesgo ) );
+    for( int i= 0 ; i &lt; 2 ; i++ )
+        printf( &quot;Peso %i: %.2f\t&quot; , i + 1 , a.Peso[i] );
+    printf( &quot;Sesgo: %.2f&quot; , a.Sesgo );
+
+    int B[]={ 0, 1, 1, 1};
+    printf( &quot;\nEntrenamiento B Intentos: %i\n&quot; , entrenar( tabla , B , b.Peso , &amp;b.Sesgo ) );
+    for( int i= 0 ; i &lt; 2 ; i++ )
+        printf( &quot;Peso %i: %.2f\t&quot; , i + 1 , b.Peso[i] );
+    printf( &quot;Sesgo: %.2f&quot; , b.Sesgo );
+
+    int C[]={ 0, 0, 0, 1};
+    printf( &quot;\nEntrenamiento C Intentos: %i\n&quot; , entrenar( tabla , C , c.Peso , &amp;c.Sesgo ) );
+    for( int i= 0 ; i &lt; 2 ; i++ )
+        printf( &quot;Peso %i: %.2f\t&quot; , i + 1 , c.Peso[i] );
+    printf( &quot;Sesgo: %.2f&quot; , c.Sesgo );
+/* CALCULAR E IMPRIMIR */
+    printf( &quot;\n\n| A | B | S |\n&quot; );
+    for( int i= 0 ; i &lt; 4 ; i++){
+        for( int j= 0 ;  j &lt; 2 ; j++)
+            a.Entrada[j]= b.Entrada[j]= Entrada[j]= tabla[i][j];
+        c.Entrada[0]= a.Salida= evaluar_neurona(a.Entrada, a.Peso, a.Sesgo);
+        c.Entrada[1]= b.Salida= evaluar_neurona(b.Entrada, b.Peso, b.Sesgo);
+        Salida= c.Salida= evaluar_neurona(c.Entrada, c.Peso, c.Sesgo);
+        printf( &quot;| %i | %i | %i |\n&quot; , Entrada[0] , Entrada[1] , Salida );
+    }
+    printf( &quot;\n&quot; );
+/* TERMINAR PROGRAMA */
+}
+</code></pre>
+<p>Como ves, acceder a una variable dentro de una estructura es tan simple como poner el nombre de la estructura, seguido de un punto y luego el atributo.</p>
+<p>Compila y ejecuta. Si el resultado no es el mismo que antes, revisa tu código con cuidado. Asegúrate de haber cambiado todas las variables antiguas por sus nuevas versiones estructuradas.</p>
+<hr>
+<h2>Agrupando estructuras en arreglos</h2>
+<p>Tal vez a simple vista el código no parezca haber cambiado mucho. Pero si miras un poco más de cerca, vas a notar una posibilidad enorme: al haber agrupado todos los atributos de una neurona dentro de una estructura, ahora puedes tratar a esa neurona como si fuera una sola unidad.</p>
+<p>Y si algo se comporta como una unidad… entonces puede formar parte de un conjunto.</p>
+<p>Eso significa que puedes crear un arreglo de estructuras y recorrerlo con un bucle, igual que haces con cualquier otro tipo de dato. Si las neuronas dentro de ese arreglo están conectadas entre sí, lo que estarías haciendo con ese bucle sería, literalmente, explorar la red.</p>
+<p>Vamos a dar ese paso.</p>
+<p>Primero, agrupa las neuronas a, b y c en un unico arreglo N, así:</p>
+<h4>NeuroTIC.c</h4>
+<pre><code class="language-C">/*========BIBLIOTECAS========*/
+/*=========VARIABLES=========*/
+int Entrada[2];
+int Salida;
+
+struct neurona N[3];
+/*=========PRINCIPAL=========*/
+</code></pre>
+<p>Acabas de crear un arreglo llamado N con tres elementos, cada uno una estructura de tipo neurona. Es decir, ya tienes una red de tres neuronas listas para ser entrenadas y evaluadas en grupo.</p>
+<p>Ahora vas a preparar el banco de pruebas: agruparemos las salidas de ejemplo A, B y C dentro de una única matriz, y después entrenaremos todas las neuronas usando un solo bucle.</p>
+<h4>NeuroTIC.c</h4>
+<pre><code class="language-C">/*========BIBLIOTECAS========*/
+/*=========VARIABLES=========*/
+/*=========PRINCIPAL=========*/
+int main(){
+/* ENTRADAS */
+/* MUESTRAS */
+    int resultado[3][4]= {
+        { 1, 1, 1, 0},
+        { 0, 1, 1, 1},
+        { 0, 0, 0, 1},
+    };
+/* ENTRENAMIENTO */
+    for( int i= 0; i &lt; 3 ; i++ ){
+        printf( &quot;\nEntrenamiento %c Intentos: %i\n&quot; , 'A' + i , entrenar( tabla , resultado[i] , N[i].Peso , &amp;N[i].Sesgo ) );
+        for( int j= 0 ; j &lt; 2 ; j++ )
+            printf( &quot;Peso %i: %.2f\t&quot; , i + 1 , N[i].Peso[j] );
+        printf( &quot;Sesgo: %.2f&quot; , N[i].Sesgo );
+    }
+/* CALCULAR E IMPRIMIR */
+/* TERMINAR PROGRAMA */
+}
+</code></pre>
+<p>Fíjate en lo que hiciste: en lugar de entrenar una por una, ahora estás recorriendo el arreglo N, tomando las salidas correspondientes desde resultado[i] y entrenando cada neurona de forma automática.</p>
+<p>Ahora modificamos la sección de cálculo e impresión para que también funcione sobre el arreglo:</p>
+<h4>NeuroTIC.c</h4>
+<pre><code class="language-C">/*========BIBLIOTECAS========*/
+/*=========VARIABLES=========*/
+/*=========PRINCIPAL=========*/
+int main(){
+/* ENTRADAS */
+/* MUESTRAS */
+/* ENTRENAMIENTO */
+/* CALCULAR E IMPRIMIR */
+    printf( &quot;\n\n| A | B | S |\n&quot; );
+    for( int i= 0 ; i &lt; 4 ; i++){
+        for( int j= 0 ;  j &lt; 2 ; j++)
+            N[0].Entrada[j]= N[1].Entrada[j]= Entrada[j]= tabla[i][j];
+        for( int j= 0; j &lt; 2 ; j++)
+            N[2].Entrada[j]= N[j].Salida= evaluar_neurona(N[j].Entrada, N[j].Peso, N[j].Sesgo);
+        Salida= N[2].Salida= evaluar_neurona(N[2].Entrada, N[2].Peso, N[2].Sesgo);
+        printf( &quot;| %i | %i | %i |\n&quot; , Entrada[0] , Entrada[1] , Salida );
+    }
+    printf( &quot;\n&quot; );
+/* TERMINAR PROGRAMA */
+}
+</code></pre>
+<p>Compila y ejecuta. Si el resultado no es exactamente igual al anterior, revisa con cuidado: tal vez hayas olvidado actualizar alguna referencia, o usaste mal un índice. Comparar tu código con el del ejemplo te va a ayudar a encontrarlo rápido.</p>
+<hr>
+<h2>Conexiones reales: enlazando neuronas con referencias directas</h2>
+<p>Ya empaquetaste a cada neurona como una unidad funcional, con su propio peso, sesgo, entradas y salida. Hasta ahora, cuando una neurona necesitaba el valor producido por otra, simplemente se copiaba ese valor y se usaba como entrada.</p>
+<p>Pero pensemos por un momento:
+¿eso es realmente una conexión?</p>
+<p>No del todo. Copiar un dato no es lo mismo que estar conectado.
+Una conexión real implica que, cuando el valor de salida de una neurona cambia, las neuronas conectadas lo reciben de inmediato, sin pasos intermedios.</p>
+<p>Imagina que estás hablando con alguien por WhatsApp. Una forma de comunicarte sería enviando un mensaje de voz: grabas lo que quieres decir, lo mandas… y la otra persona lo escucha. Eso funciona, pero es una copia. Si cambias de opinión, necesitas grabar otro mensaje y volver a enviarlo.</p>
+<p>Ahora piensa en una llamada por WhatsApp. Todo lo que digas se transmite en tiempo real. No hay archivos, no hay espera: lo que sale de tu micrófono entra directamente al oído del otro.</p>
+<p>Para lograr esta conexión no vas a necesitar conocimientos nuevos. Basta con lo que hasta este momento sabes sobre punteros y arreglos.</p>
+<p>Lo único que va a cambiar es la forma en que los vas a combinar. En lugar de copiar valores de una neurona a otra, vas a usar referencias directas para enlazarlas como si estuvieran realmente conectadas.</p>
+<p>No se trata de sumar herramientas nuevas, sino de aplicar las que ya conoces desde un enfoque más avanzado.</p>
+<p>El primer paso para permitir conexiones reales entre neuronas es ajustar cómo reciben sus entradas.</p>
+<p>Hasta ahora, las neuronas copiaban valores. Ahora vamos a hacer que reciban referencias, es decir, direcciones de memoria. Para lograrlo, vas a modificar la estructura neurona y también las funciones que operan sobre su entrada.</p>
+<p>El cambio es sencillo: solo hay que modificar los arreglos Entrada, y crear una instrucción en el proceso de entrenamiento antes de llamar a evaluar_neurona:</p>
+<h4>NeuroTIC.h</h4>
+<pre><code class="language-C">/*=======DEFINICIONES========*/
+struct neurona{
+    int *Entrada[2];
+    int Salida;
+    float Peso[2];
+    float Sesgo;
+};
+/*=========CALCULAR==========*/
+int activacion_booleana( float x ){
+    return x &gt;= 0;
+}
+
+int evaluar_neurona( int *Entrada[2] , float Peso[2], float Sesgo ){
+    float ponderacion= Sesgo;
+    for( int i= 0 ; i &lt; 2 ; i++)
+        ponderacion+= *Entrada[i] * Peso[i];
+   return activacion_booleana( ponderacion );
+}
+/*=========ENTRENAR==========*/
+int entrenar( int entradas[4][2], int resultados[4], float *Peso, float *Sesgo ){
+    int error;
+    int error_total;
+    float tasa_aprendizaje= 0.1;
+    int epoca= 0;
+    do{
+        error_total= 0;
+        for( int i= 0 ; i &lt; 4 ; i++){
+            int *conv_entradas[]= {&amp;entradas[i][0] , &amp;entradas[i][1]};
+            error= resultados[i] - evaluar_neurona( conv_entradas, Peso, *Sesgo );
+            *Sesgo+= error * tasa_aprendizaje;
+            for( int j= 0 ; j &lt; 2 ; j++)
+                Peso[j]+= error * tasa_aprendizaje * entradas[i][j];
+            error_total+= !!error;
+        }
+    } while( ++epoca &lt; 1000 &amp;&amp; error_total );
+    return epoca;
+}
+</code></pre>
+<p>Con este cambio, las neuronas ya no almacenan directamente los datos que usan como entrada: ahora apuntan hacia ellos. Es como si dejaran de cargar la información por su cuenta y empezaran a leerla directamente desde su fuente. Al hacer esto, también fue necesario crear una solución para empatar los tipos de datos de *Entrada[2] del argumento de evaluar_neurona con la matriz entradas[4][2], usando un arreglo intermedio *conv_entradas[2] que coincide con el tipo que se definió para Entrada y guardando en este las direcciones de las entradas[i] que se estén usando en ese ciclo del bucle.</p>
+<p>Hasta ahora aprendiste que un arreglo es una colección de variables del mismo tipo, que una matriz es un arreglo de arreglos, y que un puntero guarda la dirección de otra variable. También viste que un arreglo es, en esencia, un puntero confinado a un bloque de memoria fijo.</p>
+<p>Lo interesante es que esta nueva forma de declarar las entradas —un arreglo de punteros— puede verse como un híbrido entre una matriz y un puntero, tiene la estructura ordenada de un arreglo, pero en lugar de contener datos, cada posición guarda una dirección distinta. Es decir, no guarda los valores… sino dónde encontrarlos.</p>
+<p>Esta combinación te da lo mejor de ambos mundos: la flexibilidad de los punteros y la organización de un arreglo. Esa mezcla es justo lo que te va a permitir conectar neuronas entre sí de forma directa y coherente, sin estar copiando valores a mano.</p>
+<p>Ya transformaste las entradas de cada neurona en un arreglo de punteros. El siguiente paso es decidir a dónde señalan esos punteros. Es decir, establecer —desde el momento en que se declaran las neuronas— cómo estarán conectadas entre sí.</p>
+<p>Esto lo vas a hacer directamente en la sección de variables, y aprovecharás este nuevo sistema para aplicarlo dentro del recorrido principal:</p>
+<h4>NeuroTIC.c</h4>
+<pre><code class="language-C">/*========BIBLIOTECAS========*/
+/*=========VARIABLES=========*/
+int Entrada[2];
+int Salida;
+
+struct neurona N[]= {
+    {.Entrada= {&amp;Entrada[0] , &amp;Entrada[1]}},
+    {.Entrada= {&amp;Entrada[0] , &amp;Entrada[1]}},
+    {.Entrada= {&amp;N[0].Salida , &amp;N[1].Salida}}
+};
+/*=========PRINCIPAL=========*/
+int main(){
+    /* ENTRADAS */
+    /* MUESTRAS */
+    /* ENTRENAMIENTO */
+    /* CALCULAR E IMPRIMIR */
+        printf( &quot;\n\n| A | B | S |\n&quot; );
+        for( int i= 0 ; i &lt; 4 ; i++){
+            for( int j= 0 ;  j &lt; 2 ; j++)
+                Entrada[j]= tabla[i][j];
+            for( int j= 0; j &lt; 3 ; j++)
+                N[j].Salida= evaluar_neurona(N[j].Entrada, N[j].Peso, N[j].Sesgo);
+            Salida= N[2].Salida;
+            printf( &quot;| %i | %i | %i |\n&quot; , Entrada[0] , Entrada[1] , Salida );
+        }
+        printf( &quot;\n&quot; );
+    /* TERMINAR PROGRAMA */
+}
+</code></pre>
+<p>Compila, ejecuta y observa el resultado. Si todo está bien, deberías obtener el mismo comportamiento que antes pero con un sistema mucho más sólido, escalable y, lo más importante, sobre el cual tienes total dominio de su comportamiento.</p>
+<p>A primera vista puede parecer algo críptico, pero en realidad no estás haciendo nada que no hayas visto antes.</p>
+<p>Ahora, en lugar de declarar un arreglo de tres neuronas sin valores, estás inicializando el atributo Entrada de cada una de estas neuronas para definir sus conexiones. Así se establece que las neuronas N[0] y N[1] se conectan al arreglo Entrada, y la neurona N[2] recibe directamente como entrada el valor del atributo Salida de las neuronas previas.</p>
+<p>Combinando la técnica de aplicar estructuras para agrupar los elementos de una neurona, y usar la combinación de entradas como punteros y salidas como variables, puedes considerar ahora cada neurona independiente, como si fuera una pieza de LEGO: un sistema que permite ensamblarlas entre sí, facilitando el flujo de información entre estas y pudiendo manejar el arreglo de neuronas como un bloque preconstruido. Esto se puede notar en los cambios que se hicieron en la sección de “CALCULAR E IMPRIMIR”, donde para pasar los datos de entrada para el cálculo solo es necesario indicar qué valores tendrá Entrada[]. Al estar N[0] y N[1] conectadas a Entrada, se puede utilizar un único bucle que recorre la red completa aplicando la función de evaluación a cada neurona.</p>
+<p>Tal vez no parezca mucho en este momento, pero cuando veas técnicas más avanzadas de entrenamiento, y realices redes más extensas, podrás apreciar con mayor claridad los beneficios de este sistema modular.</p>
+<hr>
+<h2>Notas finales</h2>
+<p>Hasta ahora la red no ha avanzado mucho en su funcionamiento: sigues teniendo una red de tres neuronas que se entrenan de manera individual para resolver XOR utilizando funciones lógicas más simples (NAND, OR y AND). Pero si consideras una red más compleja, definitivamente ya no es práctico pensar qué función debe resolver cada neurona de forma individual para lograr el objetivo.</p>
+<p>En el próximo módulo vas a aprender cómo, con un único entrenamiento, podrás enseñar a toda la red a resolver directamente la tabla de verdad del XOR. Sin descomponerla en funciones intermedias, sin diseñar conexiones manualmente. Solo dándole ejemplos y dejando que el sistema aprenda por sí mismo.</p>
+<p>Tal vez sientas que me he enfocado demasiado en explicarte detalles del lenguaje C, pero eso ha sido necesario para que puedas comprender a fondo el código que has venido desarrollando, y construir un fundamento sólido para lo que viene a continuación, que será un salto enorme en el comportamiento de la red.</p>
+<p>Ahora puedes decir con toda confianza que sabes qué es un arreglo de punteros y cómo se arma una estructura. Y cualquiera que haya programado alguna vez, sabe que eso no es poca cosa.</p>
+<p>Gracias por llegar hasta aquí. Te espero en la siguiente etapa de este recorrido por el diseño de redes neuronales artificiales.</p>
+
+
+                </div>
+            </main>
+            
+        </div>
+        <footer class="horizontal-bar">
+            <a href="/licencia/">LICENCIA</a>
+            <p>Lo difícil no cambió. Tú sí.</p>
+            <p>Hecho por Titux</p>
+        </footer>
+        
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/r.min.js"></script>
+    <script>
+        hljs.highlightAll();
+    </script>
+
+    </body>
+</html>
