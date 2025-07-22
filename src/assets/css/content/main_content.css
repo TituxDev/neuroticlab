@@ -74,6 +74,7 @@
     align-items: stretch;
     max-width: 100%;
     width: fit-content;
+    max-height: fit-content;
     padding: 0px;
     border: var(--border-format);
     margin: 0;
