@@ -17,7 +17,7 @@ En realidad, no es otra cosa que una **calculadora con complejo de gurú**.
 ## La magia de la IA
 
 Si te dijera que esas respuestas tan “sorprendentes”, que suenan como dictadas por un ente omnisciente, en realidad son producto de unas cuantas sumas, restas y multiplicaciones, ¿seguirías confiando tus decisiones más personales a una app?
-¿Dejarías que Tinder elija tu pareja ideal? ¿O que un generador de texto fabrique tu ensayo sobre un tema que ni te molestaste en entender?
+¿Dejarías que Tinder elija tu pareja ideal? ¿O que un generador de texto redacte tu ensayo sobre un tema que ni te molestaste en leer?
 
 La inteligencia artificial no es una tecnología recién salida de un laboratorio secreto. Es más vieja de lo que crees.
 Incluso *Doom* de 1993 —ese juego de demonios pixelados que puedes correr en un microondas— ya incorporaba un sistema de IA para que los enemigos supieran cuándo dispararte o cuándo cubrirse.
@@ -32,7 +32,7 @@ Solo procesa datos de acuerdo con las instrucciones que alguien escribió.
 Ahora, quienes la diseñan sí tienen intereses, y rara vez coinciden con los tuyos.
 
 El objetivo no es ayudarte: es mantenerte enganchado, hacer que aceptes sus sugerencias sin cuestionarlas y convertir tu atención en un negocio rentable.
-Si quieres buscar la maldad, no la encontrarás en las líneas de código: está en la manera en que se usan para manipularte.
+Si quieres buscar la malicia, no la encontrarás en las líneas de código: está en la manera en que se usan para manipularte.
 
 ## ¿Tenemos responsabilidad?
 

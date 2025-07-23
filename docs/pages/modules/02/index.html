@@ -63,7 +63,7 @@ int Entrada[2];
 
 int Salida;
 
-float Peso[]={0 , 0};
+float Peso[]={ 0 , 0 };
 
 float Sesgo= 0;
 /*=========FUNCIONES=========*/
@@ -73,7 +73,7 @@ int activacion_booleana( float x ){
 
 int evaluar_neurona(){
     float ponderacion= Sesgo;
-    for( int i= 0 ; i &lt; 2 ; i++)
+    for( int i= 0 ; i &lt; 2 ; i++ )
         ponderacion+= Entrada[i] * Peso[i];
     return activacion_booleana( ponderacion );
 }
@@ -81,10 +81,10 @@ int evaluar_neurona(){
 int main(){
 /* ENTRADAS */
     int tabla[4][2]={
-        {0 , 0},
-        {0 , 1},
-        {1 , 0},
-        {1 , 1}
+        { 0 , 0 },
+        { 0 , 1 },
+        { 1 , 0 },
+        { 1 , 1 }
     };
 /* ENTRENAMIENTO */
     int muestra[]={ 0 , 0 , 0 , 0 };
@@ -93,13 +93,13 @@ int main(){
     int error_total;
     do{
         error_total= 0;
-        for( int i= 0 ; i &lt; 4 ; i++){
-            for( int j= 0 ; j &lt; 2 ; j++)
+        for( int i= 0 ; i &lt; 4 ; i++ ){
+            for( int j= 0 ; j &lt; 2 ; j++ )
                 Entrada[j]= tabla[i][j];
             Salida= evaluar_neurona();
             int error= muestra[i] - Salida;
             Sesgo+= error * tasa_aprendizaje;
-            for( int j= 0 ; j &lt; 2 ; j++)
+            for( int j= 0 ; j &lt; 2 ; j++ )
                 Peso[j]+= error * tasa_aprendizaje * Entrada[j];
             error_total+= !!error;
         }
@@ -110,8 +110,8 @@ int main(){
     printf( &quot;Sesgo: %.2f&quot; , Sesgo );
 /* CALCULAR E IMPRIMIR */
     printf( &quot;\n\n| A | B | S |&quot; );
-    for( int i= 0 ; i &lt; 4 ; i++){
-        for( int j= 0 ;  j &lt; 2 ; j++)
+    for( int i= 0 ; i &lt; 4 ; i++ ){
+        for( int j= 0 ;  j &lt; 2 ; j++ )
             Entrada[j]= tabla[i][j];
         Salida= evaluar_neurona();
         printf( &quot;\n| %i | %i | %i |&quot; , Entrada[0] , Entrada[1] , Salida );
@@ -215,12 +215,12 @@ int main(){
 </ul>
 <p>Siguiendo esta lógica, no hay ninguna combinación posible de pesos y sesgo que permita que el perceptrón tome decisiones basadas en si las entradas son iguales o diferentes.
 Eso ya no depende solo de los valores, sino de la relación entre ellos. Y una sola neurona no tiene forma de comparar.</p>
-<p>En este módulo vas a descubrir cómo una red de neuronas puede lograr lo que una sola, por sí sola, no puede. Vamos a romper el límite del perceptrón individual y a construir algo más poderoso.</p>
+<p>En este módulo vas a descubrir cómo una red de neuronas puede lograr lo que una sola no. Vamos a romper el límite del perceptrón individual y a construir algo más poderoso.</p>
 <hr>
 <h2>Creando tu caja de herramientas</h2>
 <p>Antes de continuar, conviene hacer un poco de organización en nuestro código para no terminar atrapados en un galimatías de instrucciones. Vamos a trabajar con varias neuronas, entrenarlas por separado, conectarlas entre sí y automatizar el cálculo en conjunto para obtener un resultado final. Suena a mucho, pero con algo de orden verás que no es tan complicado.</p>
 <p>El primer paso será crear un archivo nuevo, distinto al que venías usando como ejemplo. En este nuevo archivo vas a comenzar a construir tu propia biblioteca, algo así como una versión simplificada de stdio.h. Lo vas a llamar NeuroTIC.h, y ahí irás agrupando funciones que podrás reutilizar en distintos momentos del programa.</p>
-<p>Por ahora, vas a mover allí dos funciones que ya conoces: activación_booleana y evaluar_neurona. El contenido del archivo debe quedarte así:</p>
+<p>Por ahora, vas a mover ahí las funciones que ya tienes: activación_booleana y evaluar_neurona. El contenido del archivo debe quedarte así:</p>
 <h4>NeuroTIC.h</h4>
 <pre><code class="language-C">/*=========CALCULAR==========*/
 int activacion_booleana( float x ){
@@ -229,7 +229,7 @@ int activacion_booleana( float x ){
 
 int evaluar_neurona(){
     float ponderacion= Sesgo;
-    for( int i= 0 ; i &lt; 2 ; i++)
+    for( int i= 0 ; i &lt; 2 ; i++ )
         ponderacion+= Entrada[i] * Peso[i];
    return activacion_booleana( ponderacion );
 }
@@ -255,14 +255,14 @@ int activacion_booleana( float x ){
 
 int evaluar_neurona( int Entrada[2] , float Peso[2], float Sesgo ){
     float ponderacion= Sesgo;
-    for( int i= 0 ; i &lt; 2 ; i++)
+    for( int i= 0 ; i &lt; 2 ; i++ )
         ponderacion+= Entrada[i] * Peso[i];
    return activacion_booleana( ponderacion );
 }
 </code></pre>
 <p>Y luego actualiza las dos instrucciones donde llamas a esa función en el archivo principal para incluir los argumentos necesarios:</p>
 <h4>NeuroTIC.c</h4>
-<pre><code class="language-C">Salida= evaluar_neurona( Entrada, Peso, Sesgo )
+<pre><code class="language-C">Salida= evaluar_neurona( Entrada , Peso , Sesgo )
 </code></pre>
 <p>Asegúrate de hacer ese cambio tanto en el bloque de entrenamiento como en la sección donde se imprime la tabla.</p>
 <p>Compila de nuevo y ejecuta el programa. Ahora todo debería funcionar sin errores. La función evaluar_neurona ya no depende de variables externas: recibe los datos que necesita, los procesa internamente y devuelve el resultado.</p>
@@ -271,7 +271,8 @@ int evaluar_neurona( int Entrada[2] , float Peso[2], float Sesgo ){
 <h3>Armando la red para resolver XOR</h3>
 <p>Ahora sí podemos detenernos a analizar cómo es que una red puede resolver la operación XOR. Piensa en lo que ya tienes: una neurona que puede ser entrenada para comportarse como AND, OR, NAND, NOR, implicación o conjunción. Si necesitas refrescar esas operaciones, puedes consultar sus tablas de verdad en el <a href="/pages/modules/00" target="_blank">Módulo 0.</a></p>
 <p>Entonces, la pregunta clave es: ¿cómo combinamos esas funciones para que al final el resultado se comporte como una XOR?</p>
-<p>Hay varias maneras de lograrlo, y cada una implica una forma distinta de conectar las neuronas. En este caso, vamos a construir una red neuronal multicapa muy simple que puede resolver la operación XOR combinando tres funciones lógicas que ya conoces: NAND, OR y AND. La idea es que las entradas A y B pasen primero por dos neuronas independientes, una que calcule NAND(A, B) y otra que calcule OR(A, B), y luego sus salidas se conecten a una tercera neurona que calcule el AND de esos dos resultados. En resumen: <strong>XOR(A , B) = AND( NAND(A , B) , OR(A , B))</strong></p>
+<p>Hay varias maneras de lograrlo, y cada una implica una forma distinta de conectar las neuronas. En este caso, vamos a construir una red neuronal multicapa muy simple que puede resolver la operación XOR combinando tres funciones lógicas que ya conoces: NAND, OR y AND. La idea es que las entradas A y B pasen primero por dos neuronas independientes, una que calcule NAND(A, B) y otra que calcule OR(A, B), y luego sus salidas se conecten a una tercera neurona que calcule el AND de esos dos resultados. En resumen:<br>
+<strong>XOR(A , B) = AND( NAND(A , B) , OR(A , B))</strong></p>
 <p>Para visualizarlo mejor, mira este pequeño diagrama:</p>
 <pre><code class="language-text">A———
     |———NAND———
@@ -353,17 +354,17 @@ int Entrada[2];
 int Salida;
 
 int Entrada_A[2];
-float Peso_A[]= {0 , 0};
+float Peso_A[]= { 0 , 0 };
 float Sesgo_A= 0;
 int Salida_A;
 
 int Entrada_B[2];
-float Peso_B[]= {0 , 0};
+float Peso_B[]= { 0 , 0 };
 float Sesgo_B= 0;
 int Salida_B;
 
 int Entrada_C[2];
-float Peso_C[]= {0 , 0};
+float Peso_C[]= { 0 , 0 };
 float Sesgo_C= 0;
 int Salida_C;
 /*=========VARIABLES=========*/
@@ -381,17 +382,17 @@ int main(){
     float tasa_aprendizaje= 0.1;
     int epoca;
 
-    int A[]={ 1, 1, 1, 0};
+    int A[]={ 1 , 1 , 1 , 0 };
     epoca=0;
     do{
         error_total= 0;
-        for( int i= 0 ; i &lt; 4 ; i++){
-            for( int j= 0 ; j &lt; 2 ; j++)
+        for( int i= 0 ; i &lt; 4 ; i++ ){
+            for( int j= 0 ; j &lt; 2 ; j++ )
                 Entrada_A[j]= tabla[i][j];
             Salida_A= evaluar_neurona( Entrada_A, Peso_A, Sesgo_A );
             error= A[i] - Salida_A;
             Sesgo_A+= error * tasa_aprendizaje;
-            for( int j= 0 ; j &lt; 2 ; j++)
+            for( int j= 0 ; j &lt; 2 ; j++ )
                 Peso_A[j]+= error * tasa_aprendizaje * Entrada_A[j];
             error_total+= !!error;
         }
@@ -401,17 +402,17 @@ int main(){
         printf( &quot;Peso %i: %.2f\t&quot; , i + 1 , Peso_A[i] );
     printf( &quot;Sesgo: %.2f&quot; , Sesgo_A );
 
-    int B[]={ 0, 1, 1, 1};
+    int B[]={ 0 , 1 , 1 , 1 };
     epoca=0;
     do{
         error_total= 0;
-        for( int i= 0 ; i &lt; 4 ; i++){
-            for( int j= 0 ; j &lt; 2 ; j++)
+        for( int i= 0 ; i &lt; 4 ; i++ ){
+            for( int j= 0 ; j &lt; 2 ; j++ )
                 Entrada_B[j]= tabla[i][j];
             Salida_B= evaluar_neurona( Entrada_B, Peso_B, Sesgo_B );
             error= B[i] - Salida_B;
             Sesgo_B+= error * tasa_aprendizaje;
-            for( int j= 0 ; j &lt; 2 ; j++)
+            for( int j= 0 ; j &lt; 2 ; j++ )
                 Peso_B[j]+= error * tasa_aprendizaje * Entrada_B[j];
             error_total+= !!error;
         }
@@ -421,17 +422,17 @@ int main(){
         printf( &quot;Peso %i: %.2f\t&quot; , i + 1 , Peso_B[i] );
     printf( &quot;Sesgo: %.2f&quot; , Sesgo_B );
 
-    int C[]={ 0, 0, 0, 1};
+    int C[]={ 0 , 0 , 0 , 1 };
     epoca=0;
     do{
         error_total= 0;
-        for( int i= 0 ; i &lt; 4 ; i++){
-            for( int j= 0 ; j &lt; 2 ; j++)
+        for( int i= 0 ; i &lt; 4 ; i++ ){
+            for( int j= 0 ; j &lt; 2 ; j++ )
                 Entrada_C[j]= tabla[i][j];
             Salida_C= evaluar_neurona( Entrada_C, Peso_C, Sesgo_C );
             error= C[i] - Salida_C;
             Sesgo_C+= error * tasa_aprendizaje;
-            for( int j= 0 ; j &lt; 2 ; j++)
+            for( int j= 0 ; j &lt; 2 ; j++ )
                 Peso_C[j]+= error * tasa_aprendizaje * Entrada_C[j];
             error_total+= !!error;
         }
@@ -454,12 +455,12 @@ int main(){
 /* ENTRENAMIENTO */
 /* CALCULAR E IMPRIMIR */
     printf( &quot;\n\n| A | B | S |\n&quot; );
-    for( int i= 0 ; i &lt; 4 ; i++){
-        for( int j= 0 ;  j &lt; 2 ; j++)
+    for( int i= 0 ; i &lt; 4 ; i++ ){
+        for( int j= 0 ;  j &lt; 2 ; j++ )
             Entrada_A[j]= Entrada_B[j]= Entrada[j]= tabla[i][j];
-        Entrada_C[0]= Salida_A= evaluar_neurona(Entrada_A, Peso_A, Sesgo_A);
-        Entrada_C[1]= Salida_B= evaluar_neurona(Entrada_B, Peso_B, Sesgo_B);
-        Salida= Salida_C= evaluar_neurona(Entrada_C, Peso_C, Sesgo_C);
+        Entrada_C[0]= Salida_A= evaluar_neurona( Entrada_A , Peso_A , Sesgo_A );
+        Entrada_C[1]= Salida_B= evaluar_neurona( Entrada_B , Peso_B , Sesgo_B );
+        Salida= Salida_C= evaluar_neurona( Entrada_C , Peso_C , Sesgo_C );
         printf( &quot;| %i | %i | %i |\n&quot; , Entrada[0] , Entrada[1] , Salida );
     }
     printf( &quot;\n&quot; );
@@ -467,9 +468,9 @@ int main(){
 }
 </code></pre>
 <p>Para conectar las neuronas se ha usado un pequeño truco conocido como cadena de asignaciones. Aunque quizás no lo habías notado explícitamente, ya vienes usándolo desde el inicio del taller: cada vez que usas el operador =, primero se evalúa lo que está a la derecha y luego se asigna el resultado a la izquierda.
-Por ejemplo, en algo como variable = 5 + 3, primero se realiza la suma (que está a la derecha) y luego se guarda el resultado en variable.</p>
+Por ejemplo, en algo como variable= 5 + 3, primero se realiza la suma (que está a la derecha) y luego se guarda el resultado en variable.</p>
 <p>Con eso en mente, veamos esta línea:</p>
-<pre><code class="language-C">for( int j= 0 ;  j &lt; 2 ; j++)
+<pre><code class="language-C">for( int j= 0 ;  j &lt; 2 ; j++ )
     Entrada_A[j]= Entrada_B[j]= Entrada[j]= tabla[i][j];
 </code></pre>
 <p>Según el diagrama que viste antes, las neuronas A y B comparten las mismas entradas. Así que en lugar de escribir tres líneas separadas para copiar el valor desde tabla[i][j] a Entrada[j], y de ahí a Entrada_B[j] y luego a Entrada_A[j], usamos una sola instrucción donde los valores se van encadenando.</p>
@@ -579,7 +580,7 @@ int *variable_puntero;
 <pre><code class="language-C">variable_puntero++
 </code></pre>
 <p>obtendrias un error muy conocido por muchos programadores &quot;Segmentation fault&quot;, que indica que se intenta acceder a un lugar de la memoria restringida. Pero entoces… ¿para qué sirve guardar la dirección de memoria de otra variable?</p>
-<p>Bien, aqu  volvemos a usar el operador *, pero en este caso tiene un significado distinto, una vez que se ha declarado un puntero, si se usa sobre este, se está dando la instrucción de que quieres acceder al dato que esta guardado en la dirección de memoria que tiene el puntero.</p>
+<p>Bien, aquí volvemos a usar el operador *, pero en este caso tiene un significado distinto, una vez que se ha declarado un puntero, si se usa sobre este, se está dando la instrucción de que quieres acceder al dato que esta guardado en la dirección de memoria que tiene el puntero.</p>
 <p>Si retomamos los ejemplos anteriores, podrías hacer algo como esto:</p>
 <pre><code class="language-C">int variable_normal= 5;
 int *variable_puntero= &amp;variable_normal
@@ -594,17 +595,17 @@ printf( &quot;%i&quot; , variable_normal );
 <h4>NeuroTIC.h</h4>
 <pre><code class="language-C">/*=========CALCULAR==========*/
 /*=========ENTRENAR==========*/
-int entrenar( int entradas[4][2], int resultados[4], float *Peso, float *Sesgo ){
+int entrenar( int entradas[4][2] , int resultados[4] , float *Peso , float *Sesgo ){
     int error;
     int error_total;
     float tasa_aprendizaje= 0.1;
     int epoca= 0;
     do{
         error_total= 0;
-        for( int i= 0 ; i &lt; 4 ; i++){
-            error= resultados[i] - evaluar_neurona( entradas[i], Peso, *Sesgo );
+        for( int i= 0 ; i &lt; 4 ; i++ ){
+            error= resultados[i] - evaluar_neurona( entradas[i] , Peso , *Sesgo );
             *Sesgo+= error * tasa_aprendizaje;
-            for( int j= 0 ; j &lt; 2 ; j++)
+            for( int j= 0 ; j &lt; 2 ; j++ )
                 Peso[j]+= error * tasa_aprendizaje * entradas[i][j];
             error_total+= !!error;
         }
@@ -620,19 +621,19 @@ int entrenar( int entradas[4][2], int resultados[4], float *Peso, float *Sesgo )
 int main(){
 /* ENTRADAS */
 /* ENTRENAMIENTO */
-    int A[]={ 1, 1, 1, 0};
+    int A[]={ 1 , 1 , 1 , 0 };
     printf( &quot;\nEntrenamiento A Intentos: %i\n&quot; , entrenar( tabla , A , Peso_A , &amp;Sesgo_A ) );
     for( int i= 0 ; i &lt; 2 ; i++ )
         printf( &quot;Peso %i: %.2f\t&quot; , i + 1 , Peso_A[i] );
     printf( &quot;Sesgo: %.2f&quot; , Sesgo_A );
 
-    int B[]={ 0, 1, 1, 1};
+    int B[]={ 0 , 1 , 1 , 1 };
     printf( &quot;\nEntrenamiento B Intentos: %i\n&quot; , entrenar( tabla , B , Peso_B , &amp;Sesgo_B ) );
     for( int i= 0 ; i &lt; 2 ; i++ )
         printf( &quot;Peso %i: %.2f\t&quot; , i + 1 , Peso_B[i] );
     printf( &quot;Sesgo: %.2f&quot; , Sesgo_B );
 
-    int C[]={ 0, 0, 0, 1};
+    int C[]={ 0 , 0 , 0 , 1 };
     printf( &quot;\nEntrenamiento C Intentos: %i\n&quot; , entrenar( tabla , C , Peso_C , &amp;Sesgo_C ) );
     for( int i= 0 ; i &lt; 2 ; i++ )
         printf( &quot;Peso %i: %.2f\t&quot; , i + 1 , Peso_C[i] );
@@ -645,11 +646,12 @@ int main(){
 <p>Y en realidad, lo es. Un arreglo en C se comporta como un puntero especial: no puedes cambiar su dirección, pero sí acceder a sus elementos como si fuera un puntero que apunta al primero. A diferencia de un puntero convencional (declarado con *), que puede apuntar a cualquier variable, un arreglo está confinado a un bloque de direcciones consecutivas, y su índice representa un desplazamiento desde la posición inicial.</p>
 <p>Por eso, podemos pasar el nombre del arreglo directamente como argumento sin ningún símbolo adicional, y dentro de la función acceder a sus elementos como siempre, con Peso[j].</p>
 <hr>
+<h2>Notas finales</h2>
 <p>Si llegaste hasta aquí, mereces una felicitación. Este módulo no solo fue largo, también estuvo lleno de ideas nuevas, conexiones y reorganización del código. Pero ahora, mirando hacia atrás, hay bastante por celebrar.</p>
 <p>Empezaste con el código final del módulo anterior: una sola neurona booleana capaz de entrenarse. A partir de ahí, diste el primer paso hacia una estructura más ordenada, creando tu propia biblioteca básica al separar las funciones activacion_booleana y evaluar_neurona en un archivo externo. Aprendiste a incluir esa biblioteca en tu código principal… y también descubriste por qué eso no funcionó de inmediato.</p>
 <p>Al ver que la función evaluar_neurona dependía de variables definidas en otro archivo, modificaste su estructura para que pudiera recibir todo lo necesario desde fuera, y así convertirla en una función verdaderamente independiente.</p>
 <p>Después diste un salto conceptual: aprendiste a resolver XOR, una operación lógica que no puede ser resuelta por una sola neurona, combinando varias funciones que ya conocías. Para lograrlo, construiste una red simple con tres neuronas conectadas entre sí. Aprendiste a declarar sus variables, a entrenarlas por separado y a conectarlas usando un truco muy útil: las cadenas de asignación.</p>
-<p>Finalmente, tuviste tu primer acercamiento al mundo de los punteros. Conociste, de forma sencilla, cómo se organiza la memoria de la computadora, cómo funcionan las direcciones, qué significa pasar una variable por valor o por referencia, y por qué eso importa al momento de modificar datos dentro de una función. Gracias a ese conocimiento, creaste una nueva función de entrenamiento —esta vez reutilizable— y la agregaste a tu biblioteca. Y también descubriste algo que probablemente no te habías cuestionado hasta ahora: los arreglos que vienes usando desde el Módulo 1… son, en realidad, un tipo especial de puntero.</p>
+<p>Finalmente, tuviste tu primer acercamiento al mundo de los punteros. Conociste, de forma sencilla, cómo se organiza la memoria de la computadora, cómo funcionan las direcciones, qué significa pasar una variable por valor o por referencia, y por qué eso importa al momento de modificar datos dentro de una función. Gracias a ese conocimiento, creaste una nueva función de entrenamiento reutilizable y la agregaste a tu biblioteca. Y también descubriste algo que probablemente no te habías cuestionado hasta ahora: los arreglos que vienes usando desde el Módulo 1 son, en realidad, un tipo especial de puntero.</p>
 <p>Todo lo que construiste en este módulo te prepara para un nuevo nivel: ahora tu código es más limpio, tus funciones son reutilizables y tus neuronas pueden trabajar en equipo. Las de tu cabeza también.</p>
 <p>Ahora tienes las herramientas para experimentar con otras combinaciones que resuelvan XOR… o para intentar con XNOR. Diviértete con eso. Esa es tu tarea.</p>
 <p>En el próximo módulo el objetivo será empaquetar todos los elementos que conforman una neurona para tratarlos como una unidad. Una vez hecho esto, podrás crear arreglos de neuronas, entrenarlas en conjunto y dejar atrás la necesidad de definir cada una por separado.</p>

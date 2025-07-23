@@ -18,7 +18,7 @@ No tengo nada en contra del avance tecnológico —al contrario, me asombra lo q
 
 ## Sobre mí
 
-Soy **Titux**, un autodidacta que programa en lenguaje C por gusto, por curiosidad, y por esa idea terca de que todo puede construirse si se entiende bien.
+Soy **Titux**, un entusiasta que programa en lenguaje C por gusto, por curiosidad, y por esa idea terca de que todo puede construirse si se entiende bien.
 
 ## ¿Qué ofrece este sitio?
 

@@ -69,23 +69,23 @@ int activacion_booleana( float x ){
     return x &gt;= 0;
 }
 
-int evaluar_neurona( int *Entrada[2] , float Peso[2], float Sesgo ){
+int evaluar_neurona( int *Entrada[2] , float Peso[2] , float Sesgo ){
     float ponderacion= Sesgo;
-    for( int i= 0 ; i &lt; 2 ; i++)
+    for( int i= 0 ; i &lt; 2 ; i++ )
         ponderacion+= *Entrada[i] * Peso[i];
    return activacion_booleana( ponderacion );
 }
 /*=========ENTRENAR==========*/
-int entrenar( int entradas[4][2], int resultados[4], float *Peso, float *Sesgo ){
+int entrenar( int entradas[4][2] , int resultados[4] , float *Peso , float *Sesgo ){
     int error;
     int error_total;
     float tasa_aprendizaje= 0.1;
     int epoca= 0;
     do{
         error_total= 0;
-        for( int i= 0 ; i &lt; 4 ; i++){
-            int *conv_entradas[]= {&amp;entradas[i][0] , &amp;entradas[i][1]};
-            error= resultados[i] - evaluar_neurona( conv_entradas, Peso, *Sesgo );
+        for( int i= 0 ; i &lt; 4 ; i++ ){
+            int *conv_entradas[]= { &amp;entradas[i][0] , &amp;entradas[i][1] };
+            error= resultados[i] - evaluar_neurona( conv_entradas , Peso , *Sesgo );
             *Sesgo+= error * tasa_aprendizaje;
             for( int j= 0 ; j &lt; 2 ; j++)
                 Peso[j]+= error * tasa_aprendizaje * entradas[i][j];
@@ -104,24 +104,24 @@ int Entrada[2];
 int Salida;
 
 struct neurona N[]= {
-    {.Entrada= {&amp;Entrada[0] , &amp;Entrada[1]}},
-    {.Entrada= {&amp;Entrada[0] , &amp;Entrada[1]}},
-    {.Entrada= {&amp;N[0].Salida , &amp;N[1].Salida}}
+    { .Entrada= { &amp;Entrada[0] , &amp;Entrada[1] } },
+    { .Entrada= { &amp;Entrada[0] , &amp;Entrada[1] } },
+    { .Entrada= { &amp;N[0].Salida , &amp;N[1].Salida } }
 };
 /*=========PRINCIPAL=========*/
 int main(){
     /* ENTRADAS */
     int tabla[4][2]={
-        {0 , 0},
-        {0 , 1},
-        {1 , 0},
-        {1 , 1}
+        { 0 , 0 },
+        { 0 , 1 },
+        { 1 , 0 },
+        { 1 , 1 }
     };
     /* MUESTRAS */
     int resultado[3][4]= {
-        { 1, 1, 1, 0},
-        { 0, 1, 1, 1},
-        { 0, 0, 0, 1},
+        { 1 , 1 , 1 , 0 },
+        { 0 , 1 , 1 , 1 },
+        { 0 , 0 , 0 , 1 },
     };
     /* ENTRENAMIENTO */
     for( int i= 0; i &lt; 3 ; i++ ){
@@ -132,11 +132,11 @@ int main(){
     }
     /* CALCULAR E IMPRIMIR */
         printf( &quot;\n\n| A | B | S |\n&quot; );
-        for( int i= 0 ; i &lt; 4 ; i++){
-            for( int j= 0 ;  j &lt; 2 ; j++)
+        for( int i= 0 ; i &lt; 4 ; i++ ){
+            for( int j= 0 ;  j &lt; 2 ; j++ )
                 Entrada[j]= tabla[i][j];
-            for( int j= 0; j &lt; 3 ; j++)
-                N[j].Salida= evaluar_neurona(N[j].Entrada, N[j].Peso, N[j].Sesgo);
+            for( int j= 0; j &lt; 3 ; j++ )
+                N[j].Salida= evaluar_neurona( N[j].Entrada , N[j].Peso , N[j].Sesgo );
             Salida= N[2].Salida;
             printf( &quot;| %i | %i | %i |\n&quot; , Entrada[0] , Entrada[1] , Salida );
         }
@@ -157,24 +157,24 @@ int main(){
 <p>Actualmente no es posible crear un único banco de pruebas para XOR, ingresarlo a la red, y que el entrenamiento se encargue por sí mismo de descubrir qué funciones intermedias debe resolver cada neurona para alcanzar el resultado final.</p>
 <p>Y al final, de eso se trata realmente la inteligencia artificial.</p>
 <hr>
-<h2>Entendiendo la limitacion</h2>
+<h2>Entendiendo la limitación</h2>
 <p>Para comprender por qué el sistema es incapaz de lograr esto, tenemos que enfocarnos en el modelo de entrenamiento:</p>
 <h4>NeuroTIC.h</h4>
 <pre><code class="language-C">/*=======DEFINICIONES========*/
 /*=========CALCULAR==========*/
 /*=========ENTRENAR==========*/
-int entrenar( int entradas[4][2], int resultados[4], float *Peso, float *Sesgo ){
+int entrenar( int entradas[4][2] , int resultados[4] , float *Peso , float *Sesgo ){
     int error;
     int error_total;
     float tasa_aprendizaje= 0.1;
     int epoca= 0;
     do{
         error_total= 0;
-        for( int i= 0 ; i &lt; 4 ; i++){
-            int *conv_entradas[]= {&amp;entradas[i][0] , &amp;entradas[i][1]};
-            error= resultados[i] - evaluar_neurona( conv_entradas, Peso, *Sesgo );
+        for( int i= 0 ; i &lt; 4 ; i++ ){
+            int *conv_entradas[]= { &amp;entradas[i][0] , &amp;entradas[i][1] };
+            error= resultados[i] - evaluar_neurona( conv_entradas , Peso , *Sesgo );
             *Sesgo+= error * tasa_aprendizaje;
-            for( int j= 0 ; j &lt; 2 ; j++)
+            for( int j= 0 ; j &lt; 2 ; j++ )
                 Peso[j]+= error * tasa_aprendizaje * entradas[i][j];
             error_total+= !!error;
         }
@@ -192,15 +192,15 @@ Una parte de la red tiene las entradas, otra parte tiene la salida, pero ninguna
 <hr>
 <h2>La inteligencia artificial es una calculadora</h2>
 <p>Vamos a cambiar la perspectiva con la que hemos venido entendiendo el sistema. Hasta ahora, has visto los elementos de la red como una serie de pasos individuales que resuelven un problema. Esto no se aleja mucho de la programación convencional, donde podrías escribir todo en una sola línea de código:<br>
-Salida = !(Entrada[0] &amp;&amp; Entrada[1]) &amp;&amp; (Entrada[0] || Entrada[1]);<br>
+Salida= !(Entrada[0] &amp;&amp; Entrada[1]) &amp;&amp; (Entrada[0] || Entrada[1]);<br>
 O incluso más sencillo:<br>
-Salida = Entrada[0] != Entrada[1];</p>
+Salida= Entrada[0] != Entrada[1];</p>
 <p>Es decir, si tú decides qué parte del problema resuelve cada componente, tratarías de construir la solución de la forma más directa posible.</p>
 <p>Pero ahora te propongo cambiar el enfoque: vamos a pensar la red neuronal como una función matemática.</p>
 <h3>Una red neuronal es una función</h3>
 <p>Una función matemática se escribe igual que en tu programa: nombre(argumentos). Dentro de esa función se definen los pasos necesarios para calcular un resultado.
-Por ejemplo:
-doble(x) = x * 2</p>
+Por ejemplo:<br>
+doble(X) = X × 2</p>
 <p>Esta función simplemente multiplica el valor de entrada por 2. Si le das un 3, te devuelve un 6. No hay magia: solo una transformación de entrada a salida.</p>
 <p>Hasta aquí, una función no hace nada que no puedas hacer con una calculadora.</p>
 <h3>Entendiendo la pendiendte de una funcion</h3>
@@ -216,7 +216,7 @@ f(x) = m·x + c</p>
 <li>m es la pendiente (cuánto cambia la salida si cambia la entrada).</li>
 <li>c es la ordenada al origen (el valor cuando x = 0).</li>
 </ul>
-<p>¿Te suena familiar? Es muy similar al modelo que utiliza una neurona:
+<p>¿Te suena familiar? Es muy similar al modelo que utiliza una neurona:<br>
 f(entrada) = peso × entrada + sesgo</p>
 <h3>Calculando la pendiente de tu viaje</h3>
 <p>Volvamos al ejemplo. Usando los datos que te da el mapa, puedes escribir:<br>
@@ -245,7 +245,7 @@ Distancia(t) = 87.5 × t</p>
 <h3>Derivadas: la clave para ajustar una red</h3>
 <p>Una derivada es una herramienta que nos dice cuál es la pendiente de una función en un punto específico. En funciones lineales, la pendiente es constante. Pero en funciones más complejas, la pendiente cambia en cada punto.</p>
 <p>En redes neuronales, usamos derivadas para saber cómo cambiar los pesos y sesgos para acercarnos al resultado correcto. Pero como las redes pueden tener muchas entradas (y cada una con su propio peso), usamos una técnica llamada derivadas parciales: calculamos la pendiente respecto a cada variable de forma independiente.</p>
-<p>Incluso el sesgo (bias) se puede tratar como un peso con una entrada constante igual a 1.</p>
+<p>Incluso el sesgo se puede tratar como un peso con una entrada constante igual a 1.</p>
 <p>Así, calculando la derivada de la función de activación y repitiendo el proceso desde la salida hacia las entradas, la red puede ajustar todos los pesos y sesgos para acercarse al comportamiento deseado.</p>
 <p>Eso es lo que hace el algoritmo de entrenamiento. No adivina los pesos: los calcula a partir de las pendientes, igual que tú lo hiciste al principio con tu viaje por carretera.</p>
 <hr>
@@ -254,11 +254,11 @@ Distancia(t) = 87.5 × t</p>
 f(x) = x ≥ 0</p>
 <p>Primero, observa su gráfica:</p>
 <div id="grafica3" class="grafica"></div>
-<p>A simple vista, salta el problema de intentar usar derivadas con esta función: no hay derivada que calcular. La pendiente es cero a lo largo de toda la función, excepto en el punto exacto donde cambia de 0 a 1, y ahí ni siquiera está bien definida.</p>
+<p>A simple vista, salta el problema de intentar usar derivadas con esta función: no hay derivada que calcular. La pendiente es cero a lo largo de toda la función, excepto en el punto exacto donde cambia de 0 a 1, y ni siquiera ahí está bien definida.</p>
 <p>Y si no podemos calcular una derivada, tampoco podemos saber si debemos ajustar el peso hacia arriba o hacia abajo durante el entrenamiento. En resumen: esta función no nos sirve si queremos entrenar una red mediante derivadas.</p>
 <p>Necesitamos una nueva función que sí nos diga —mediante su derivada— en qué punto de la gráfica estamos.</p>
 <p>Existen muchas funciones de activación que puedes encontrar en internet, pero para nuestro caso vamos a utilizar una que es especialmente famosa (y muy útil): la función sigmoide.</p>
-<p>Sí, tiene un nombre raro, pero tranquilo, no es nada del otro mundo. Se llama así porque tiene forma de “S” —así de simple fue la inspiración de los matemáticos.</p>
+<p>Sí, tiene un nombre raro, pero tranquilo, no es nada del otro mundo. Se llama así porque tiene forma de “S”.</p>
 <p>La función sigmoide se define como:<br>
 σ(x) = 1 / (1 + e⁻ˣ)</p>
 <p>No te preocupes por memorizarla ni entenderla a detalle por ahora. Lo importante es que veas su gráfica:</p>
@@ -383,7 +383,7 @@ float evaluar_neurona( struct neurona N ){
 /*=======DEFINICIONES========*/
 /*=========CALCULAR==========*/
 /*=========ENTRENAR==========*/
-int entrenar( float entradas[4][2], float resultados[4], float tasa_aprendizaje, float error_permitido, int max_intentos, struct neurona *N  ){
+int entrenar(  struct neurona *N , float entradas[4][2] , float resultados[4] , float tasa_aprendizaje , float error_permitido , int max_intentos  ){
     float error;
     float delta;
     float delta_oculta;
@@ -391,21 +391,21 @@ int entrenar( float entradas[4][2], float resultados[4], float tasa_aprendizaje,
     int epoca= 0;
     do{
         error_total= 0;
-        for( int i= 0 ; i &lt; 4 ; i++){
+        for( int i= 0 ; i &lt; 4 ; i++ ){
             for( int j= 0; j &lt; 2 ; j++ )
                 *N[0].Entrada[j]= entradas[i][j];
-            for( int j= 0 ; j &lt; 3 ; j++)
+            for( int j= 0 ; j &lt; 3 ; j++ )
                 N[j].Salida= evaluar_neurona( N[j] );
             error= resultados[i] - N[2].Salida;
-            error_total= fmax( error_total, fabs( error ) );
+            error_total= fmax( error_total , fabs( error ) );
             delta= error * activacion[N[2].activacion][1]( ponderacion( N[2]) );
             N[2].Sesgo+= delta * tasa_aprendizaje;
-            for( int j= 0 ; j &lt; 2 ; j++)
+            for( int j= 0 ; j &lt; 2 ; j++ )
                 N[2].Peso[j]+= delta * tasa_aprendizaje * entradas[i][j];
-            for( int j= 0; j &lt; 2 ; j++){
-                delta_oculta= delta * N[2].Peso[j] * activacion[N[j].activacion][1]( ponderacion( N[j]) );
+            for( int j= 0; j &lt; 2 ; j++ ){
+                delta_oculta= delta * N[2].Peso[j] * activacion[N[j].activacion][1]( ponderacion( N[j] ) );
                 N[j].Sesgo+= tasa_aprendizaje * delta_oculta;
-                for( int k= 0; k &lt; 2; k++)
+                for( int k= 0; k &lt; 2; k++ )
                     N[j].Peso[k]+= tasa_aprendizaje * delta_oculta * *N[j].Entrada[k];
             }
         }
@@ -416,7 +416,7 @@ int entrenar( float entradas[4][2], float resultados[4], float tasa_aprendizaje,
 <p>Antes de comprender el nuevo comportamiento de la función de entrenamiento, te voy a señalar los cambios que se hicieron:</p>
 <ul>
 <li>Cambiaron los argumentos: ahora la tasa de aprendizaje, el número máximo de intentos y el error permitido se controlan desde aquí. También se agregó un puntero a una estructura neurona, lo que permite modificar directamente sus valores internos.</li>
-<li>Se agregaron nuevas variables internas: delta, delta_oculta y error_total, y se cambió el tipo de la variable error a float para que sea compatible con los nuevos cálculos decimales.</li>
+<li>Se agregaron nuevas variables internas: delta y delta_oculta, y se cambió el tipo de la variable error a float para que sea compatible con los nuevos cálculos decimales.</li>
 <li>Ahora la carga de los valores de entrada se realiza directamente sobre las direcciones a las que apuntan las entradas de N[0]. Como N[1] comparte esas mismas direcciones, no es necesario volver a asignarlas.</li>
 <li>El cálculo de la red completa se hace recorriendo el arreglo de neuronas, justo como en el código principal.</li>
 <li>El cálculo del error se realiza directamente sobre el atributo Salida de N[2], que ahora está disponible al pasar la estructura completa como argumento.</li>
@@ -426,24 +426,24 @@ int entrenar( float entradas[4][2], float resultados[4], float tasa_aprendizaje,
 <li>Para las neuronas N[0] y N[1], se calcula delta_oculta multiplicando delta por el peso que conecta esa neurona con N[2] y por la derivada de su propia función de activación (con su ponderación como entrada).</li>
 <li>Finalmente, se ajustan los pesos y el sesgo de N[0] y N[1] de forma similar, pero usando delta_oculta en lugar de delta.</li>
 </ul>
-<p>Con estos cambios, estás aplicando por primera vez una técnica esencial en el entrenamiento de redes neuronales: la propagación hacia atrás del error, o backpropagation. Este proceso es, en el fondo, una aplicación sistemática de derivadas parciales sobre toda la red. Es decir, usamos derivadas para calcular cómo afecta cada parámetro (cada peso, cada sesgo) al error final, y luego los ajustamos en la dirección correcta para reducir ese error.</p>
+<p>Con estos cambios, estás aplicando por primera vez una técnica esencial en el entrenamiento de redes neuronales: la propagación hacia atrás del error. Este proceso es, en el fondo, una aplicación sistemática de derivadas parciales sobre toda la red. Es decir, usamos derivadas para calcular cómo afecta cada parámetro (cada peso, cada sesgo) al error final, y luego los ajustamos en la dirección correcta para reducir ese error.</p>
 <p>En el código, este procedimiento se refleja paso a paso:</p>
 <ol>
 <li>Primero, calculas el error que cometió la neurona de salida (N[2]):<br>
-error = resultados[i] - N[2].Salida;</li>
+<strong>error= resultados[i] - N[2].Salida;</strong></li>
 <li>Después, aplicas la regla de la cadena: tomas la derivada de la función de activación (como ya lo estudiaste en las derivadas parciales), evaluada en la ponderación que recibió la neurona. Ese resultado se multiplica por el error para obtener la tasa de ajuste, que llamamos delta:<br>
-delta = error * activacion[N[2].activacion]<a href="ponderacion(N%5B2%5D)">1</a>;<br>
+<strong>delta= error * activacion[N[2].activacion][1]( ponderacion(N[2]) );</strong><br>
 Aquí estás diciendo: “¿Qué tanto afecta la salida de esta neurona al error final?” y “¿Qué tan sensible es la función de activación en ese punto?”. Eso es exactamente lo que representa la derivada parcial.</li>
 <li>Luego, usas ese delta para ajustar los parámetros de la neurona de salida:<br>
-N[2].Sesgo += delta * tasa_aprendizaje;<br>
-N[2].Peso[j] += delta * tasa_aprendizaje * entradas[i][j];<br>
+<strong>N[2].Sesgo+= delta * tasa_aprendizaje;</strong><br>
+<strong>N[2].Peso[j]+= delta * tasa_aprendizaje * entradas[i][j];</strong><br>
 Esto es directamente la aplicación de la regla de actualización que vimos antes: nuevo valor = valor anterior ± derivada parcial × tasa de aprendizaje.</li>
 <li>Pero aquí es donde entra la verdadera fuerza de la red: el mismo delta se propaga hacia atrás a las neuronas que estaban antes (N[0] y N[1]). Se calcula un delta_oculta para cada una, multiplicando el delta de salida por el peso que conecta ambas neuronas y por la derivada de activación de la neurona oculta:<br>
-delta_oculta = delta * N[2].Peso[j] * activacion[N[j].activacion][1](ponderacion(N[j]));<br>
+<strong>delta_oculta= delta * N[2].Peso[j] * activacion[N[j].activacion][1](ponderacion(N[j]));</strong><br>
 Esta expresión representa una cadena de derivadas parciales: estás preguntando cómo el cambio en una neurona oculta afecta el error final, pasando por su efecto en la neurona de salida.</li>
 <li>Finalmente, con ese delta_oculta también ajustas los pesos y sesgos de las neuronas ocultas:<br>
-N[j].Sesgo += tasa_aprendizaje * delta_oculta;<br>
-N[j].Peso[k] += tasa_aprendizaje * delta_oculta * *N[j].Entrada[k];</li>
+<strong>N[j].Sesgo+= tasa_aprendizaje * delta_oculta;</strong><br>
+<strong>N[j].Peso[k]+= tasa_aprendizaje * delta_oculta * *N[j].Entrada[k];</strong></li>
 </ol>
 <p>Este proceso entero es backpropagation: una manera de repartir el error hacia atrás en la red, usando las derivadas parciales como guía. Cada neurona recibe una señal de corrección proporcional a cuánto contribuyó al error, y ajusta sus parámetros para hacerlo mejor la próxima vez.</p>
 <p>Y lo más interesante es que, gracias a la estructura que programaste (con funciones de activación organizadas en una matriz y accesibles por índice), este mecanismo funciona automáticamente sin importar qué función de activación estés usando. El código es el mismo, lo único que cambia es el “comportamiento matemático” de la neurona, es decir, su personalidad.</p>
@@ -456,37 +456,37 @@ float Salida;
 
 struct neurona N[]= {
     {
-        .Entrada= {&amp;Entrada[0] , &amp;Entrada[1]},
-        .activacion= 1
+    .Entrada= { &amp;Entrada[0] , &amp;Entrada[1] },
+    .activacion= 1
     },
     {
-        .Entrada= {&amp;Entrada[0] , &amp;Entrada[1]},
-        .activacion= 1
+    .Entrada= { &amp;Entrada[0] , &amp;Entrada[1] },
+    .activacion= 1
     },
     {
-        .Entrada= {&amp;N[0].Salida , &amp;N[1].Salida},
-        .activacion= 1
+    .Entrada= { &amp;N[0].Salida , &amp;N[1].Salida },
+    .activacion= 1
     }
 };
 /*=========PRINCIPAL=========*/
 int main(){
     /* ENTRADAS */
     float tabla[4][2]={
-        {0 , 0},
-        {0 , 1},
-        {1 , 0},
-        {1 , 1}
+        { 0 , 0 },
+        { 0 , 1 },
+        { 1 , 0 },
+        { 1 , 1 }
     };
     /* MUESTRAS */
-    float resultado[]= { 0, 1, 1, 0};
+    float resultado[]= { 0 , 1 , 1 , 0 };
     /* ENTRENAMIENTO */
-    printf( &quot;\nEntrenamiento Intentos: %i\n&quot; , entrenar( tabla , resultado , 0.1, 0.0, 1000, N) );
+    printf( &quot;\nEntrenamiento Intentos: %i\n&quot; , entrenar( N , tabla , resultado , 0.1, 0.0, 1000 ) );
     /* CALCULAR E IMPRIMIR */
         printf( &quot;\n\n| A | B | S |\n&quot; );
-        for( int i= 0 ; i &lt; 4 ; i++){
-            for( int j= 0 ;  j &lt; 2 ; j++)
+        for( int i= 0 ; i &lt; 4 ; i++ ){
+            for( int j= 0 ;  j &lt; 2 ; j++ )
                 Entrada[j]= tabla[i][j];
-            for( int j= 0; j &lt; 3 ; j++)
+            for( int j= 0; j &lt; 3 ; j++ )
                 N[j].Salida= evaluar_neurona( N[j] );
             Salida= N[2].Salida;
             printf( &quot;| %.0f | %.0f | %.0f |\n&quot; , Entrada[0] , Entrada[1] , Salida );
@@ -560,8 +560,7 @@ La red se queda cerca del resultado correcto, pero no lo alcanza con la precisi�
 <li>Ahora sabes cómo controlar los parámetros de entrenamiento y cómo estos impactan en el proceso de aprendizaje.</li>
 </ul>
 <p>Ahora posees oficialmente una red neuronal.</p>
-<p>Algo en lo que quiero que prestes atención antes de terminar este módulo es al parámetro de entrenamiento llamado error_permitido. Este valor representa un margen de error aceptable, y ha estado presente en todas las redes neuronales que has entrenado hasta ahora.</p>
-<p>Esto no es un detalle menor. Toda inteligencia artificial con la que llegues a interactuar —ya sea un asistente virtual, un traductor automático o un sistema de recomendación— fue entrenada con un criterio similar. Eso significa que siempre hay un pequeño rango en el que la IA puede equivocarse… y ese margen fue considerado “suficientemente bueno”.</p>
+<p>Algo en lo que quiero que prestes atención antes de terminar este módulo es al parámetro de entrenamiento llamado error_permitido, este valor representa un margen de error aceptable. Esto no es un detalle menor. Toda inteligencia artificial con la que llegues a interactuar —ya sea un asistente virtual, un traductor automático o un sistema de recomendación— fue entrenada con un criterio similar. Eso significa que siempre hay un pequeño rango en el que la IA puede equivocarse… y ese margen fue considerado “suficientemente bueno”.</p>
 <p>Así que cada vez que te encuentres con una IA, recuerda: su precisión no es absoluta, es una aproximación que fue considerada adecuada para su propósito.</p>
 <p>Ya llevamos varios módulos trabajando con una red de tres neuronas con dos entradas cada una. En los próximos módulos te enseñaré cómo lograr que tu código pueda crear redes más extensas, y construiremos un sistema modular para toda la red. Esto te permitirá, más adelante, conectar varias redes entre sí para que trabajen en conjunto.</p>
 <p>Por ahora, puedes disfrutar tus nuevas herramientas: tanto las que has incorporado a tu acervo cultural, como las funciones que ahora viven en tu biblioteca de código.</p>
