@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>NeuroticLab - Estructurando la inteligencia</title>
+        <link rel="stylesheet" href="/assets/css/variables.css" />
+        <link rel="stylesheet" href="/assets/css/utilities.css" />
+        <link rel="stylesheet" href="/assets/css/set_base.css" />
+        <link rel="stylesheet" href="/assets/css/main.css" />
+        
+    <link rel="stylesheet" href="/assets/css/header/header_nav.css" />
+    <link rel="stylesheet" href="/assets/css/content/modules.css" />
+    <link rel="stylesheet" href="/assets/css/content/main_content.css" />
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/monokai.min.css">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+    </head>
+    <body>
+        <header class="horizontal-bar">
+            <nav><a href="/" class="logo">NeuroTIClab</a></nav>
+            
+    <nav class="header-nav">
+        <a href="/pages/presentacion">Presentación</a>
+        <a href="/pages/requisitos">Requisitos</a>
+    </nav>
+    <div class="support drop-menu">
+        <span>¿Te gustó el sitio?</span>
+        <div class="menu-content">
+            <a href="/pages/support/suggest" target="_blank">Enviar sugerencias</a>
+            <a href="/pages/support/error" target="_blank">Reportar un error</a>
+            <a href="/pages/support/share" target="_blank">Compartir NeuroticLab</a>
+            <a href="/pages/support/donations" target="_blank">Donaciones</a>
+        </div>
+    </div>
+
+        </header>
+        <div class="site-middle">
+            
+                <aside class="modules">
+                    
+    <span>Módulos</span>
+    <ol start="0">
+        <li><a href="/pages/modules/00">Hablando el mismo idioma</a></li>
+        <li><a href="/pages/modules/01">Perceptrón booleano</a></li>
+        <li><a href="/pages/modules/02">Resolviendo XOR</a></li>
+        <li><a href="/pages/modules/03">Empaquetando neuronas</a></li>
+        <li><a href="/pages/modules/04">Neuronas trabajando en equipo</a></li>
+        <li><a href="/pages/modules/05">Estructurando la inteligencia</a></li>
+    </ol>
+
+                </aside>
+            
+            <main class="left-200">
+                <div id="main-content">
+                    
+    <h1>Módulo 5 - Estructurando la inteligencia</h1>
+<h2>Introducción</h2>
+<p>Estamos en la recta final del entendimiento de las redes neuronales. Pero antes de continuar, recordemos dónde nos quedamos en el módulo anterior:</p>
+<h4>NeuroTIC.h</h4>
+<pre><code class="language-C">/*========BIBLIOTECAS========*/
+#include &lt;math.h&gt;
+/*========ACTIVACION=========*/
+float activacion_booleana( float x ){
+    return x &gt;= 0;
+}
+float activacion_booleana_d( float x ){
+    return 1;
+}
+
+float activacion_sigmoide( float x ){
+    return 1 / ( 1 + exp( - x ) );
+}
+float activacion_sigmoide_d( float x ){
+    return activacion_sigmoide( x ) * ( 1 - activacion_sigmoide( x ) );
+}
+
+float ( *activacion[][2] )( float )={
+    { activacion_booleana , activacion_booleana_d },
+    { activacion_sigmoide , activacion_sigmoide_d }
+};
+/*=======DEFINICIONES========*/
+struct neurona{
+    float *Entrada[2];
+    float Salida;
+    float Peso[2];
+    float Sesgo;
+    int activacion;
+};
+/*=========CALCULAR==========*/
+float ponderacion( struct neurona N ){
+    float p= N.Sesgo;
+    for( int i= 0; i &lt; 2 ; i++ )
+        p+= *N.Entrada[i] * N.Peso[i];
+    return p;
+}
+
+float evaluar_neurona( struct neurona N ){
+   return activacion[N.activacion][0]( ponderacion( N ) );
+}
+/*=========ENTRENAR==========*/
+int entrenar(  struct neurona *N , float entradas[4][2] , float resultados[4] , float tasa_aprendizaje , float error_permitido , int max_intentos  ){
+    float error;
+    float delta;
+    float delta_oculta;
+    float error_total;
+    int epoca= 0;
+    do{
+        error_total= 0;
+        for( int i= 0 ; i &lt; 4 ; i++ ){
+            for( int j= 0; j &lt; 2 ; j++ )
+                *N[0].Entrada[j]= entradas[i][j];
+            for( int j= 0 ; j &lt; 3 ; j++ )
+                N[j].Salida= evaluar_neurona( N[j] );
+            error= resultados[i] - N[2].Salida;
+            error_total= fmax( error_total , fabs( error ) );
+            delta= error * activacion[N[2].activacion][1]( ponderacion( N[2]) );
+            N[2].Sesgo+= delta * tasa_aprendizaje;
+            for( int j= 0 ; j &lt; 2 ; j++ )
+                N[2].Peso[j]+= delta * tasa_aprendizaje * entradas[i][j];
+            for( int j= 0; j &lt; 2 ; j++ ){
+                delta_oculta= delta * N[2].Peso[j] * activacion[N[j].activacion][1]( ponderacion( N[j] ) );
+                N[j].Sesgo+= tasa_aprendizaje * delta_oculta;
+                for( int k= 0; k &lt; 2; k++ )
+                    N[j].Peso[k]+= tasa_aprendizaje * delta_oculta * *N[j].Entrada[k];
+            }
+        }
+    } while( ++epoca &lt; max_intentos &amp;&amp; error_total &gt; error_permitido );
+    return epoca;
+}
+</code></pre>
+<h4>NeuroTIC.c</h4>
+<pre><code class="language-C">/*========BIBLIOTECAS========*/
+#include &lt;stdio.h&gt;
+#include &quot;NeuroTIC.h&quot;
+/*=========VARIABLES=========*/
+float Entrada[2];
+float Salida;
+
+struct neurona N[]= {
+    {
+    .Entrada= { &amp;Entrada[0] , &amp;Entrada[1] },
+    .activacion= 1
+    },
+    {
+    .Entrada= { &amp;Entrada[0] , &amp;Entrada[1] },
+    .activacion= 1
+    },
+    {
+    .Entrada= { &amp;N[0].Salida , &amp;N[1].Salida },
+    .activacion= 1
+    }
+};
+/*=========PRINCIPAL=========*/
+int main(){
+    /* ENTRADAS */
+    float tabla[4][2]={
+        { 0 , 0 },
+        { 0 , 1 },
+        { 1 , 0 },
+        { 1 , 1 }
+    };
+    /* MUESTRAS */
+    float resultado[]= { 0 , 1 , 1 , 0 };
+    /* ENTRENAMIENTO */
+    printf( &quot;\nEntrenamiento Intentos: %i\n&quot; , entrenar( N , tabla , resultado , 0.1, 0.0, 1000 ) );
+    /* CALCULAR E IMPRIMIR */
+        printf( &quot;\n\n| A | B | S |\n&quot; );
+        for( int i= 0 ; i &lt; 4 ; i++ ){
+            for( int j= 0 ;  j &lt; 2 ; j++ )
+                Entrada[j]= tabla[i][j];
+            for( int j= 0; j &lt; 3 ; j++ )
+                N[j].Salida= evaluar_neurona( N[j] );
+            Salida= N[2].Salida;
+            printf( &quot;| %.0f | %.0f | %.0f |\n&quot; , Entrada[0] , Entrada[1] , Salida );
+        }
+        printf( &quot;\n&quot; );
+    /* TERMINAR PROGRAMA */
+    return 0;
+}
+</code></pre>
+<p>Ahora ya cuentas con toda la teoría y las herramientas necesarias para construir una red y entrenarla con ejemplos concretos. Aprendiste a propagar el error desde la capa de salida hasta la capa de entrada, usando la derivada de la función sigmoide. Sin embargo, aún nos queda una última restricción por superar para romper el límite de las tres neuronas que hemos estado utilizando hasta ahora.</p>
+<p>Esta vez, el obstáculo no es conceptual, sino técnico. Tiene que ver con cómo estamos declarando las entradas y los pesos dentro de la estructura de la neurona, y también con la forma en que estamos organizando las neuronas dentro de un arreglo. Pero antes de ver cómo solucionarlo, es importante entender por qué es un problema.</p>
+<hr>
+<h2>Topología de una red neuronal artificial</h2>
+<p>El concepto de topología en las redes neuronales se refiere a cómo están organizadas las neuronas y cómo se conectan entre sí.</p>
+<p>Una topología básica implica que cada neurona de una capa se conecta a todas las neuronas de la capa anterior. Esta es, de hecho, la topología que has utilizado hasta ahora: cada neurona de tu capa de entrada se conecta a cada una de las entradas disponibles, y la neurona de salida se conecta a todas las neuronas de la capa anterior.</p>
+<p>Como hasta ahora solo has trabajado con dos entradas y dos neuronas intermedias, cada neurona tiene exactamente dos entradas. Pero ¿qué pasaría si tuvieras más entradas? ¿O si las capas intermedias tuvieran más neuronas?</p>
+<p>Aquí es donde aparece la limitación: tu estructura de neurona está definida como *Entrada[2] y Peso[2]. Esto significa que solo puede manejar exactamente dos entradas. Si quisieras usar más, tendrías que definir una estructura diferente para cada caso.</p>
+<p>En una red neuronal real, esto no es viable, ya que cada neurona puede tener una cantidad distinta de entradas, dependiendo de cuántas neuronas haya en la capa anterior. Es necesario, entonces, crear una estructura más flexible que se adapte dinámicamente a cualquier cantidad de entradas.</p>
+<hr>
+<h2>Creadno entradas</h2>
+<p>Para poder lograr la flexibilidad que te propongo —y que te permitirá construir cualquier topología de red—, vas a conocer una nueva función de C llamada calloc. Esta función se encuentra definida en la biblioteca stdlib.h, así que lo primero será incluir dicha biblioteca en tu propia cabecera, para que esté disponible tanto en ella como en el código principal. Luego, haremos un cambio importante en la definición de la estructura de la neurona:</p>
+<h4>NeuroTIC.h</h4>
+<pre><code class="language-C">/*========BIBLIOTECAS========*/
+#include &lt;math.h&gt;
+#include &lt;stdlib.h&gt;
+/*========ACTIVACION=========*/
+/*=======DEFINICIONES========*/
+struct neurona{
+    int entradas;
+    float **Entrada;
+    float Salida;
+    float *Peso;
+    float Sesgo;
+    int activacion;
+};
+/*=========ENTRENAR==========*/
+</code></pre>
+<p>Como puedes ver, ahora el atributo Entrada ya no es un arreglo estático, sino un puntero doble, lo cual nos permite apuntar a un arreglo de direcciones. Por otro lado, Peso ya no es un arreglo de tamaño fijo, sino un puntero simple, lo que nos permitirá crear su contenido dinámicamente.</p>
+<p>Además, agregamos una nueva variable: entradas. Esta será muy útil porque nos permitirá definir cuántas entradas tendrá cada neurona de forma independiente.</p>
+<p>Ya sabes que un puntero solo puede guardar una única dirección. Pero con la función calloc podemos pedirle al sistema operativo que nos reserve un bloque de memoria con una cierta cantidad de espacios, y luego nos devuelva la dirección de inicio de ese bloque. Esto es muy parecido a crear un arreglo durante la ejecución del programa.</p>
+<p>Es muy importante que no utilices calloc sin tener dónde guardar la dirección que devuelve. Si la pierdes, no podrás acceder a ese bloque de memoria ni tampoco liberarlo después. Vamos a ver cómo se usa esta función en el código principal.</p>
+<h4>NeuroTIC.c</h4>
+<pre><code class="language-C">/*========BIBLIOTECAS========*/
+#include &lt;stdio.h&gt;
+#include &quot;NeuroTIC.h&quot;
+/*=========PRINCIPAL=========*/
+int main(){
+/*=========VARIABLES=========*/
+    float Entrada[2];
+    float Salida;
+
+    struct neurona N[]= {
+        {
+        .entradas= 2,
+        .activacion= 1
+        },
+        {
+        .entradas= 2,
+        .activacion= 1
+        },
+        {
+        .entradas= 2,
+        .activacion= 1
+        }
+    };
+
+    for( int i= 0 ; i &lt; 3 ; i++ ){
+        N[i].Entrada= calloc( N[i].entradas , sizeof( float * ) );
+        N[i].Peso= calloc( N[i].entradas , sizeof( float ) );
+    }
+
+    for( int i= 0 ; i &lt; 2 ; i++ )
+        for( int j= 0 ; j &lt; 2 ; j++ )
+            N[i].Entrada[j]= &amp;Entrada[j];
+
+    for( int i= 0 ; i &lt; 2 ; i++ )
+        N[2].Entrada= &amp;N[i].Salida;
+    /* ENTRADAS */
+    /* MUESTRAS */
+    /* ENTRENAMIENTO */
+    /* CALCULAR E IMPRIMIR */
+    /* TERMINAR PROGRAMA */
+}
+</code></pre>
+<p>Explicación del código:</p>
+<ul>
+<li>Como todas las funciones de tu biblioteca son independientes del código principal, lo primero que hacemos es mover la definición de main() justo después de incluir las bibliotecas.</li>
+<li>Luego eliminamos la inicialización manual de las direcciones en el atributo Entrada y la reemplazamos por la asignación del atributo entradas, que ahora nos permite definir cuántas tendrá cada neurona.</li>
+<li>Una vez creadas las estructuras, usamos un bucle para asignar memoria con calloc tanto a Entrada como a Peso.</li>
+<li>Después, otro par de bucles nos permite asignar las direcciones específicas a cada neurona, ya que no podemos usar llaves para inicializar estos atributos después de declararlos.</li>
+</ul>
+<p>Antes de entender bien cómo funciona calloc, necesitas conocer otra herramienta básica de C: la función sizeof.</p>
+<p>Ya hemos dicho que las variables son como cajas donde guardas números. Pero lo que no te he explicado aún es que esas cajas no tienen todas el mismo tamaño: una variable de tipo int ocupa una cierta cantidad de espacio en memoria, y una de tipo float ocupa una diferente.</p>
+<p>La función sizeof te dice exactamente cuántos espacios (bytes) necesita un tipo de variable para guardarse en memoria. Por ejemplo, si usas:<br>
+sizeof(float)<br>
+Estás preguntando: ¿cuánto espacio ocupa una variable tipo float?</p>
+<p>Ahora, cuando usamos calloc(cantidad, tamaño), lo que le estamos pidiendo a la computadora es que nos reserve cantidad × tamaño espacios de memoria, donde:</p>
+<ul>
+<li>cantidad es el número de elementos que queremos guardar, y</li>
+<li>tamaño es cuánto espacio ocupa cada uno (lo que nos dice sizeof).</li>
+</ul>
+<p>Por ejemplo, en esta línea:<br>
+N[i].Peso = calloc(N[i].entradas, sizeof(float));<br>
+Estamos diciendo: reserva un bloque de memoria capaz de guardar N[i].entradas valores tipo float.</p>
+<p>Y en esta otra:<br>
+N[i].Entrada = calloc(N[i].entradas, sizeof(float *));<br>
+Estamos reservando memoria para N[i].entradas direcciones, cada una de las cuales apunta a una variable tipo float.</p>
+<h4>NeuroTIC.c</h4>
+<pre><code class="language-C">/*========BIBLIOTECAS========*/
+#include &lt;stdio.h&gt;
+#include &quot;NeuroTIC.h&quot;
+/*=========PRINCIPAL=========*/
+int main(){
+/*=========VARIABLES=========*/
+    /* ENTRADAS */
+    /* MUESTRAS */
+    /* ENTRENAMIENTO */
+    /* CALCULAR E IMPRIMIR */
+    /* TERMINAR PROGRAMA */
+    for( int i= 0 ; i &lt; 3 ; i ++ ){
+        free( N[i].Entrada );
+        free( N[i].Peso );
+    }
+    return 0;
+}
+</code></pre>
+<p>Cuando se utiliza herramientas de creacion de memoria dinamica como calloc, una vez que este espacio ya no es necesario, se rqeuiere liberar manualmente la memoria, ya que una vez terminado el programa, el sistema seguira marcando ese espacio de memoria como ocuapdo y no podra utilizarse, esto puede ocasionar problemas en tu computadora.</p>
+<p>Para liberar la memoria se utiliza la funcion free y se le indica que direccion debe liberar, es por esto la importancia de siempre mantener un puntero con dicha direccion, ya que si no, no hay manera de acceder a ese espacio para liberalo, como vez, en este bucle final se esta liberando el espacio asignado a Entrada y Peso de cada una de las neuronas.</p>
+<p>Ahora puedes compilar y ejecutar tu programa para asegurarte que sigue trabajando correctamente.</p>
+<hr>
+<h2>Creando topologías</h2>
+<p>Hasta ahora hemos utilizado un arreglo simple de tres neuronas porque la red era pequeña: dos neuronas en la primera capa y una en la segunda. En este caso, es fácil de manejar y no representa ninguna complicación.</p>
+<p>Sin embargo, cuando tu red empieza a crecer, se vuelve muy difícil controlar a qué capa pertenece cada neurona y cómo se deben conectar entre sí. Además, si quieres que cada capa tenga un número distinto de neuronas, el manejo de los índices se vuelve cada vez más complejo y propenso a errores.</p>
+<p>Por eso, a partir de este punto vas a rediseñar la estructura de tu red neuronal. Vas a crear una nueva estructura que no solo contenga las neuronas, sino que también describa la topología completa de la red: cuántas capas tiene, cuántas neuronas hay por capa y cómo se conectan entre sí. Esta estructura utilizará punteros dinámicos para que puedas construir redes de cualquier tamaño y forma.</p>
+<h4>NeuroTIC.h</h4>
+<pre><code class="language-C">/*========BIBLIOTECAS========*/
+/*========ACTIVACION=========*/
+/*=======DEFINICIONES========*/
+struct neurona{
+    int entradas;
+    float **Entrada;
+    float Salida;
+    float *Peso;
+    float Sesgo;
+    int activacion;
+};
+
+struct red{
+    int entradas;
+    float **Entrada;
+    int capas;
+    int *neuronas;
+    struct neurona **N;
+    float ***buffer;
+    float **Salida;
+}
+/*=========ENTRENAR==========*/
+</code></pre>
+<p>Veamos qué atributos tiene esta nueva estructura:</p>
+<ul>
+<li>entradas: Aquí se define la cantidad de valores de entrada que tendrá la red.</li>
+<li>*Entrada: Este será un arreglo de punteros que servirá para comunicar la red con el exterior. Es decir, no guarda los datos directamente, solo apunta a ellos.</li>
+<li>capas: Será el valor que indica cuántas capas tiene la red en total, incluyendo la capa de entrada, las ocultas (si las hay) y la capa de salida.</li>
+<li>*neuronas: Se convertirá en un arreglo donde cada posición indica cuántas neuronas hay en cada capa. Por ejemplo, neuronas[0] corresponde a la capa de entrada, neuronas[1] a la siguiente, y así sucesivamente.</li>
+<li>**N: Este doble puntero se utiliza de forma distinta a como se hizo con Entrada. En lugar de ser solo un arreglo de punteros, será una matriz dinámica donde cada fila representa una capa y cada elemento de esa fila es una neurona. Así podrás posicionar las neuronas organizadas por capa y facilitar la construcción de la topología de la red.</li>
+<li>***buffer: ¿Un puntero triple? ¿Me he vuelto loco? No, ya lo estaba.<br>
+Este puntero tiene la función de evitar que dupliques arreglos para conectar las neuronas intermedias con las salidas de las capas anteriores. El buffer será una matriz de punteros: cada fila representa una capa intermedia, y dentro de ella hay punteros que apuntan directamente a las salidas de la capa anterior. Las entradas de cada neurona se conectarán a este arreglo de punteros.</li>
+<li>**Salida: Es un puntero doble similar a Entrada. Hasta ahora has trabajado con redes que solo tenían una salida, pero si más adelante agregas varias, este arreglo te permitirá devolver fácilmente todas las salidas sin complicaciones, ya que cada puntero apunta directamente al campo Salida de una neurona en la última capa.</li>
+</ul>
+<p>Una vez definida la estructura, vamos a declarar una red con 2 entradas, 2 neuronas en la primera capa y 1 en la segunda (justo como hemos venido trabajando).</p>
+<h4>NeuroTIC.c</h4>
+<pre><code class="language-C">/*========BIBLIOTECAS========*/
+/*=========PRINCIPAL=========*/
+/*=========VARIABLES=========*/
+    struct red R={
+        .entradas= 2,
+        .capas= 2,
+    };
+
+    R.neuronas= calloc( R.capas , sizeof( int ) );
+    R.neuronas[0]= 2;
+    R.neuronas[1]= 1;
+
+    R.Entrada= calloc( R.entradas , sizeof( float * ) );
+
+    R.N= calloc( R.capas , sizeof( struct neurona * ) );
+    for( int i= 0 ; i &lt; R.capas ; i++ )
+        R.N[i]= calloc( R.neuronas[i] , sizeof( struct neurona ) );
+
+    for( int i= 0 ; i &lt; R.neuronas[0] ; i++ )
+        R.N[0][i].Entrada= R.Entrada;
+    
+    R.Salida= calloc( R.neuronas[R.capas - 1] , sizeof( float * ) );
+    for( int i= 0 ; i &lt; R.neuronas[R.capas - 1] ; i++ )
+        R.Salida[i]= &amp;R.N[R.capas -1][i].Salida;
+    
+    R.buffer= calloc( R.capas - 1 ,  sizeof( float ** ) );
+    for( int i= 0 ; i &lt; R.capas - 1 ; i++ ){
+        R.buffer[i]= calloc( R.neuronas[i] , sizeof( float * ) );
+        for( int j= 0 ; j &lt; R.neuronas[i] ; j++ )
+            R.buffer[i][j]= &amp;R.N[i][j].Salida;
+    }
+
+    for( int i= 0 ; i &lt; R.capas - 1 ; i++ )
+        for( int j= 0 ; j &lt; R.neuronas[i + 1] ; j++ )
+            R.N[i + 1][j].Entrada= R.buffer[i];
+
+    for( int i= 0 ; i &lt; R.neuronas[0] ; i++ )
+        R.N[0][i].entradas= R.entradas;
+    for( int i= 1 ; i &lt; R.capas ; i++ )
+        for( int j= 0 ; j &lt; R.neuronas[i] ; j++ )
+            R.N[i][j].entradas= R.neuronas[i - 1];
+
+    for( int i= 0 ; i &lt; R.capas ; i++ )
+        for( int j= 0 ; j &lt; R.neuronas[i] ; j++ )
+            R.N[i][j].Peso= calloc( R.N[i][j].entradas , sizeof( float ) );
+    /* ENTRADAS */
+    /* MUESTRAS */
+    /* ENTRENAMIENTO */
+    /* CALCULAR E IMPRIMIR */
+    /* TERMINAR PROGRAMA */
+</code></pre>
+<p>Sí, ¡el código ha crecido! Pero no te preocupes. Este bloque pronto se convertirá en una función reutilizable dentro de tu biblioteca. Así, cada vez que quieras crear una red, solo tendrás que decir cuántas entradas tendrá, cuántas capas usará, y cuántas neuronas habrá en cada capa.</p>
+<p>Veamos paso a paso cómo se construye esta red neuronal:</p>
+<ol>
+<li>Inicia declarando una estructura red llamada R, donde defines dos valores fundamentales: la cantidad de entradas que recibirá del exterior, y la cantidad total de capas que tendrá la red, incluyendo tanto la capa de entrada como la de salida. Esta información será clave para crear toda la topología.</li>
+<li>Se reserva memoria para el arreglo neuronas, que indica cuántas neuronas tendrá cada capa. En este ejemplo, asignamos 2 neuronas para la primera capa (la de entrada) y 1 para la segunda (la de salida). Como verás, este arreglo es tan largo como el número de capas.</li>
+<li>Se reserva el espacio para el arreglo de punteros Entrada, que servirá para comunicar la red con el mundo exterior. Este arreglo no contiene valores, sino direcciones. Cada posición apuntará a una variable de entrada individual.</li>
+<li>Se construye la matriz N que contendrá las neuronas organizadas por capa. Primero se crea un arreglo de punteros a estructuras neurona, donde cada puntero representará una capa. Luego, para cada capa, se reserva un arreglo de estructuras neurona de acuerdo a cuántas se necesitan, según el arreglo neuronas.</li>
+<li>Se conectan las entradas externas a la primera capa de la red. Esto se logra cargando las direcciones almacenadas en R.Entrada dentro del atributo Entrada de cada neurona en la capa 0. Así, todas las neuronas de la primera capa estarán leyendo directamente las entradas definidas fuera de la red.</li>
+<li>Se prepara la salida de la red. En lugar de tener una única salida, se utiliza un arreglo de punteros dobles llamado Salida, donde se almacenan las direcciones de las salidas de todas las neuronas de la última capa. Para acceder a esta capa correctamente se usa el índice R.capas - 1, ya que los arreglos inician en cero.</li>
+<li>Se construye el buffer que conectará las capas intermedias. Primero se reserva un arreglo de punteros dobles, con un tamaño de R.capas - 1, para cubrir todos los espacios entre capas. Luego, para cada una de esas filas, se reserva un arreglo de punteros que apuntan a la salida de cada neurona de la capa anterior. Este buffer actúa como un puente: guarda punteros a las salidas de una capa para que las siguientes puedan usarlas como entrada.</li>
+<li>Se recorre la matriz N para conectar cada neurona con su correspondiente entrada. Las neuronas de la capa 0 ya están conectadas a las entradas externas, pero todas las demás se conectan al buffer de la capa anterior. Así se establece automáticamente la conexión entre capas.</li>
+<li>Se define cuántas entradas tendrá cada neurona. Las neuronas de la primera capa tomarán como número de entradas el valor R.entradas. Luego, capa por capa, cada neurona toma como número de entradas la cantidad de neuronas de la capa anterior. Esto asegura que cada neurona tenga exactamente un peso por cada entrada recibida.</li>
+<li>Se reserva memoria para el arreglo de pesos Peso de cada neurona. Finalmente, una vez conocido cuántas entradas tendrá cada neurona, se utiliza calloc para crear su arreglo de pesos correspondiente. Así, cada peso estará vinculado directamente a una entrada, lista para ser entrenada.</li>
+</ol>
+<p>Como puedes observar, solo los pasos 1 y 2 debes indicarlos manualmente, lo demas sucede en funcion de estos.</p>
+<hr>
+<h2>Ajustando el codigo</h2>
+<p>Antes de ponernos guapos haciendo la funcion de construccion de la red, vamos a ajustar lo que ya tenemos para poder probar este nuevo codigo sin complicaciones.</p>
+<p>Primero vamos a ajustar la funcion de entrenamiento para que reciba una estructura red completa en lugar de un arreglo de neuronas.</p>
+<h4>NeuroTIC.h</h4>
+<pre><code class="language-C">/*========BIBLIOTECAS========*/
+/*========ACTIVACION=========*/
+/*=======DEFINICIONES========*/
+/*=========CALCULAR==========*/
+/*=========ENTRENAR==========*/
+int entrenar(  struct red *R , float entradas[4][2] , float resultados[4] , float tasa_aprendizaje , float error_permitido , int max_intentos  ){
+    float error;
+    float delta;
+    float delta_oculta;
+    float error_total;
+    int epoca= 0;
+    do{
+        error_total= 0;
+        for( int i= 0 ; i &lt; 4 ; i++ ){
+            for( int j= 0 ; j &lt; Net-&gt;inputs ; j++ )
+                Net-&gt;Entrada[j]= &amp;entradas[i][j];
+            for( int j= 0 ; j &lt; R-&gt;capas ; j++ )
+                for( int k= 0 ; k &lt; R-&gt;neuronas[j] ; k++ )
+                    R-&gt;N[j][k].Salida= evaluar_neurona( R-&gt;N[j][k] );
+            error= resultados[i] - R-&gt;Salida[0];
+            error_total= fmax( error_total , fabs( error ) );
+            delta= error * activacion[N[2].activacion][1]( ponderacion( N[2]) );
+            N[2].Sesgo+= delta * tasa_aprendizaje;
+            for( int j= 0 ; j &lt; 2 ; j++ )
+                N[2].Peso[j]+= delta * tasa_aprendizaje * entradas[i][j];
+            for( int j= 0; j &lt; 2 ; j++ ){
+                delta_oculta= delta * N[2].Peso[j] * activacion[N[j].activacion][1]( ponderacion( N[j] ) );
+                N[j].Sesgo+= tasa_aprendizaje * delta_oculta;
+                for( int k= 0; k &lt; 2; k++ )
+                    N[j].Peso[k]+= tasa_aprendizaje * delta_oculta * *N[j].Entrada[k];
+            }
+        }
+    } while( ++epoca &lt; max_intentos &amp;&amp; error_total &gt; error_permitido );
+    return epoca;
+}
+</code></pre>
+
+
+                </div>
+            </main>
+            
+        </div>
+        <footer class="horizontal-bar">
+                <p>© Oscar Sotomayor, 2025</p> · 
+                <a href="/LICENSE-CONTENIDO/" target="_blank">Licencia de Contenido</a> · 
+                <a href="/LICENSE-CODIGO/" target="_blank">Licencia del Código</a> · 
+                <a href="/Terminos/" target="_blank">Términos y Condiciones</a> · 
+                <a href="/Privacidad/" target="_blank">Política de Privacidad</a>
+        </footer>
+        
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/r.min.js"></script>
+    <script>
+        hljs.highlightAll();
+    </script>
+
+    </body>
+</html>
