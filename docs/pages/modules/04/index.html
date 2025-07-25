@@ -46,6 +46,7 @@
         <li><a href="/pages/modules/02">Resolviendo XOR</a></li>
         <li><a href="/pages/modules/03">Empaquetando neuronas</a></li>
         <li><a href="/pages/modules/04">Neuronas trabajando en equipo</a></li>
+        <li><a href="/pages/modules/05">Estructurando la inteligencia</a></li>
     </ol>
 
                 </aside>
@@ -323,7 +324,6 @@ float ( *activacion[][2] )( float )={
     { activacion_booleana , activacion_booleana_d },
     { activacion_sigmoide , activacion_sigmoide_d }
 };
-
 /*=======DEFINICIONES========*/
 /*=========CALCULAR==========*/
 /*=========ENTRENAR==========*/
@@ -335,6 +335,8 @@ float ( *activacion[][2] )( float )={
 <p>Ahora vamos a crear un nuevo atributo en la estructura neurona que guarde el índice que indica qué función de activación va a usar cada neurona.</p>
 <h4>NeuroTIC.h</h4>
 <pre><code class="language-C">/*========BIBLIOTECAS========*/
+/*========ACTIVACION=========*/
+/*=======DEFINICIONES========*/
 struct neurona{
     float *Entrada[2];
     float Salida;
@@ -342,8 +344,6 @@ struct neurona{
     float Sesgo;
     int activacion;
 };
-/*========ACTIVACION=========*/
-/*=======DEFINICIONES========*/
 /*=========CALCULAR==========*/
 /*=========ENTRENAR==========*/
 </code></pre>
@@ -457,14 +457,17 @@ float Salida;
 struct neurona N[]= {
     {
     .Entrada= { &amp;Entrada[0] , &amp;Entrada[1] },
+    .Peso= { 0.1 , -0.2 },
     .activacion= 1
     },
     {
     .Entrada= { &amp;Entrada[0] , &amp;Entrada[1] },
+    Peso= { -0.4 , 0.5 },
     .activacion= 1
     },
     {
     .Entrada= { &amp;N[0].Salida , &amp;N[1].Salida },
+    .Peso= { 0.7 , -0.8 },
     .activacion= 1
     }
 };
@@ -480,7 +483,7 @@ int main(){
     /* MUESTRAS */
     float resultado[]= { 0 , 1 , 1 , 0 };
     /* ENTRENAMIENTO */
-    printf( &quot;\nEntrenamiento Intentos: %i\n&quot; , entrenar( N , tabla , resultado , 0.1, 0.0, 1000 ) );
+    printf( &quot;\nEntrenamiento Intentos: %i\n&quot; , entrenar( N , tabla , resultado , 0.1, 0.0, 100000 ) );
     /* CALCULAR E IMPRIMIR */
         printf( &quot;\n\n| A | B | S |\n&quot; );
         for( int i= 0 ; i &lt; 4 ; i++ ){
@@ -500,6 +503,7 @@ int main(){
 <ul>
 <li>Se cambió el tipo de dato de las variables Entrada, Salida, tabla y resultado a float, para que sean compatibles con la función sigmoide, que devuelve valores con decimales.</li>
 <li>Se agregó el campo .activacion a cada una de las estructuras neurona dentro del arreglo N[], asignándole el valor 1 para indicar que deben usar la función sigmoide como función de activación.</li>
+<li>Se inicializan los pesos de las neuronas con valores cualquiera. Aunque estos no son los valores finales que la red usará, es necesario comenzar con algún valor para que el proceso de entrenamiento tenga de dónde partir. Si los pesos estuvieran en cero, la red no tendría margen para ajustar sus salidas y aprender. Cualquier valor pequeño, positivo o negativo, es suficiente para comenzar.</li>
 <li>Se eliminó el bloque que entrenaba de forma individual las compuertas NAND, OR y AND. Ahora el entrenamiento se hace directamente sobre el patrón XOR utilizando toda la red.</li>
 <li>Se reemplazó la matriz resultados[][] por un arreglo resultado[] que contiene las salidas esperadas del XOR para las combinaciones de entrada.</li>
 <li>Se actualizó la llamada a la función entrenar() para pasarle la tabla de entradas, los resultados esperados, la tasa de aprendizaje, el error máximo permitido, el número máximo de intentos, y un puntero al arreglo de neuronas.</li>
