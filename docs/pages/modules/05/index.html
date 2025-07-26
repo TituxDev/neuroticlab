@@ -413,7 +413,7 @@ Este puntero tiene la función de evitar que dupliques arreglos para conectar la
     for( int i= 0 ; i &lt; R.capas ; i++ ){
         for( int j= 0 ; j &lt; R.neuronas[i] ; j++ )
             free( R.N[i][j].Peso );
-        free( R.N[i][0].Entrada );
+        free( R.N[0][i].Entrada );
         free( R.N[i] );
     }
     free( R.N );
@@ -561,7 +561,7 @@ Este paso asegura que toda la red se adapte para minimizar el error.</li>
     for( int i= 0 ; i &lt; R.capas ; i++ ){
         for( int j= 0 ; j &lt; R.neuronas[i] ; j++ )
             free( R.N[i][j].Peso );
-        free( R.N[i][0].Entrada );
+        free( R.N[0][i].Entrada );
         free( R.N[i] );
     }
     free( R.N );
