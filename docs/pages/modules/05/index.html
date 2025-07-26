@@ -46,7 +46,8 @@
         <li><a href="/pages/modules/02">Resolviendo XOR</a></li>
         <li><a href="/pages/modules/03">Empaquetando neuronas</a></li>
         <li><a href="/pages/modules/04">Neuronas trabajando en equipo</a></li>
-        <li><a href="#">Estructurando la inteligencia</a></li>
+        <li><a href="/pages/modules/05">Estructurando la inteligencia</a></li>
+        <hr>
     </ol>
 
                 </aside>
@@ -140,14 +141,17 @@ float Salida;
 struct neurona N[]= {
     {
     .Entrada= { &amp;Entrada[0] , &amp;Entrada[1] },
+    .Peso= { 0.1 , -0.2 },
     .activacion= 1
     },
     {
     .Entrada= { &amp;Entrada[0] , &amp;Entrada[1] },
+    Peso= { -0.4 , 0.5 },
     .activacion= 1
     },
     {
     .Entrada= { &amp;N[0].Salida , &amp;N[1].Salida },
+    .Peso= { 0.7 , -0.8 },
     .activacion= 1
     }
 };
@@ -163,7 +167,7 @@ int main(){
     /* MUESTRAS */
     float resultado[]= { 0 , 1 , 1 , 0 };
     /* ENTRENAMIENTO */
-    printf( &quot;\nEntrenamiento Intentos: %i\n&quot; , entrenar( N , tabla , resultado , 0.1, 0.0, 1000 ) );
+    printf( &quot;\nEntrenamiento Intentos: %i\n&quot; , entrenar( N , tabla , resultado , 0.1, 0.0, 100000 ) );
     /* CALCULAR E IMPRIMIR */
         printf( &quot;\n\n| A | B | S |\n&quot; );
         for( int i= 0 ; i &lt; 4 ; i++ ){
@@ -247,6 +251,12 @@ int main(){
 
     for( int i= 0 ; i &lt; 2 ; i++ )
         N[2].Entrada= &amp;N[i].Salida;
+
+    int max= 1;
+    int min= -1;
+    for( int i= 0 ; i &lt; 3 ; i++ )
+        for( int j= 0 ; j &lt; N[i].entradas ; j++ )
+            N[i].Peso[j]= ( rand() % ( max - min + 1 ) ) + min;
     /* ENTRADAS */
     /* MUESTRAS */
     /* ENTRENAMIENTO */
@@ -260,20 +270,21 @@ int main(){
 <li>Luego eliminamos la inicialización manual de las direcciones en el atributo Entrada y la reemplazamos por la asignación del atributo entradas, que ahora nos permite definir cuántas tendrá cada neurona.</li>
 <li>Una vez creadas las estructuras, usamos un bucle para asignar memoria con calloc tanto a Entrada como a Peso.</li>
 <li>Después, otro par de bucles nos permite asignar las direcciones específicas a cada neurona, ya que no podemos usar llaves para inicializar estos atributos después de declararlos.</li>
+<li>Finalmente, se asignan los valores iniciales a los pesos. Para no hacerlo manualmente, se utiliza la función rand (de stdlib.h) que genera un número pseudoaleatorio. La operación que estás viendo permite mantener el resultado dentro de un rango entre un valor mínimo y un valor máximo.</li>
 </ul>
 <p>Antes de entender bien cómo funciona calloc, necesitas conocer otra herramienta básica de C: la función sizeof.</p>
-<p>Ya hemos dicho que las variables son como cajas donde guardas números. Pero lo que no te he explicado aún es que esas cajas no tienen todas el mismo tamaño: una variable de tipo int ocupa una cierta cantidad de espacio en memoria, y una de tipo float ocupa una diferente.</p>
-<p>La función sizeof te dice exactamente cuántos espacios (bytes) necesita un tipo de variable para guardarse en memoria. Por ejemplo, si usas:<br>
+<p>Ya dijimos que las variables son como cajas donde guardas números. Pero lo que no te he explicado aún es que esas cajas no tienen todas el mismo tamaño: una variable de tipo int ocupa una cierta cantidad de espacio en memoria, y una de tipo float ocupa otra diferente.</p>
+<p>La función sizeof te dice exactamente cuántos espacios (bytes) necesita un tipo de variable para guardarse en memoria. Por ejemplo:<br>
 sizeof(float)<br>
-Estás preguntando: ¿cuánto espacio ocupa una variable tipo float?</p>
+Esto le pregunta al compilador: ¿cuánto espacio ocupa una variable tipo float?</p>
 <p>Ahora, cuando usamos calloc(cantidad, tamaño), lo que le estamos pidiendo a la computadora es que nos reserve cantidad × tamaño espacios de memoria, donde:</p>
 <ul>
 <li>cantidad es el número de elementos que queremos guardar, y</li>
 <li>tamaño es cuánto espacio ocupa cada uno (lo que nos dice sizeof).</li>
 </ul>
-<p>Por ejemplo, en esta línea:<br>
+<p>Por ejemplo:<br>
 N[i].Peso = calloc(N[i].entradas, sizeof(float));<br>
-Estamos diciendo: reserva un bloque de memoria capaz de guardar N[i].entradas valores tipo float.</p>
+Esto significa: reserva un bloque de memoria capaz de guardar N[i].entradas valores tipo float.</p>
 <p>Y en esta otra:<br>
 N[i].Entrada = calloc(N[i].entradas, sizeof(float *));<br>
 Estamos reservando memoria para N[i].entradas direcciones, cada una de las cuales apunta a una variable tipo float.</p>
@@ -296,9 +307,9 @@ int main(){
     return 0;
 }
 </code></pre>
-<p>Cuando se utiliza herramientas de creacion de memoria dinamica como calloc, una vez que este espacio ya no es necesario, se rqeuiere liberar manualmente la memoria, ya que una vez terminado el programa, el sistema seguira marcando ese espacio de memoria como ocuapdo y no podra utilizarse, esto puede ocasionar problemas en tu computadora.</p>
-<p>Para liberar la memoria se utiliza la funcion free y se le indica que direccion debe liberar, es por esto la importancia de siempre mantener un puntero con dicha direccion, ya que si no, no hay manera de acceder a ese espacio para liberalo, como vez, en este bucle final se esta liberando el espacio asignado a Entrada y Peso de cada una de las neuronas.</p>
-<p>Ahora puedes compilar y ejecutar tu programa para asegurarte que sigue trabajando correctamente.</p>
+<p>Cuando utilizas herramientas de creación de memoria dinámica como calloc, es muy importante liberar ese espacio una vez que ya no se necesita. De lo contrario, aunque termine tu programa, el sistema puede seguir marcando ese espacio de memoria como ocupado, lo que podría causar problemas si se repite muchas veces (esto se conoce como fuga de memoria).</p>
+<p>Para liberar la memoria usamos la función free(), pasándole la dirección del bloque que queremos liberar. Por eso es tan importante siempre guardar esa dirección en un puntero: si la pierdes, no hay forma de liberar ese espacio.</p>
+<p>Como puedes ver, en este bucle final se está liberando el espacio asignado a Entrada y Peso de cada una de las neuronas.</p>
 <hr>
 <h2>Creando topologías</h2>
 <p>Hasta ahora hemos utilizado un arreglo simple de tres neuronas porque la red era pequeña: dos neuronas en la primera capa y una en la segunda. En este caso, es fácil de manejar y no representa ninguna complicación.</p>
@@ -386,11 +397,28 @@ Este puntero tiene la función de evitar que dupliques arreglos para conectar la
     for( int i= 0 ; i &lt; R.capas ; i++ )
         for( int j= 0 ; j &lt; R.neuronas[i] ; j++ )
             R.N[i][j].Peso= calloc( R.N[i][j].entradas , sizeof( float ) );
+
+    int max= 1;
+    int min= -1;
+    for( int i= 0 ; i &lt; R.capas ; i++ )
+        for( int j= 0 ; j &lt; R.neuronas[i] ; j++ )
+            for( int k= 0 ; k &lt; R.N[i][j].entradas ; k++ )
+                R.N[i][j].Peso[k]= ( rand() % ( max - min + 1 ) ) + min;
     /* ENTRADAS */
     /* MUESTRAS */
     /* ENTRENAMIENTO */
     /* CALCULAR E IMPRIMIR */
     /* TERMINAR PROGRAMA */
+    free( R.Salida );
+    for( int i= 0 ; i &lt; R.capas ; i++ ){
+        for( int j= 0 ; j &lt; R.neuronas[i] ; j++ )
+            free( R.N[i][j].Peso );
+        free( R.N[i][0].Entrada );
+        free( R.N[i] );
+    }
+    free( R.N );
+    free( buffer );
+    return 0;
 </code></pre>
 <p>Sí, ¡el código ha crecido! Pero no te preocupes. Este bloque pronto se convertirá en una función reutilizable dentro de tu biblioteca. Así, cada vez que quieras crear una red, solo tendrás que decir cuántas entradas tendrá, cuántas capas usará, y cuántas neuronas habrá en cada capa.</p>
 <p>Veamos paso a paso cómo se construye esta red neuronal:</p>
@@ -405,49 +433,216 @@ Este puntero tiene la función de evitar que dupliques arreglos para conectar la
 <li>Se recorre la matriz N para conectar cada neurona con su correspondiente entrada. Las neuronas de la capa 0 ya están conectadas a las entradas externas, pero todas las demás se conectan al buffer de la capa anterior. Así se establece automáticamente la conexión entre capas.</li>
 <li>Se define cuántas entradas tendrá cada neurona. Las neuronas de la primera capa tomarán como número de entradas el valor R.entradas. Luego, capa por capa, cada neurona toma como número de entradas la cantidad de neuronas de la capa anterior. Esto asegura que cada neurona tenga exactamente un peso por cada entrada recibida.</li>
 <li>Se reserva memoria para el arreglo de pesos Peso de cada neurona. Finalmente, una vez conocido cuántas entradas tendrá cada neurona, se utiliza calloc para crear su arreglo de pesos correspondiente. Así, cada peso estará vinculado directamente a una entrada, lista para ser entrenada.</li>
+<li>Por último, se modifica el bucle de inicialización de los pesos. Ahora recorre toda la matriz de neuronas usando el número de capas y la cantidad de neuronas por capa. Para cada neurona, se recorre su arreglo de pesos y se les asigna un valor inicial. Esto garantiza que todos los pesos estén listos para el entrenamiento sin importar la topología de la red.</li>
 </ol>
 <p>Como puedes observar, solo los pasos 1 y 2 debes indicarlos manualmente, lo demas sucede en funcion de estos.</p>
+<p>Finalmente, se libera la memoria dinámica utilizada por la red. Se comienza con el arreglo de salidas, seguido por los pesos de cada neurona y el arreglo compartido de entradas (liberado una sola vez por capa). Luego se liberan las capas de neuronas, el arreglo principal de capas (R.N) y el buffer utilizado para conectar las salidas entre capas. Esto asegura que no queden bloques de memoria reservados tras finalizar el programa.</p>
 <hr>
-<h2>Ajustando el codigo</h2>
-<p>Antes de ponernos guapos haciendo la funcion de construccion de la red, vamos a ajustar lo que ya tenemos para poder probar este nuevo codigo sin complicaciones.</p>
-<p>Primero vamos a ajustar la funcion de entrenamiento para que reciba una estructura red completa en lugar de un arreglo de neuronas.</p>
+<h2>Ajustando el código</h2>
+<p>Antes de que empecemos a construir la función que generará redes completas automáticamente, vamos a hacer algunos ajustes en el código que ya tenemos. La idea es asegurarnos de que todo esté funcionando correctamente antes de agregar más capas (literal y metafóricamente).</p>
+<p>Uno de los cambios más importantes es que vamos a modificar la función de entrenamiento. Hasta ahora, esta función trabajaba con un arreglo de neuronas, pero eso ya no es suficiente para las redes más complejas que queremos construir. Por eso, vamos a hacer que reciba una estructura red completa, con toda su topología, entradas y salidas integradas.</p>
+<p>Esto nos permitirá entrenar redes de cualquier tamaño o forma sin tener que preocuparnos por la forma interna de los arreglos. Además, reducirá mucho la cantidad de código repetitivo en el futuro.</p>
+<p>Veamos cómo queda la nueva versión de esta función dentro del archivo de cabecera:</p>
 <h4>NeuroTIC.h</h4>
 <pre><code class="language-C">/*========BIBLIOTECAS========*/
 /*========ACTIVACION=========*/
 /*=======DEFINICIONES========*/
 /*=========CALCULAR==========*/
 /*=========ENTRENAR==========*/
-int entrenar(  struct red *R , float entradas[4][2] , float resultados[4] , float tasa_aprendizaje , float error_permitido , int max_intentos  ){
-    float error;
-    float delta;
-    float delta_oculta;
+int entrenar(  struct red *R , float **entradas , float **resultados , int muestras , float tasa_aprendizaje , float error_permitido , int max_intentos  ){
+    float *error;
+    float *delta;
+    float *delta_oculta;
     float error_total;
     int epoca= 0;
+    error= calloc( R-&gt;neuronas[R-&gt;capas - 1 ] , sizeof( float ) );
     do{
         error_total= 0;
-        for( int i= 0 ; i &lt; 4 ; i++ ){
-            for( int j= 0 ; j &lt; Net-&gt;inputs ; j++ )
-                Net-&gt;Entrada[j]= &amp;entradas[i][j];
+        for( int i= 0 ; i &lt; muestras ; i++ ){
+            for( int j= 0 ; j &lt; R-&gt;entradas ; j++ )
+                R-&gt;Entrada[j]= &amp;entradas[i][j];
             for( int j= 0 ; j &lt; R-&gt;capas ; j++ )
                 for( int k= 0 ; k &lt; R-&gt;neuronas[j] ; k++ )
                     R-&gt;N[j][k].Salida= evaluar_neurona( R-&gt;N[j][k] );
-            error= resultados[i] - R-&gt;Salida[0];
-            error_total= fmax( error_total , fabs( error ) );
-            delta= error * activacion[N[2].activacion][1]( ponderacion( N[2]) );
-            N[2].Sesgo+= delta * tasa_aprendizaje;
-            for( int j= 0 ; j &lt; 2 ; j++ )
-                N[2].Peso[j]+= delta * tasa_aprendizaje * entradas[i][j];
-            for( int j= 0; j &lt; 2 ; j++ ){
-                delta_oculta= delta * N[2].Peso[j] * activacion[N[j].activacion][1]( ponderacion( N[j] ) );
-                N[j].Sesgo+= tasa_aprendizaje * delta_oculta;
-                for( int k= 0; k &lt; 2; k++ )
-                    N[j].Peso[k]+= tasa_aprendizaje * delta_oculta * *N[j].Entrada[k];
+            delta= calloc( R-&gt;neuronas[R-&gt;capas - 1 ] , sizeof( float ) );
+            for( int j= 0 ; j &lt; R-&gt;neuronas[R-&gt;capas - 1 ] ){
+                error[j]= resultados[i][j] - *R-&gt;Salida[j];
+                error_total+= fabs( error[j] );
+                delta[j]= error[j] * activacion[R-&gt;N[R-&gt;capas - 1][j].activacion][1]( ponderacion( R-&gt;N[R-&gt;capas - 1][j] ) );
             }
+            for( int j= R-&gt;capas - 2 ; j &gt;= 0 ; j-- ){
+                delta_oculta= calloc( R-&gt;neuronas[j] , sizeof( float ) );
+                for( int k= 0 ; k &lt; R-&gt;neuronas[j + 1] ; k++ )
+                    for( int l= 0 ; l &lt; R-&gt;N[j + 1][k].entradas ; l++ )
+                        delta_oculta[l]+= delta[k] * R-&gt;N[j + 1][k].Peso[l];
+                for( int k= 0 ; k &lt; R-&gt;neuronas[j] ; k++ )
+                    delta_oculta[k]*= activacion[R-&gt;N[j][k].activacion][1]( ponderacion( R-&gt;N[j][k] ) );
+                for( int k= 0 ; k &lt; R-&gt;neuronas[j + 1] ; k++ ){
+                    for( int l= 0 ; l &lt; R-&gt;N[j + 1][k].entradas ; l++ )
+                        R-&gt;N[j + 1][k].Peso[l]+= delta[k] * tasa_aprendizaje * *R-&gt;N[j + 1][k].Entrada[l];
+                    R-&gt;N[j + 1][k].Sesgo+= delta[k] * tasa_aprendizaje;
+                }
+                free( delta );
+                delta= calloc( R-&gt;neuronas[j] , sizeof( float ) );
+                for( int k= 0 ; k &lt; R-&gt;neuronas[j] ; k++ )
+                    delta[k]= delta_oculta[k];
+                free( delta_oculta );
+            }
+            for( int j= 0 ; j &lt; R-&gt;neuronas[0] ; j++ ){
+                for( int k= 0 ; k &lt; R-&gt;N[0][j].entradas ; k++ )
+                    R-&gt;N[0][j].Peso[k]+= delta[j] * tasa_aprendizaje * *R-&gt;N[0][j].Entrada[k];
+                R-&gt;N[0][j].Sesgo+= delta[j] * tasa_aprendizaje;
+            }
+            free( delta );
         }
     } while( ++epoca &lt; max_intentos &amp;&amp; error_total &gt; error_permitido );
+    free( error );
     return epoca;
 }
 </code></pre>
+<ul>
+<li>Se modificaron los argumentos de la función.
+Ahora, en lugar de recibir un puntero a una sola neurona, la función recibe un puntero a una estructura red, lo que permite trabajar con múltiples capas. También se cambiaron los parámetros de entrada y salida de arreglos fijos a matrices dinámicas:<br>
+entradas pasó de ser una matriz fija [4][2] a un puntero doble float **entradas, permitiendo una cantidad variable de muestras y entradas.<br>
+resultados también cambió de un arreglo plano [4] a un puntero doble float **resultados, con un valor esperado por cada neurona de salida en cada muestra.<br>
+Se agregó un nuevo argumento muestras, que indica cuántos ejemplos de entrenamiento contiene el conjunto de datos.</li>
+<li>Las variables error, delta y delta_oculta pasaron de ser variables simples a ser arreglos dinámicos, para permitir manejar cualquier cantidad de neuronas por capa.0</li>
+<li>El bucle que recorre las muestras ahora utiliza la variable muestras para controlar su longitud, lo que reemplaza el valor fijo de 4 que se usaba anteriormente.</li>
+<li>La asignación de entradas a la red sigue el mismo principio que antes, pero ahora se realiza en función de la cantidad de entradas que contiene la estructura red.</li>
+<li>La evaluación hacia adelante ya no recorre un arreglo plano de neuronas, sino una matriz bidimensional que representa todas las capas y todas las neuronas por capa. Esto permite evaluar redes de cualquier tamaño.</li>
+<li>El cálculo del error y del delta para las salidas se hace con arreglos. Además, el cálculo del error total ahora acumula la suma del valor absoluto de cada error individual, en lugar de reemplazarlo como antes.</li>
+<li>La parte de retropropagación fue expandida para que funcione dinámicamente en función de la topología de la red. Esta es la parte más importante del cambio y la explicaremos paso a paso en la siguiente sección.</li>
+<li>Para acceder a los miembros de la estructura a través de un puntero, se utiliza el operador -&gt; en lugar del punto.</li>
+</ul>
+<p>Una vez que se ha evaluado la red con una muestra de entrada, se comparan sus salidas con los resultados esperados. A partir de esa diferencia se calculan los errores y se ajustan los pesos de todas las neuronas, desde las de salida hasta las de la primera capa oculta.</p>
+<ol>
+<li><strong>Cálculo del error y delta en la capa de salida</strong><br>
+El primer paso es calcular el error de cada neurona de salida. Para ello, se toma la diferencia entre el valor deseado (resultados[i][j]) y el valor real de la salida de la neurona.<br>
+Luego, con ese error, se calcula el delta para cada neurona. El delta representa cuánto debe corregirse esa neurona, y se obtiene multiplicando el error por la derivada de la función de activación evaluada sobre su entrada ponderada.<br>
+Además, se acumula el valor absoluto de todos los errores para calcular el error total de la red en esa iteración.</li>
+<li><strong>Retropropagación hacia las capas ocultas</strong><br>
+Con los deltas de salida calculados, ahora se retropropaga el error hacia las capas anteriores. Este proceso comienza en la penúltima capa y avanza hacia la primera capa oculta, recorriendo la red en orden inverso.<br>
+En cada capa, se crea un nuevo arreglo llamado delta_oculta, cuyo tamaño coincide con la cantidad de neuronas en esa capa. Luego, para cada neurona, se calcula su delta acumulando el aporte de todas las neuronas de la capa siguiente a las que está conectada.<br>
+Cada aporte se obtiene multiplicando el delta de la neurona siguiente por el peso correspondiente. Al finalizar, este valor se multiplica por la derivada de la función de activación evaluada en la entrada ponderada de la neurona actual.<br>
+Este procedimiento se repite capa por capa, retropropagando el error a lo largo de toda la red.</li>
+<li><strong>Actualización de los pesos y sesgos</strong><br>
+Después de calcular los deltas, se actualizan los pesos y sesgos de cada neurona.<br>
+Para cada peso, se multiplica el delta por la tasa de aprendizaje y por el valor de la entrada correspondiente, y luego se suma al peso actual.<br>
+El sesgo también se actualiza sumando el delta por la tasa de aprendizaje.</li>
+<li><strong>Última actualización en la capa de entrada</strong><br>
+Finalmente, se actualizan los pesos que conectan la capa de entrada con la primera capa oculta. Aunque no se retropropaga un delta desde la entrada (porque no tiene neuronas), sí se puede ajustar el valor de estos pesos usando el último arreglo de deltas calculado.<br>
+Este paso asegura que toda la red se adapte para minimizar el error.</li>
+</ol>
+<p>¡Excelente! Lo más difícil ya quedó atrás. Solo falta hacer unos pequeños ajustes al código principal para que todo funcione en armonía.</p>
+<p>Comenzamos actualizando el banco de pruebas para que sea coherente con el tipo de datos que espera la función de entrenamiento. Como ahora usamos punteros dobles (float **) para representar las muestras de entrada y los resultados esperados, debemos usar calloc para reservar la memoria:</p>
+<h4>NeuroTIC.c</h4>
+<pre><code class="language-C">/*========BIBLIOTECAS========*/
+/*=========PRINCIPAL=========*/
+/*=========VARIABLES=========*/
+    /* ENTRADAS */
+    int muestras= 4;
+    float **tabla= calloc( muestras , sizeof( float * ) );
+    for( int i= 0 ; i &lt; muestras ; i++ )
+        tabla[i]= calloc( R.entradas , sizeof( float ) );
+    for( int i= 0 ; i &lt; muestras ; u++ )
+        for( int j= 0 ; j &lt; R.entradas ; j++ )
+            tabla[i][j]= ( i &gt;&gt; j ) &amp; 1;
+    /* MUESTRAS */
+    float **resultados= calloc( muestras , sizeof( float * ) );
+    for( int i= 0 ; i &lt; muestras ; i++ )
+        resultados[i]= calloc( R.neuronas[R.capas - 1] , sizeof( float ) );
+    for( int i= 0 ; i &lt; muestras ; i++ )
+        for( int j= 0 ; j &lt; R.neuronas[R.capas - 1] ; j++ )
+            resultados[i][j]= tabla[i][0] != tabla[i][1];
+    /* ENTRENAMIENTO */
+    /* CALCULAR E IMPRIMIR */
+    /* TERMINAR PROGRAMA */
+    free( R.Salida );
+    for( int i= 0 ; i &lt; R.capas ; i++ ){
+        for( int j= 0 ; j &lt; R.neuronas[i] ; j++ )
+            free( R.N[i][j].Peso );
+        free( R.N[i][0].Entrada );
+        free( R.N[i] );
+    }
+    free( R.N );
+    free( buffer );
+
+    for( int i= 0 ; i &lt; muastras ; i++ ){
+        free( tabla[i] );
+        free( resultados[i] );
+    }
+    free( tabla );
+    free( resultados );
+</code></pre>
+<p>La matriz tabla representa las entradas de cada muestra, y resultados guarda el resultado esperado. En este ejemplo seguimos utilizando la tabla XOR, por lo que cada fila de tabla representa una combinación binaria de dos bits, y el resultado en resultados será 1 solo si los bits son distintos.</p>
+<p>Luego, actualizamos la llamada a la función de entrenamiento para que reciba ahora la estructura completa de la red &amp;R, junto con la nueva matriz de muestras y el número total de estas:</p>
+<h4>NeuroTIC.c</h4>
+<pre><code class="language-C">/*========BIBLIOTECAS========*/
+/*=========PRINCIPAL=========*/
+/*=========VARIABLES=========*/
+    /* ENTRADAS */
+    /* ENTRENAMIENTO */
+    printf( &quot;\nEntrenamiento Intentos: %i\n&quot; , entrenar( &amp;R , tabla , resultado , muestras , 0.1, 0.0, 100000 ) );
+    /* CALCULAR E IMPRIMIR */
+    /* TERMINAR PROGRAMA */
+</code></pre>
+<p>Finalmente, ajustamos el bloque que imprime los resultados para recorrer las muestras, asignar sus entradas, evaluar la red y mostrar el resultado:</p>
+<h4>NeuroTIC.c</h4>
+<pre><code class="language-C">/*========BIBLIOTECAS========*/
+/*=========PRINCIPAL=========*/
+/*=========VARIABLES=========*/
+    /* ENTRADAS */
+    /* ENTRENAMIENTO */
+    /* CALCULAR E IMPRIMIR */
+        printf( &quot;\n\n| A | B | S |\n&quot; );
+        for( int i= 0 ; i &lt; 4 ; i++ ){
+            for( int j= 0 ;  j &lt; R.entradas ; j++ )
+                R.Entrada[j]= &amp;tabla[i][j];
+            for( int j= 0; j &lt; R.capas ; j++ )
+                for( int k= 0 ; k &lt; R.neurnas[j] ; j++ )
+                    R.N[j][k].Salida= evaluar_neurona( R.N[j][k] );
+            printf( &quot;| %.0f | %.0f | %.0f |\n&quot; , Entrada[0] , Entrada[1] , *R.Salida );
+        }
+        printf( &quot;\n&quot; );
+    /* TERMINAR PROGRAMA */
+</code></pre>
+<p>Recuerda que al final del programa es importante liberar la memoria de tabla y resultados, igual que hicimos con los elementos de la red.</p>
+<p>Con esto, ¡tu red neuronal dinámica está completa y funcional! Solo resta compilar y ejecutar el programa para ver los resultados del entrenamiento.</p>
+<hr>
+<p>Mira todo lo que has avanzado desde el comienzo del curso. Hagamos un repaso de tu recorrido por los distintos módulos:</p>
+<ol>
+<li>Comenzaste con un código simple que mostraba cómo una neurona artificial puede modificar sus resultados ajustando sus pesos y sesgo en función de datos de entrada y resultados esperados. El sistema de entrenamiento utilizaba estos datos para calcular y reducir el error.</li>
+<li>Aprendiste que al conectar varias neuronas en conjunto es posible lograr comportamientos mucho más complejos, superando las limitaciones de una neurona individual.</li>
+<li>Diste un paso importante al estructurar la red: agrupaste las neuronas como estructuras independientes, lo cual permitió trabajar con ellas mediante herramientas reutilizables desde una biblioteca, y diseñaste un sistema funcional de conexiones entre capas utilizando referencias de memoria.</li>
+<li>Descubriste cómo, usando derivadas, el error puede recorrer la red en sentido inverso durante el entrenamiento, ajustando pesos y sesgos de cada neurona. Implementaste un sistema flexible de funciones de activación para cada neurona, comprendiste por qué la función booleana original no podía propagar el error, y aprendiste la importancia de inicializar los pesos aleatoriamente.</li>
+<li>Finalmente, lograste construir un sistema completamente descriptivo: con unos pocos valores iniciales, es posible construir una red completa, entrenarla y adaptarla automáticamente según su topología, todo gracias a la nueva estructura de entrenamiento que ahora reconoce redes de cualquier tamaño y forma.</li>
+</ol>
+<p>Hoy cuentas con un sistema completamente funcional y flexible. Puedes construir cualquier topología que imagines, o replicar modelos reales que encuentres en libros o artículos. Solo necesitas seguir practicando y profundizando en los conceptos del lenguaje C que ya dominas. Aquí están los principales parámetros que puedes ajustar para controlar tu red:</p>
+<ul>
+<li>Cantidad de entradas que recibe la red.</li>
+<li>Cantidad de capas en la topología.</li>
+<li>Número de neuronas en cada capa, donde la última capa define cuántas salidas tiene la red.</li>
+<li>Función de activación por neurona, pudiendo crear nuevas funciones y agregarlas a la matriz activacion de tu biblioteca.</li>
+<li>Parámetros del entrenamiento, como la tasa de aprendizaje, el error mínimo permitido, y el límite de intentos para alcanzar el objetivo.</li>
+<li>Función lógica a aprender, simplemente cambiando la operación lógica al asignar los valores esperados en la tabla de resultados:<br>
+XOR [ != ]<br>
+XNOR [ == ]<br>
+AND [ &amp;&amp; ]<br>
+NAND [ !( &amp;&amp; ) ]<br>
+OR [ || ]<br>
+NOR [ !( || ) ]<br>
+conjunción excluyente [ A &amp;&amp; !B ] o [ !A &amp;&amp; B ]<br>
+implicación [ !A || B ] o [ A || !B ].</li>
+</ul>
+<p>Con esto, se cumple el objetivo principal de este curso: desmitificar el concepto de inteligencia artificial y guiarte paso a paso en la construcción de tu propio código, línea por línea.</p>
+<p>En futuras entregas, nos enfocaremos en mejorar la biblioteca, optimizar el rendimiento de los cálculos, y añadir herramientas que faciliten la manipulación de redes. Todo ello, utilizando únicamente los conocimientos que ya has adquirido sobre lenguaje C. Una vez que esas bases estén sólidas, avanzaremos hacia entrenamientos más complejos y el análisis de topologías avanzadas.</p>
+<p>¡Llegaste al final del primer gran capítulo de este curso!</p>
+<p>Lo que acabas de lograr no es menor: has construido, desde cero y con tus propias manos, una red neuronal completamente funcional, capaz de aprender y adaptarse. No solo programaste neuronas artificiales, ¡les diste estructura, propósito y capacidad de aprendizaje! Todo esto utilizando exclusivamente lenguaje C y tus nuevas habilidades de programación.</p>
+<p>Ahora tienes en tus manos una herramienta poderosa, flexible y totalmente tuya. Ya no estás simplemente ejecutando ejemplos que alguien más escribió: estás creando inteligencia artificial con tus propias reglas.</p>
+<p>Y esto… es solo el comienzo.</p>
+<p>A partir de aquí, el camino se abre a un mundo de posibilidades: más precisión, más funciones, redes más profundas, nuevos desafíos y muchas sorpresas. Has dominado las bases, y estás listo para explorar lo que viene.</p>
+<p>Así que celebra este momento: ya no solo entiendes cómo funciona una red neuronal, ¡sabes construirla!
+Nos vemos muy pronto para continuar con la siguiente etapa. ¡Sigamos creando juntos!</p>
 
 
                 </div>
