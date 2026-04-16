@@ -1,6 +1,6 @@
 ---
 layout: layouts/views/general.njk
-title: Inicio
+title: Aprende cómo funciona la inteligencia artificial desde cero en C
 ---
 
 # ¿La IA te parece magia? Te enseño el truco.
