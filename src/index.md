@@ -22,7 +22,7 @@ Soy **Titux**, un entusiasta que programa en lenguaje C por gusto, por curiosida
 
 ## ¿Qué ofrece este sitio?
 
-Esto no es un curso de programación ni una introducción académica a la IA. Es un taller basado en un código que escribí llamado **NeuroTIC**, resultado de mi propia ruta de exploración para entender cómo funciona una inteligencia artificial.
+NeuroticLab es un taller práctico para aprender cómo funciona una red neuronal implementándola desde cero en lenguaje C. Sin frameworks, sin magia: solo código real y matemáticas básicas explicadas paso a paso, a través de **NeuroTIC**, un SDK que escribí como resultado de mi propia exploración.
 
 A lo largo de los módulos vas a ir viendo cómo ese código evolucionó desde sus primeras líneas. A partir del primer módulo vas a poder crear tu propia *neurona artificial*, capaz de *aprender* a responder "sí" o "no", sin necesidad de que sepas programar.
 
